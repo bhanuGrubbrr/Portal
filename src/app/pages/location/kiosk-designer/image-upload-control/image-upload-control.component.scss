@@ -1,0 +1,40 @@
+@use "sass:map";
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+$preview-size: 110px;
+
+.image-preview-wrapper {
+  position: relative;
+  width: $preview-size;
+}
+
+.image-preview-controls {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -15px;
+}
+
+.preview-image,
+.preview-image-empty {
+  width: $preview-size;
+  height: $preview-size;
+  border-radius: 5px;
+  object-fit: contain;
+}
+
+.preview-image-empty {
+  background-color: #fbfbfb;
+  border: 1px dashed $primary;
+  color: $gray-500;
+  font-size: 0.75rem;
+}
+
+.image-upload-restrictions {
+  margin-left: map.get($spacers, 10);
+}
+
+.image-upload-restrictions {
+  max-width: 200px;
+}

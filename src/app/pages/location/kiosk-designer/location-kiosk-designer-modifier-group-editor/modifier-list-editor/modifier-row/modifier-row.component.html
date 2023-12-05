@@ -1,0 +1,83 @@
+<div class="top-level-container parent-example-box pt-2 pb-2">
+  <div class="modifier-row-handle modifier-row-col">
+    <span
+      class="svg-icon-primary svg-icon-2x"
+      [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+    >
+    </span>
+  </div>
+  <div class="modifier-row-image modifier-row-col">
+    <app-entity-row-image [imageUrl]="item.menuItem.image">
+    </app-entity-row-image>
+  </div>
+  <div class="modifier-row-name d-flex">
+    <div class="display-name-container">
+      <div class="font-weight-bold text-md">
+        <div *ngIf="hasNestedMods(item)">
+          <h5 (click)="onClickName()" class="text-primary">
+            {{ item.menuItem.displayName }}
+            <i class="far fas fa-pen fs-3 mb-2"></i>
+          </h5>
+        </div>
+        <div *ngIf="!hasNestedMods(item)">
+          {{ item.menuItem.displayName }}
+        </div>
+      </div>
+      <app-entity-id-badge
+        *ngIf="getIdForModifier(item)"
+        [entityId]="getIdForModifier(item)"
+      >
+      </app-entity-id-badge>
+    </div>
+    <div class="inactive-badge-container">
+      <span *ngIf="!item.menuItem.isActive" class="badge inactive-badge">
+        Inactive
+      </span>
+    </div>
+  </div>
+  <div class="modifier-row-col modifier-row-invisible">
+    <app-grubbrr-switch
+      [value]="item.isInvisible"
+      (switchValueChange)="changeIsInvisible($event)"
+    >
+    </app-grubbrr-switch>
+  </div>
+  <div class="modifier-row-price modifier-row-col text-center">
+    {{ item.price | currency }}
+  </div>
+  <div class="modifier-row-col modifier-row-is-active">
+    <mat-form-field>
+      <input
+        matInput
+        class="number-input"
+        style="text-align: center"
+        type="number"
+        [value]="item.maxQuantity"
+        [(ngModel)]="item.maxQuantity"
+        (ngModelChange)="changeMaxQty($event)"
+      />
+    </mat-form-field>
+  </div>
+  <div class="modifier-row-col modifier-row-is-default">
+    <app-grubbrr-switch
+      [value]="item.isDefault"
+      (switchValueChange)="changeIsDefault($event)"
+    >
+    </app-grubbrr-switch>
+  </div>
+  <div class="modifier-row-col">
+    <i
+      class="fa-solid fa-ellipsis"
+      style="font-size: 2rem"
+      [matMenuTriggerFor]="menu"
+    >
+    </i>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onClickEdit(item)">Edit</button>
+    </mat-menu>
+  </div>
+  <div class="remove-block modifier-row-col">
+    <app-entity-list-remove-button (clickRemove)="onClickRemove(item)">
+    </app-entity-list-remove-button>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    {{ isEdit ? "Update" : "New" }} Connector Settings
+  </h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div *ngFor="let error of errorList">
+      <div class="text-danger">
+        {{ error }}
+      </div>
+    </div>
+    <div id="jsoneditor" style="width: 100%; height: 60vh"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close()"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

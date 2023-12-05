@@ -1,0 +1,39 @@
+<div class="modal-header">
+  <h5 class="modal-title">Remove Connector</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="text">
+      This action cannot be undone. Please type the Connector Name to confirm.
+    </div>
+    <div class="md-form">
+      <input
+        mdbInput
+        [(ngModel)]="typedPosTypeName"
+        (keyup)="checkTypedName()"
+        type="text"
+        id="form1"
+        class="form-control"
+      />
+      <label for="form1">Type '{{ posTypeName }}'</label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close('cancel')"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="!isTypedValid"
+    (click)="remove()"
+  >
+    Remove
+  </button>
+</div>

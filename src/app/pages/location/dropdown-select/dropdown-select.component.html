@@ -1,0 +1,24 @@
+<div *ngIf="active" class="backdrop" (click)="deactivate()"></div>
+<div class="action-ellipse" (click)="activate()">
+  <i
+    id="{{ id }}-ellipse"
+    class="fa-solid fa-ellipsis"
+    style="font-size: 2rem"
+    [ngClass]="{ active: active }"
+  >
+  </i>
+  <div *ngIf="active" [style]="styleObject" class="dropdown">
+    <div
+      *ngFor="let option of options; index as i"
+      class="option-row"
+      (click)="select(i)"
+    >
+      <div class="check-box" [ngClass]="{ selected: i === selectedIndex }">
+        <i *ngIf="i === selectedIndex" class="check fas fa-check"></i>
+      </div>
+      <div class="text-box" [ngClass]="{ selected: i === selectedIndex }">
+        {{ option }}
+      </div>
+    </div>
+  </div>
+</div>

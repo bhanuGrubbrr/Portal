@@ -1,0 +1,115 @@
+<div class="p-6 ml-6 mr-6">
+  <div class="p-4 bg-white">
+    <h4>Concepts</h4>
+    <h6 class="form-text font-weight-light">
+      You can create multiple company concepts, where you can create distinct
+      menus for each company and map common items, categories, and modifiers
+      that appear in all company menus.
+    </h6>
+    <div class="d-flex mb-4 mt-4">
+      <div class="d-flex flex-grow-1">
+        <div class="w-100 form-floating mb-3">
+          <input
+            class="form-control"
+            id="orderTableSearch"
+            placeholder="Search Category"
+          />
+
+          <label for="orderTableSearch"
+            ><span
+              class="pr-2"
+              [inlineSVG]="'./assets/media/icons/duotune/general/gen062.svg'"
+            ></span>
+            Search Concept...</label
+          >
+        </div>
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-success ms-2"
+          (click)="createNewConceptModal()"
+        >
+          <span class="indicator-label">+ Create New</span>
+        </button>
+      </div>
+    </div>
+    <table class="table gx-5 kiosk-designer-table">
+      <thead>
+        <th scope="col" class="text-uppercase text-center"></th>
+        <th scope="col" class="text-uppercase text-center">Logo</th>
+        <th scope="col" class="text-uppercase">Name</th>
+        <th scope="col" class="text-uppercase">Category</th>
+        <th scope="col" class="text-uppercase">Items</th>
+        <th scope="col" class="text-uppercase">Status</th>
+
+        <th scope="col" class="text-uppercase">Actions</th>
+      </thead>
+      <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <!-- loop the differentconcepts in the tr below -->
+
+        <tr
+          class="drag-box align-middle"
+          *ngFor="let concept of concepts"
+          cdkDrag="concept"
+        >
+          <td
+            style="width: 80px"
+            class="align-center text-center justify-center"
+          >
+            <span
+              class="svg-icon-primary svg-icon-2x"
+              [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+            >
+            </span>
+            <div
+              class="i-heroicons-solid-photograph w-full h-auto min-h-16 min-w-16 text-gray"
+            ></div>
+          </td>
+          <td style="width: 80px" class="">
+            <img
+              [src]="
+                concept.theme?.media?.logo === 'null'
+                  ? '/assets/media/icons/duotune/general/gen063.png'
+                  : concept.theme?.media?.logo
+              "
+              width="100"
+              height="80"
+            />
+          </td>
+
+          <td class="">
+            <strong>{{ concept.name }}</strong>
+          </td>
+          <td class="">
+            <strong>{{ concept.id }}</strong>
+          </td>
+          <td class="">
+            <strong>{{ concept.isActive }}</strong>
+          </td>
+          <td class="">
+            <app-grubbrr-switch
+              (switchValueChange)="onChangeActiveStatus(concept, locationId)"
+              [value]="concept.isActive"
+            >
+            </app-grubbrr-switch>
+          </td>
+          <td>
+            <div class="flex flex-row justify-around align-center">
+              <span
+                [inlineSVG]="'./assets/media/icons/duotune/general/gen061.svg'"
+                class="text-primary"
+                style="margin-right: 10px"
+              ></span>
+              <span
+                routerLink="/location/{{ locationId }}/{{ concept.id }}/edit"
+                [inlineSVG]="'./assets/media/icons/duotune/general/gen060.svg'"
+                class=""
+              ></span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

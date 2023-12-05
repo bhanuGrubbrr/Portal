@@ -1,0 +1,21 @@
+<ng-container [ngSwitch]="status">
+  <ng-container *ngSwitchCase="OrderStatusEnum.Paid">
+    <span class="fw-bolder me-auto px-2 py-1 paid">{{ status }}</span>
+  </ng-container>
+  <ng-container *ngSwitchCase="OrderStatusEnum.FullRefund">
+    <span class="fw-bolder me-auto px-2 py-1 refunded">{{ status }}</span>
+  </ng-container>
+  <ng-container *ngSwitchCase="OrderStatusEnum.PartialRefund">
+    <span
+      class="fw-bolder me-auto px-2 py-1 partially-refunded position-relative me-5"
+    >
+      {{ status }}
+      <span
+        *ngIf="showCount"
+        matTooltip="Number of items refunded on this order"
+        class="position-absolute top-0 start-100 translate-middle badge badge-circle badge-warning"
+        >{{ numberOfRefunds }}</span
+      >
+    </span>
+  </ng-container>
+</ng-container>

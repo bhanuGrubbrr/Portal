@@ -1,0 +1,32 @@
+<div
+  [ngClass]="{
+    'mb-4': true,
+    'pos-vault-entity-selector': true,
+    'pos-vault-entity-selector--expanded': expanded
+  }"
+>
+  <div
+    class="d-flex p-4 pos-vault-entity-selector-header"
+    (click)="toggleExpanded()"
+  >
+    <input type="checkbox" class="me-3" />
+    <strong>{{ entity.name }}</strong>
+    <span class="text-muted ms-3 me-3"> #{{ entity.id }} </span>
+    <span class="me-3 text-muted"> &bull; </span>
+    <span class="text-muted"> {{ children.length }} items </span>
+    <div class="flex-grow-1"></div>
+    <div>
+      <i class="fas fa-chevron-right pos-vault-entity-selector-chevron"></i>
+    </div>
+  </div>
+  <div *ngIf="expanded" class="ms-4 p-4">
+    <div class="d-flex mb-3" *ngFor="let child of children">
+      <input type="checkbox" class="me-3" />
+      <strong>{{ child.name }}</strong>
+      <span class="text-muted ms-3">
+        {{ child.price | currency : "USD" }}
+      </span>
+      <span class="text-muted ms-3 me-3"> #{{ child.id }} </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Timeouts</h3>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <ng-container *ngIf="Loaded">
+      <div class="w-25 mb-10">
+        <h2>Kiosk Idle Timeout</h2>
+        <div class="d-flex align-items-center">
+          <form [formGroup]="TimeoutForm">
+            <div class="input-group mb-3">
+              <input
+                type="number"
+                formControlName="KioskTimeout"
+                class="form-control"
+                min="0"
+                placeholder="Time (in seconds)"
+                (input)="InputHook()"
+              />
+              <span class="input-group-text">seconds</span>
+            </div>
+          </form>
+        </div>
+        <small *ngIf="ShowKioskTimeoutWarning" class="text-warning"
+          >Timeout is below {{ TimeoutWarningThreshold }} seconds, consider a
+          higher time.</small
+        >
+      </div>
+      <div class="w-25 mb-10">
+        <h2>Restart Prompt Timer</h2>
+        <div class="d-flex align-items-center">
+          <form [formGroup]="TimeoutForm">
+            <div class="input-group mb-3">
+              <input
+                type="number"
+                formControlName="KioskRestartTimer"
+                class="form-control"
+                min="0"
+                placeholder="Time (in seconds)"
+                (input)="InputHook()"
+              />
+              <span class="input-group-text">seconds</span>
+            </div>
+          </form>
+        </div>
+        <small *ngIf="ShowKioskTimerWarning" class="text-warning"
+          >Timer is below {{ TimerWarningThreshold }} seconds, consider a higher
+          time.</small
+        >
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="modal-header">
+  <h5 class="modal-title">POS Sync Options</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <mat-tab-group
+      mat-stretch-tabs
+      animationDuration="0ms"
+      (selectedTabChange)="navChanged($event)"
+    >
+      <mat-tab label="POS Sync Settings">
+        <div style="width: 60%; height: 60vh">
+          <div class="row mt-10">
+            <h5>Configure which new records import as active</h5>
+            <div class="row mt-5">
+              <label class="form-check-label mb-2">
+                <input
+                  type="checkbox"
+                  class="form-check-input me-3"
+                  [checked]="posSyncSetting.menuCategoryOverrides"
+                  (change)="toggleStatus($event, 'Category')"
+                />
+                Categories
+              </label>
+              <label class="form-check-label mb-2">
+                <input
+                  type="checkbox"
+                  class="form-check-input me-3"
+                  [checked]="posSyncSetting.menuItemOverrides"
+                  (change)="toggleStatus($event, 'Item')"
+                />
+                Items
+              </label>
+              <label class="form-check-label mb-2">
+                <input
+                  type="checkbox"
+                  class="form-check-input me-3"
+                  [checked]="posSyncSetting.modifierGroupOverrides"
+                  (change)="toggleStatus($event, 'ModifierGroup')"
+                />
+                Modifier Groups
+              </label>
+              <label class="form-check-label mb-2">
+                <input
+                  type="checkbox"
+                  class="form-check-input me-3"
+                  [checked]="posSyncSetting.modifierOverrides"
+                  (change)="toggleStatus($event, 'Modifier')"
+                />
+                Modifiers
+              </label>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Kiosk Sync Settings">
+        <div style="width: 60%; height: 60vh">
+          <div class="row mt-10">
+            <h5>
+              Configure how POS updates are pushed to the kiosk after a POS Sync
+            </h5>
+            <div class="row mt-5">
+              <label class="form-check-label mb-2">
+                <input
+                  type="radio"
+                  class="form-check-input me-3"
+                  (click)="toggleStatus($event, 'Price')"
+                  [checked]="kioskPushSetting.kioskPriceUpdate"
+                />
+                Only update pricing on the kiosk
+              </label>
+              <label class="form-check-label mb-2">
+                <input
+                  type="radio"
+                  class="form-check-input me-3"
+                  (click)="toggleStatus($event, 'FullMenu')"
+                  [checked]="kioskPushSetting.kioskFullMenuUpdate"
+                />
+                Automatically update the full menu on the kiosk
+              </label>
+              <label class="form-check-label mb-2">
+                <input
+                  type="radio"
+                  class="form-check-input me-3"
+                  [checked]="kioskPushSetting.kioskNoUpdate"
+                  (click)="toggleStatus($event, 'NoUpdate')"
+                />
+                Do not update the kiosk
+              </label>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close('cancel')"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>

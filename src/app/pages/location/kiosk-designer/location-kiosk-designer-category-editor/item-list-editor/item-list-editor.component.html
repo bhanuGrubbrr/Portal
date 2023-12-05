@@ -1,0 +1,59 @@
+<div class="mt-5">
+  <h6>Contains Items</h6>
+  <div class="mt-5 mb-5 border border-secondary rounded">
+    <div class="d-flex w-100 align-items-baseline">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+        class="d-flex flex-column w-100"
+      >
+        <div
+          class="border border-secondary d-block bg-white rounded overflow-hidden"
+          style="border-width: 1px"
+          *ngFor="let item of value"
+          cdkDrag
+        >
+          <div class="parent-example-box pt-2 pb-2">
+            <span
+              class="handle svg-icon-primary svg-icon-2x"
+              [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+            >
+            </span>
+            <div class="image">
+              <app-entity-row-image [imageUrl]="item.image">
+              </app-entity-row-image>
+            </div>
+            <div class="price">
+              {{ item.price | currency }}
+            </div>
+            <div class="info-box d-flex flex-column">
+              <div class="font-weight-bold text-md">
+                {{ item.displayName }}
+              </div>
+              <app-entity-id-badge [entityId]="item.id"> </app-entity-id-badge>
+            </div>
+            <div class="ending-table-buttons">
+              <app-entity-list-remove-button (clickRemove)="onRemoveItem(item)">
+              </app-entity-list-remove-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-add-entity-button
+      *ngIf="!isAdding"
+      (clickAddButton)="onClickAdd()"
+      label="Add Item"
+    >
+    </app-add-entity-button>
+    <div class="p-4" *ngIf="isAdding">
+      <app-entity-typeahead-search
+        (selectOption)="onSelectOption($event)"
+        [getSuggestionLabelId]="getSuggestionLabelId"
+        [getSuggestionLabel]="getSuggestionLabel"
+        [typeaheadOptions]="availableItems"
+      >
+      </app-entity-typeahead-search>
+    </div>
+  </div>
+</div>

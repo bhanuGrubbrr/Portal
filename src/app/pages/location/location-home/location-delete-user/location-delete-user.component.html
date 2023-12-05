@@ -1,0 +1,43 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete User</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">You sure you want to delete {{ email }}</div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger p-2 bi"
+      (click)="onSubmit()"
+      [disabled]="saving"
+    >
+      <ng-container *ngIf="!saving">
+        <span class="indicator-label">Delete User</span>
+      </ng-container>
+      <ng-container *ngIf="saving">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...{{ " " }}
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+<a
+  (click)="open(content)"
+  matTooltip="Remove Access"
+  class="btn btn-icon btn-active-color-danger btn-sm me-1"
+>
+  <span
+    [inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+    class="svg-icon svg-icon-danger svg-icon-3"
+  ></span>
+</a>

@@ -1,0 +1,34 @@
+//
+// Theme style
+//
+
+// Mode
+$mode: default;
+
+// Initialize
+@import "init";
+
+// Components
+@import "./core/components/components";
+@import "components/components";
+
+// Layout
+@import "layout/layout";
+
+// PrimeNG
+@import "~primeng/resources/themes/lara-light-blue/theme.css";
+@import "~primeng/resources/primeng.min.css";
+@import  "~primeicons/primeicons.css";
+@import "~prism-themes/themes/prism-shades-of-purple.css";
+
+// Angular vendors
+@import "~socicon/css/socicon.css";
+@import "~@fortawesome/fontawesome-pro/css/all.min.css";
+@import "~line-awesome/dist/line-awesome/css/line-awesome.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~animate.css/animate.css";
+@import "./core/vendors/plugins/prismjs";
+@import "./core/vendors/plugins/formvalidation";
+@import '~ngx-toastr/toastr.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "custom";

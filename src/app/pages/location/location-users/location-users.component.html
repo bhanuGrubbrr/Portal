@@ -1,0 +1,50 @@
+<div class="col">
+  <div class="card p-3">
+    <div class="d-flex justify-content-between text-center">
+      <h1>Location Users</h1>
+      <app-location-add-user
+        (newItemEvent)="itemCallBack($event)"
+      ></app-location-add-user>
+    </div>
+  </div>
+  <div class="card p-5 table-responsive">
+    <table class="table table-striped gx-5">
+      <thead>
+        <tr>
+          <th scope="col">Email</th>
+          <th scope="col">Access</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of locationUsers">
+          <td>{{ user.userEmail }}</td>
+          <td>
+            <span
+              [ngClass]="[
+                'badge fw-bolder me-auto px-4 py-3 ',
+                user.role!.name === 'FullAccess' ? 'bg-success' : 'bg-primary'
+              ]"
+            >
+              {{ user.role!.display }}
+            </span>
+          </td>
+          <td>
+            <app-location-user-edit
+              (newItemEvent)="itemCallBack($event)"
+              [inputUserId]="user.userId"
+              [roleName]="user.role!.name"
+              [email]="user.userEmail"
+            ></app-location-user-edit>
+            <app-location-delete-user
+              (newItemEvent)="itemCallBack($event)"
+              [userId]="user.userId"
+              [roleName]="user.role!.name"
+              [email]="user.userEmail"
+            ></app-location-delete-user>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

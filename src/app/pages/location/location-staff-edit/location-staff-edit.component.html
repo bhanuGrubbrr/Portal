@@ -1,0 +1,86 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">{{ pageTitle }}</h3>
+    <div class="card-toolbar">
+      <a
+        (click)="this.navigation.back()"
+        class="btn btn-sm btn-light me-2"
+        matTooltip="Back to Locations"
+        title="Back to Locations"
+      >
+        <i class="fas fa-arrow-left fs-4 me-2"></i>Back
+      </a>
+    </div>
+  </div>
+
+  <div class="card-body" *ngIf="formReady">
+    <form
+      [formGroup]="staffForm"
+      (ngSubmit)="onSubmit()"
+      needs-validation
+      novalidate
+      (keydown.enter)="$event.preventDefault()"
+    >
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              placeholder="Staff Name"
+            />
+            <label for="name" class="form-label">Staff Name</label>
+            <div *ngIf="(f.name.invalid && f.name.touched) || f.name.dirty">
+              <small class="text-danger" *ngIf="f.name.errors?.required"
+                >Name is required.</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              [type]="showPassword"
+              class="form-control"
+              formControlName="accessCode"
+              placeholder="Access Code"
+              required
+              maxlength="4"
+            />
+            <label for="accessCode">Access Code</label>
+            <i class="bi bi-eye-slash" (click)="togglePassword()"></i>
+            <div
+              *ngIf="
+                (f.accessCode.invalid && f.accessCode.touched) ||
+                f.accessCode.dirty
+              "
+            >
+              <small class="text-danger" *ngIf="f.accessCode.errors?.required"
+                >Access Code is required.</small
+              >
+              <small class="text-danger" *ngIf="f.accessCode.errors?.minlength"
+                >Access Code must be 4 digits.
+              </small>
+              <small class="text-danger" *ngIf="f.accessCode.errors?.pattern"
+                >Access Code can only be numbers.</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator border-1 my-10"></div>
+
+      <div class="row mb-4 text-end">
+        <div class="col-12">
+          <app-save-cancel-button
+            [saving]="saving"
+            [formDisabled]="this.staffForm.invalid"
+            (saveButtonClickedEvent)="onSubmit()"
+          ></app-save-cancel-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

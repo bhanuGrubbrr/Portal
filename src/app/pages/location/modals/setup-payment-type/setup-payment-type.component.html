@@ -1,0 +1,178 @@
+<div class="modal-header">
+  <h5 class="modal-title">{{ paymentTypeLabel }}</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="activeModal.close('cancel')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div *ngIf="!contentLoaded">
+      <app-table-skeleton></app-table-skeleton>
+      <app-table-skeleton></app-table-skeleton>
+    </div>
+
+    <div *ngIf="contentLoaded">
+      <div class="pt-4">
+        <div class="row mb-10">
+          <div class="col">
+            <h2 class="d-inline">{{ paymentTypeLabel }}</h2>
+          </div>
+        </div>
+
+        <div *ngIf="!isNCRPOS">
+          <div class="row mb-4">
+            <div class="col">
+              <h4 class="d-inline">Tender Mapping</h4>
+            </div>
+          </div>
+          <div *ngIf="posRequiresTenders" class="row col-sm-12">
+            <div class="row" *ngIf="!showCardNetworkTenders">
+              <label class="col-sm-3 col-form-label pb-4">Tender</label>
+              <select
+                class="col-form-select col-sm-4"
+                id="tenderOptions"
+                [(ngModel)]="selectedTenderOption"
+              >
+                <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                  {{ opt.name }} - ({{ opt.id }})
+                </option>
+              </select>
+            </div>
+            <div *ngIf="showCardNetworkTenders">
+              <!-- visa -->
+              <div class="row my-1">
+                <label class="col-sm-3 col-form-label pb-4">Visa</label>
+                <select
+                  class="col-form-select col-sm-4"
+                  id="visaOpts"
+                  [(ngModel)]="selectedCardNetworkMapping.visa"
+                >
+                  <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                    {{ opt.name }} - ({{ opt.id }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- mastercard -->
+              <div class="row my-1">
+                <label class="col-sm-3 col-form-label pb-4">MasterCard</label>
+                <select
+                  class="col-form-select col-sm-4"
+                  id="masterCardOpts"
+                  [(ngModel)]="selectedCardNetworkMapping.masterCard"
+                >
+                  <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                    {{ opt.name }} - ({{ opt.id }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- amex -->
+              <div class="row my-1">
+                <label class="col-sm-3 col-form-label pb-4"
+                  >American Express</label
+                >
+                <select
+                  class="col-form-select col-sm-4"
+                  id="amexOpts"
+                  [(ngModel)]="selectedCardNetworkMapping.amex"
+                >
+                  <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                    {{ opt.name }} - ({{ opt.id }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- discover -->
+              <div class="row my-1">
+                <label class="col-sm-3 col-form-label pb-4">Discover</label>
+                <select
+                  class="col-form-select col-sm-4"
+                  id="discoverOpts"
+                  [(ngModel)]="selectedCardNetworkMapping.discover"
+                >
+                  <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                    {{ opt.name }} - ({{ opt.id }})
+                  </option>
+                </select>
+              </div>
+
+              <!-- unknown -->
+              <div class="row my-1">
+                <label class="col-sm-3 col-form-label pb-4">Unknown</label>
+                <select
+                  class="col-form-select col-sm-4"
+                  id="unknownOpts"
+                  [(ngModel)]="selectedCardNetworkMapping.unknown"
+                >
+                  <option *ngFor="let opt of sortTenders()" [value]="opt.id">
+                    {{ opt.name }} - ({{ opt.id }})
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-10 mb-4">
+          <div class="col">
+            <h4 class="d-inline">Settings</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div
+            [ngClass]="
+              paymentTypeLabel === paytronixGiftCardLabel ? 'col-6' : 'col'
+            "
+          >
+            <form
+              [formGroup]="setupPaymentForm"
+              needs-validation
+              *ngIf="formReady"
+              novalidate
+              (keydown.enter)="$event.preventDefault()"
+            >
+              <app-dynamic-form
+                formControlName="dynamicForm"
+                *ngIf="fields$"
+                [fields$]="fields$"
+                [patchValues]="patchValues"
+                (formSavingEvent)="onSettingsSubmit($event)"
+              >
+              </app-dynamic-form>
+            </form>
+          </div>
+          <div
+            class="col-6"
+            *ngIf="paymentTypeLabel === paytronixGiftCardLabel"
+            style="
+              min-height: 100vh;
+              max-height: 400px !important;
+              overflow-y: auto;
+            "
+          >
+            <app-gift-card-bin-range
+              [binForm]="binFormGroup"
+              [config]="inputs.integrationConfig"
+            ></app-gift-card-bin-range>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer"></div>
+
+<!-- <select
+  [id]="field.key"
+  [formControlName]="field.key"
+  title="{{ field.key }}"
+>
+  <option *ngFor="let opt of field.options" [value]="opt.key">
+    {{ opt.value }}
+  </option>
+</select> -->

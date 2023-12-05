@@ -1,0 +1,9 @@
+details > summary {
+  list-style: none;
+  user-select: none;
+}
+
+select.form-select {
+  width: auto;
+  display: inline-block;
+}

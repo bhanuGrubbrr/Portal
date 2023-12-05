@@ -1,0 +1,48 @@
+table.paymentTable {
+  border: 1px solid #7e6868;
+}
+
+.paymentTable th[scope="col"] {
+  padding: 10px;
+}
+
+.paymentTable td {
+  padding: 10px;
+}
+
+.paymentTable li {
+  display: inline;
+  margin-right: 4px;
+  margin-bottom: 10px;
+  min-width: 155px;
+}
+
+.form-check.form-check-custom {
+  display: inline-flex;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  list-style: none;
+  margin-left: -3ch;
+  clip-path: inset(0 0 0 3ch);
+}
+li {
+  padding-left: 1ch;
+}
+li::before {
+  content: "";
+  display: inline-block;
+  margin-right: 1ch;
+  width: 1ch;
+  text-align: center;
+}
+/* demo code */
+body {
+  padding: 2em;
+}
+ul {
+  max-width: 500ch;
+}

@@ -1,0 +1,20 @@
+<div>
+  <div class="d-flex align-items-center mb-8">
+    <span
+      [ngClass]="['bullet bullet-vertical h-40px ', statusClass(StatusCheck)]"
+    ></span>
+    <div class="flex-grow-1 mx-5">
+      <a
+        link
+        href="{{ SetupUrl }}"
+        class="text-gray-800 text-hover-primary fw-bolder fs-6"
+      >
+        {{ Label }}
+      </a>
+      <p *ngIf="showMessage(StatusCheck)" class="mx-3">
+        {{ statusMessage(StatusCheck) }}
+      </p>
+    </div>
+    <i [ngClass]="['fas fa-2x ', statusIcon(StatusCheck)]"></i>
+  </div>
+</div>

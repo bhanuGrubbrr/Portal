@@ -1,0 +1,366 @@
+<div class="modal-header">
+  <div class="d-flex flex-row flex-column-fluid">
+    <div class="flex-grow-1">
+      <h5 class="modal-title">Order Details</h5>
+    </div>
+    <div>
+      <a
+        (click)="activeModal.close('close')"
+        class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+        matTooltip="Back to Orders"
+        aria-title="Back to Orders"
+      >
+        <i class="fas fa-xmark fs-4 me-2 text-primary"></i>Close
+      </a>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="ready">
+  <div class="modal-body">
+    <div class="row mb-5">
+      <div class="col-5">
+        <div class="order-detail-card">
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Order Number</b>
+            <div class="text-muted">
+              {{ order.invoiceNo | slice : 4 : undefined }}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Order Date &amp; Time</b>
+            <div class="text-muted">
+              {{
+                order.orderDate
+                  | date : "MM/dd/yyyy h:mm:ss a" : "GlobalConstants.Offset"
+              }}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Order Type</b>
+            <div class="text-muted">
+              {{ order.orderTypeLabel }}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Customer Name</b>
+            <div class="text-muted">
+              {{ order.orderIdentity?.name || "Guest" }}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Customer Contact</b>
+            <div class="text-muted">
+              {{
+                order.orderIdentity?.email ||
+                  order.orderIdentity?.phone ||
+                  "n/a"
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offset-3 col-4">
+        <div class="order-detail-card">
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase mt-4">Payment Status</b>
+            <div class="mt-4">
+              <app-order-status-badge [status]="order.status">
+              </app-order-status-badge>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Order Total</b>
+            <div class="text-muted">
+              {{
+                order.totals.subTotal +
+                  (order?.totals?.tax ?? 0) -
+                  (order?.totals?.discount ?? 0) | currency : "USD"
+              }}
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <b class="text-uppercase">Payment Type</b>
+            <div class="text-muted">{{ paymentType }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <table class="table table-hover card-body table-row-bordered border g-4">
+        <thead>
+          <th width="70%" scope="col" class="text-muted">Item Name</th>
+          <th scope="col" class="text-muted text-end">Unit Price</th>
+          <th scope="col" class="text-muted text-end">Qty</th>
+          <th scope="col" class="text-muted text-end">Item Total</th>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of order.items">
+            <tr>
+              <td>
+                <h4 class="d-inline">{{ item.name }}</h4>
+                {{ item.unitPrice | currency }}
+                <div class="ms-4 order-detail-bold text-muted">
+                  <ng-container
+                    *ngTemplateOutlet="
+                      Options;
+                      context: { list: filterPricedModifiers(item.options) }
+                    "
+                  ></ng-container>
+
+                  <ng-container
+                    *ngTemplateOutlet="
+                      Options;
+                      context: { list: filterZeroPriceModifiers(item.options) }
+                    "
+                  ></ng-container>
+
+                  <div *ngIf="item?.specialRequest">
+                    *{{ item.specialRequest }}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="text-end order-detail-bold">
+                  {{ modifierTotals(item) | currency }}
+                </div>
+              </td>
+              <td>
+                <div class="text-end order-detail-bold">
+                  {{ item.quantity }}
+                </div>
+              </td>
+              <td>
+                <div class="text-end order-detail-bold">
+                  {{ modifierTotals(item) * item.quantity | currency }}
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+
+          <ng-container *ngFor="let reward of order.redeemedRewards">
+            <tr>
+              <td>
+                <h4 class="d-inline">{{ reward.name }}</h4>
+                -{{ reward.value / 100 | currency }}
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-8 mb-8">
+        <div class="mb-2">
+          <h5 class="d-inline">Payment Details</h5>
+        </div>
+        <div class="mb-2" *ngIf="order.paymentTransactionDeatils.length <= 0">
+          No payment details found.
+        </div>
+        <table
+          class="table table-row-bordered border g-3"
+          *ngIf="order.paymentTransactionDeatils.length > 0"
+        >
+          <thead>
+            <th scope="col">Amount Paid</th>
+            <th scope="col" class="text-end">Type</th>
+            <th scope="col" class="text-end">Transaction ID</th>
+          </thead>
+          <tbody>
+            <ng-container
+              *ngFor="let paymentDetail of order.paymentTransactionDeatils"
+            >
+              <tr>
+                <td>
+                  <div class="d-inline">
+                    {{ paymentDetail.amount | currency }}
+                  </div>
+                </td>
+                <td>
+                  <div class="text-end order-detail-bold">
+                    {{ paymentDetail?.paymentIntegrationLabel }}
+                  </div>
+                </td>
+                <td>
+                  <div class="text-end order-detail-bold">
+                    {{
+                      paymentDetail?.transactionId
+                        ? paymentDetail?.transactionId
+                        : "N/A"
+                    }}
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+        <table class="table table-row-bordered border g-2">
+          <tbody>
+            <tr>
+              <td class="text-muted text-uppercase">
+                <b>Subtotal</b>
+              </td>
+              <td class="text-end order-detail-bold">
+                {{ order.totals.subTotal | currency }}
+              </td>
+            </tr>
+            <tr *ngIf="order.redeemedRewards.length > 0">
+              <td class="text-muted text-uppercase">
+                <b>Discounts</b>
+              </td>
+              <td class="text-end order-detail-bold">
+                {{
+                  order.totals.discount < 0
+                    ? (order.totals.discount | currency)
+                    : "-" + (order.totals.discount | currency)
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted text-uppercase">
+                <b>Tax</b>
+              </td>
+              <td class="text-end order-detail-bold">
+                {{ order.totals.tax | currency }}
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted text-uppercase">
+                <b>Order Total</b>
+              </td>
+              <td class="text-end order-detail-bold">
+                {{
+                  order.totals.subTotal +
+                    (order?.totals?.tax ?? 0) -
+                    (order?.totals?.discount ?? 0) | currency : "USD"
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td class="text-muted text-uppercase">
+                <b>Tip</b>
+              </td>
+              <td class="text-end order-detail-bold">
+                {{ order.totals.tip | currency }}
+              </td>
+            </tr>
+            <tr>
+              <td class="order-detail-total-row">
+                <b>Total Paid</b>
+              </td>
+              <td class="text-end order-detail-bold order-detail-total-row">
+                {{ order.totals.total + order.totals.tip | currency }}
+              </td>
+            </tr>
+            <ng-container *ngIf="showAdjustments">
+              <tr>
+                <td class="text-muted text-uppercase">
+                  <b>Refunded</b>
+                </td>
+                <td class="refunded-text text-end order-detail-bold">
+                  (-{{ order.refundTotal | currency }})
+                </td>
+              </tr>
+              <tr>
+                <td class="text-muted text-uppercase">
+                  <b>Adjusted total paid</b>
+                </td>
+                <td class="text-end order-detail-bold">
+                  {{ order.totals.total - order.refundTotal | currency }}
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="d-flex flex-row-reverse">
+      <div class="p-2">
+        <label class="d-inline p-2">Enter refund amount</label>
+        <input
+          type="number"
+          appTwoDigitDecimalNumberDirective
+          class="form-control d-inline me-2 w-25"
+          placeholder="$0.00"
+          [disabled]="disablePartialRefund"
+          #refundAmount
+        />
+        <button
+          [disabled]="disablePartialRefund"
+          type="button"
+          (click)="partialRefund()"
+          class="btn button-partial-refund d-inline me-2"
+        >
+          Partial Refund
+        </button>
+      </div>
+
+      <div class="p-2">
+        <button
+          [disabled]="disableFullRefund"
+          type="button"
+          (click)="fullRefund()"
+          class="btn btn-primary me-2"
+        >
+          Refund All
+        </button>
+      </div>
+
+      <div class="p-2">
+        <button
+          [disabled]="disableRefundByItem"
+          type="button"
+          (click)="refundByItem()"
+          class="btn button-item-refund me-2"
+        >
+          Refund by item
+        </button>
+      </div>
+      <div class="p-2">
+        <button
+          [disabled]="disableRefundByItem"
+          type="button"
+          (click)="viewReceipt()"
+          class="btn button-item-refund me-2"
+        >
+          View Receipt
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #Options let-list="list">
+  <ng-container *ngFor="let option of list">
+    <ng-container *ngIf="!option.isInvisible">
+      <div class="ms-2">
+        {{ option.name }}
+        <span
+          *ngIf="option.price !== 0 && option.freeQuantity < 1"
+          class="text-primary"
+          >{{ option.price | currency }}</span
+        >
+        - x {{ option.quantity }}
+        <ng-container *ngIf="option.options">
+          <ng-container
+            *ngTemplateOutlet="Options; context: { list: option.options }"
+          ></ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>

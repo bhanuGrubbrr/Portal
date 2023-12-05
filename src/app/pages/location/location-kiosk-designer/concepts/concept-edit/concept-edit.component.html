@@ -1,0 +1,347 @@
+<div class="card card-custom card-sticky">
+  <h3 class="top-title">Concepts</h3>
+  <div class="edit-body">
+    <div class="mt-2">
+      <div class="d-flex">
+        <div *ngIf="addConceptForm" [formGroup]="addConceptForm" class="d-flex">
+          <div class="d-flex flex-column w-50">
+            <div class="d-flex flex-column">
+              <h4>Name</h4>
+              <input type="text" formControlName="name" />
+            </div>
+            <div class="d-flex flex-column edit-header">
+              <h4>Description</h4>
+              <textarea
+                type="input"
+                placeholder="type more information about item..."
+              ></textarea>
+            </div>
+            <div class="d-flex flex-column edit-header">
+              <h4>Delete Concept</h4>
+              <h6 class="text-muted">
+                When you delete a concept, all of your data associated with that
+                concept is also deleted.
+              </h6>
+              <button
+                mat-stroked-button
+                color="warn"
+                class="custom-border-color w-25"
+                (click)="delete()"
+              >
+                Delete
+              </button>
+              <div class="flex mt-4">
+                <button
+                  mat-stroked-button
+                  class="w-25 btn-success"
+                  (click)="save()"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column p-4">
+            <h4>Status</h4>
+            <mat-slide-toggle
+              color="primary"
+              formControlName="isActive"
+            ></mat-slide-toggle>
+            <div class="d-flex flex-column mt-4"></div>
+            >
+            <h4>Logo</h4>
+            <div formGroupName="theme">
+              <div class="d-flex flex-row" formGroupName="media">
+                <app-image-upload-control
+                  restrictionsText="JPG, PNG, GIF, or WEBP up to 2MB, Min. pixels 320 for width and height required"
+                  formControlName="logo"
+                >
+                </app-image-upload-control>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-column w-50"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Colors</h3>
+    </div>
+    <div class="row m-5">
+      <div class="col">
+        <table class="table table-borderless">
+          <tbody>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Primary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'primary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.primary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Primary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onPrimary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onPrimary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Secondary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'secondary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.secondary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Secondary color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onSecondary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onSecondary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Tertiary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'tertiary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.tertiary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Tertiary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onTertiary')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onTertiary ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Background</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'background')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.background ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Background Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onBackground')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onBackground ??
+                            ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Surface Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'surface')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.surface ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Surface Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onSurface')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onSurface ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Error Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'error')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.error ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Error Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onError')
+                          "
+                          [colorValue]="
+                            this.currentConcept.theme?.colors?.onError ?? ''
+                          "
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

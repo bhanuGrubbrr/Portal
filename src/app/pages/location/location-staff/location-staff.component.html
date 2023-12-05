@@ -1,0 +1,87 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Staff Management</h3>
+    <div class="card-toolbar">
+      <a
+        routerLink="new"
+        matTooltip="Add New Staff Member"
+        class="btn btn-sm btn-light me-2"
+        title="Add A New Staff Member"
+        *writeConfigRequired="locationId"
+      >
+        <i class="fas fa-plus fs-4 me-2"></i>Add New
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        *ngIf="locationStaff"
+        id="tblLocationStaff"
+        class="table table-striped table-hover table-row-bordered border g-2"
+      >
+        <thead>
+          <tr class="fw-bold fs-6 text-muted">
+            <th>Username</th>
+            <th>
+              Access Code &nbsp;<i
+                class="fas fa-info-circle"
+                matTooltip="You will use this in your kiosk to login to your kiosk, KDS etc"
+              ></i>
+            </th>
+            <th class="text-center" style="min-width: 210px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let staff of locationStaff.staff">
+            <td>
+              {{ staff.name }}
+            </td>
+            <td>
+              {{ staff.accessCode | password }}
+
+              <ng-template #tipContent>
+                You will use this in your kiosk to login to your kiosk, KDS etc
+                <br />
+                Access Code: <b>{{ staff.accessCode }}</b>
+              </ng-template>
+
+              <a
+                class="btn btn-active-light"
+                [mtxTooltip]="tipContent"
+                mtxTooltipClass="grubbrrTips"
+              >
+                <i class="bi bi-eye-slash"></i>
+              </a>
+            </td>
+            <td class="text-center" valign="middle">
+              <a
+                [routerLink]="[staff.id, 'edit']"
+                matTooltip="Edit Staff Member"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+                  class="svg-icon svg-icon-3"
+                ></span>
+              </a>
+
+              <a
+                (click)="openDeactiveModal(staff.id, staff.name)"
+                matTooltip="Delete Staff Member"
+                class="btn btn-icon btn-active-color-danger btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-danger svg-icon-3"
+                ></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

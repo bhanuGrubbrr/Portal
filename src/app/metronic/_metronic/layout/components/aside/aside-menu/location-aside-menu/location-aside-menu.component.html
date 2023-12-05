@@ -1,0 +1,501 @@
+<!-- Dashboard -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/company/{{ companyId }}"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen001.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.COMPANYHOME"></span>
+  </a>
+</div>
+
+<!-- Separator -->
+<div class="menu-item">
+  <div class="menu-content">
+    <div class="separator mx-1 my-4"></div>
+  </div>
+</div>
+
+<!-- Dashboard -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/location/{{ locationId }}/dashboard"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen002.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title">Dashboard</span>
+  </a>
+
+  <!-- Location Setup Check -->
+  <a
+    class="menu-link without-sub"
+    routerLink="/location/{{ locationId }}/setup-checklist"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/coding/cod009.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title">Setup Check</span>
+  </a>
+</div>
+
+<!-- insights updated -->
+<div
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show hover showing"
+>
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/graphs/gra001.svg'"
+      ></span>
+    </span>
+    <span class="menu-title">Insights</span>
+
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <app-nav-link
+      title="Dashboard"
+      routerLink="/location/{{ locationId }}/product-mix"
+      [queryParams]="{ tab: '1' }"
+    >
+    </app-nav-link>
+  </div>
+</div>
+<!-- Orders -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/location/{{ locationId }}/kiosk/orders"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/ecommerce/ecm001.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ORDERS"></span>
+  </a>
+</div>
+
+<!-- menu manager updated -->
+<div
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show hover showing"
+>
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/graphs/gra008.svg'"
+      ></span>
+    </span>
+    <span class="menu-title">Menu Manager</span>
+
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <!-- Menu -->
+    <app-nav-link
+      title="Menu"
+      routerLink="/location/{{ locationId }}/kiosk-designer/menu"
+      [queryParams]="{ tab: '1' }"
+    >
+    </app-nav-link>
+    <!-- Order Upsell -->
+    <!-- <app-nav-link
+      title="Order Upsell"
+      routerLink="/location/{{ locationId }}/menu/upsell"
+    >
+    </app-nav-link> -->
+    <!-- Order New Upsell -->
+    <app-nav-link
+      title="Order Upsell"
+      routerLink="/location/{{ locationId }}/menu/upsellnew"
+    >
+    </app-nav-link>
+    <!-- Item Upsell -->
+    <!-- <app-nav-link
+      title="Item Upsell"
+      routerLink="/location/{{ locationId }}/menu/item-upsell"
+    >
+    </app-nav-link> -->
+
+    <app-nav-link
+      title="Item Upsell"
+      routerLink="/location/{{ locationId }}/menu/item-upsell-new"
+    >
+    </app-nav-link>
+    <!-- Concepts -->
+    <app-nav-link
+      title="Concepts"
+      routerLink="/location/{{ locationId }}/kiosk-designer/concepts"
+      *ngIf="locationFeatures?.conceptsEnabled"
+    >
+    </app-nav-link>
+
+    <!-- POS Vault -->
+    <app-nav-link
+      title="POS Vault"
+      routerLink="/location/{{ locationId }}/pos-vault"
+      *ngIf="false"
+    >
+    </app-nav-link>
+
+    <!-- 86 items -->
+    <app-nav-link title="86" routerLink="/location/{{ locationId }}/menu/86">
+    </app-nav-link>
+  </div>
+</div>
+
+<!-- Location Settings -->
+<div
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show hover showing"
+>
+  <span class="menu-link"
+    ><span class="menu-icon"
+      ><span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/electronics/elc003.svg'"
+      ></span
+    ></span>
+    <span class="menu-title">Settings</span><span class="menu-arrow"></span
+  ></span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <div
+        class="menu-item menu-accordion"
+        routerLinkActive="here show hover showing"
+        data-kt-menu-trigger="click"
+      >
+        <span class="menu-link"
+          ><span class="menu-bullet"
+            ><span class="bullet bullet-dot"></span
+          ></span>
+          <span class="menu-title">Appearance</span>
+          <span class="menu-arrow"></span
+        ></span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <!-- Colors -->
+          <app-nav-link
+            title="Colors"
+            routerLink="/location/{{ locationId }}/appearance/colors"
+          >
+          </app-nav-link>
+
+          <!-- Fonts -->
+          <app-nav-link
+            title="Fonts"
+            routerLink="/location/{{ locationId }}/appearance/fonts"
+          >
+          </app-nav-link>
+
+          <!-- Visual -->
+          <app-nav-link
+            title="Visual Assets"
+            routerLink="/location/{{ locationId }}/appearance/images"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Text Overrides -->
+          <app-nav-link
+            title="Text Overrides"
+            routerLink="/location/{{ locationId }}/appearance/textoverrides"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+        </div>
+      </div>
+
+      <div
+        class="menu-item menu-accordion"
+        routerLinkActive="here show hover showing"
+        data-kt-menu-trigger="click"
+      >
+        <span class="menu-link"
+          ><span class="menu-bullet"
+            ><span class="bullet bullet-dot"></span
+          ></span>
+          <span class="menu-title">Location</span>
+          <span class="menu-arrow"></span
+        ></span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <!-- Info -->
+          <app-nav-link
+            title="Info"
+            routerLink="/location/{{ locationId }}/edit"
+            [routerLinkActiveOptions]="{ exact: true }"
+            [queryParams]="{ backurl: getEncodedURL() }"
+          >
+          </app-nav-link>
+
+          <!-- Staff -->
+          <app-nav-link
+            title="Staff"
+            routerLink="/location/{{ locationId }}/staff"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Access -->
+          <app-nav-link
+            title="Access"
+            routerLink="/location/{{ locationId }}/users"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Location Setup Check -->
+          <app-nav-link
+            title="Location Setup Check"
+            routerLink="/location/{{ locationId }}/setup-checklist"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+        </div>
+      </div>
+
+      <!-- Kiosks -->
+      <app-nav-link
+        title="Kiosks"
+        routerLink="/location/{{ locationId }}/kiosk/devices"
+      >
+      </app-nav-link>
+
+      <!-- Kitchen Printers -->
+      <app-nav-link
+        title="Kitchen Printers"
+        routerLink="/location/{{ locationId }}/kiosk/printer"
+      >
+      </app-nav-link>
+
+      <!-- Order Types -->
+      <app-nav-link
+        title="Order Types"
+        routerLink="/location/{{ locationId }}/ordertypes"
+      >
+      </app-nav-link>
+
+      <div
+        class="menu-item menu-accordion"
+        routerLinkActive="here show hover showing"
+        data-kt-menu-trigger="click"
+      >
+        <span class="menu-link"
+          ><span class="menu-bullet"
+            ><span class="bullet bullet-dot"></span
+          ></span>
+          <span class="menu-title">Integrations</span>
+          <span class="menu-arrow"></span
+        ></span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <!-- POS -->
+          <app-nav-link
+            title="POS"
+            routerLink="/location/{{ locationId }}/pos"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Payment -->
+          <app-nav-link
+            title="Payment"
+            routerLink="/location/{{ locationId }}/payment"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Loyalty -->
+          <app-nav-link
+            title="Loyalty"
+            routerLink="/location/{{ locationId }}/loyalty"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+        </div>
+      </div>
+
+      <!-- Customizations -->
+      <div
+        class="menu-item menu-accordion"
+        routerLinkActive="here show hover showing"
+        data-kt-menu-trigger="click"
+      >
+        <span class="menu-link"
+          ><span class="menu-bullet"
+            ><span class="bullet bullet-dot"></span
+          ></span>
+          <span class="menu-title">Customizations</span>
+          <span class="menu-arrow"></span
+        ></span>
+        <div
+          class="menu-sub menu-sub-accordion"
+          routerLinkActive="menu-active-bg"
+        >
+          <!-- Languages -->
+          <app-nav-link
+            title="Languages"
+            routerLink="/location/{{ locationId }}/customization/languages"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          </app-nav-link>
+
+          <!-- Locale -->
+          <app-nav-link
+            title="Locale"
+            routerLink="/location/{{ locationId }}/customization/locale"
+          >
+          </app-nav-link>
+
+          <!-- Timeouts -->
+          <app-nav-link
+            title="Timeouts"
+            routerLink="/location/{{ locationId }}/customization/timeouts"
+          >
+          </app-nav-link>
+
+          <!-- Tips -->
+          <app-nav-link
+            title="Tips"
+            routerLink="/location/{{ locationId }}/customization/tips"
+          >
+          </app-nav-link>
+
+          <!-- Customer Identification -->
+          <app-nav-link
+            title="Customer Identification"
+            routerLink="/location/{{
+              locationId
+            }}/customization/customeridentification"
+          >
+          </app-nav-link>
+
+          <!-- Receipts -->
+          <app-nav-link
+            title="Receipts"
+            routerLink="/location/{{ locationId }}/customization/receipts"
+          >
+          </app-nav-link>
+
+          <!-- Features -->
+          <app-nav-link
+            title="Features"
+            routerLink="/location/{{ locationId }}/customization/features"
+          >
+          </app-nav-link>
+
+          <!-- Behavior Based Messages -->
+          <app-nav-link
+            title="Behavior Based Messages"
+            routerLink="/location/{{ locationId }}/menu/message-guards"
+          >
+          </app-nav-link>
+
+          <!-- Business Hours -->
+          <app-nav-link
+            title="Business Hours"
+            routerLink="/location/{{ locationId }}/customization/business-hours"
+          >
+          </app-nav-link>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support -->
+  <div
+    class="menu-item menu-accordion"
+    data-kt-menu-trigger="click"
+    routerLinkActive="here show hover showing"
+  >
+    <span class="menu-link">
+      <span class="menu-icon">
+        <span
+          class="svg-icon svg-icon-2"
+          [inlineSVG]="'./assets/media/icons/duotune/general/gen046.svg'"
+        ></span>
+      </span>
+      <span class="menu-title">Support</span>
+      <span class="menu-arrow"></span>
+    </span>
+    <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+      <!-- GEM -->
+      <app-nav-link
+        title="Events"
+        routerLink="/location/{{ companyId }}/{{ locationId }}/GEM"
+      >
+      </app-nav-link>
+
+      <!-- FAQ -->
+      <app-nav-link
+        title="FAQ"
+        routerLink="/location/{{ locationId }}/support/faq"
+      >
+      </app-nav-link>
+
+      <!-- Contact -->
+      <app-nav-link
+        title="Contact"
+        routerLink="/location/{{ locationId }}/support/contact"
+      >
+      </app-nav-link>
+    </div>
+  </div>
+
+  <!-- Separator -->
+  <div class="menu-item">
+    <div class="menu-content">
+      <div class="separator mx-1 my-4"></div>
+    </div>
+  </div>
+
+  <!-- Changelog  -->
+  <div class="menu-item">
+    <a
+      target="_blank"
+      class="menu-link"
+      href="https://grubbrr.releasenotes.io/"
+    >
+      <span class="menu-icon">
+        <span
+          class="svg-icon svg-icon-2"
+          [inlineSVG]="'./assets/media/icons/duotune/coding/cod003.svg'"
+        ></span>
+      </span>
+      <span class="menu-title">Release Notes {{ appAngularVersion }}</span>
+    </a>
+  </div>
+</div>

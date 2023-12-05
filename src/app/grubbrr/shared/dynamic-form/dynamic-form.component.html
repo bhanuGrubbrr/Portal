@@ -1,0 +1,35 @@
+<div *ngIf="ready">
+  <form [formGroup]="dynamicform">
+    <div *ngFor="let field of fields$ | async" class="form-row">
+      <app-dynamic-form-field
+        [field]="field"
+        [dynamicform]="dynamicform"
+      ></app-dynamic-form-field>
+    </div>
+
+    <ng-container *ngIf="showButton">
+      <div class="separator mx-1 my-8"></div>
+      <div class="col-12">
+        <button
+          type="button"
+          (click)="onSubmit()"
+          class="btn btn-success me-2"
+          [disabled]="dynamicform.invalid"
+        >
+          <ng-container *ngIf="!saving">
+            <span class="indicator-label">Save</span>
+          </ng-container>
+
+          <ng-container *ngIf="saving">
+            <span class="indicator-progress" [style.display]="'block'">
+              Please wait...{{ " " }}
+              <span
+                class="spinner-border spinner-border-sm align-middle ms-2"
+              ></span>
+            </span>
+          </ng-container>
+        </button>
+      </div>
+    </ng-container>
+  </form>
+</div>

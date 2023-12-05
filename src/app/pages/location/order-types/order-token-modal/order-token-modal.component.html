@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h5 class="modal-title">Advanced Options</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row pb-4">
+      <h4>Order Token</h4>
+    </div>
+    <div class="row pb-3">
+      <label for="tokenStart" class="form-label col-4 align-self-center"
+        >Order Number Start</label
+      >
+      <div class="col-8">
+        <input
+          id="tokenStart"
+          matTooltip="Order Number to Start At"
+          class="form-control"
+          type="number"
+          [(ngModel)]="tokenSettings.orderNumberStart"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <label for="tokenStart" class="form-label col-4 align-self-center"
+        >Order Numbers Per Kiosk
+      </label>
+      <div class="col-8">
+        <input
+          id="tokenStart"
+          matTooltip="Order Number Allotment per Kiosk"
+          class="form-control"
+          type="number"
+          [(ngModel)]="tokenSettings.allotment"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close()"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close(true)"
+  >
+    Accept
+  </button>
+</div>

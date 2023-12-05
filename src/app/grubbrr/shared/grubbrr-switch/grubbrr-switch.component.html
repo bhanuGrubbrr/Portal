@@ -1,0 +1,6 @@
+<mat-slide-toggle
+  color="primary"
+  [disabled]="disabled"
+  [(ngModel)]="value"
+  (ngModelChange)="switchValueChange.emit(value)"
+></mat-slide-toggle>

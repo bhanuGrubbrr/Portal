@@ -1,0 +1,19 @@
+@use "sass:map";
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+$preview-size: 60px;
+
+.preview-image,
+.preview-image-empty {
+  width: $preview-size;
+  height: $preview-size;
+  border-radius: 5px;
+  object-fit: contain;
+}
+
+.preview-image-empty {
+  background-color: #fbfbfb;
+  color: $gray-500;
+  font-size: 0.75rem;
+}

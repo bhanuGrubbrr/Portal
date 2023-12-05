@@ -1,0 +1,56 @@
+.top-level-container {
+  display: flex;
+}
+
+.modifier-row-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modifier-row-is-default,
+.modifier-row-invisible,
+.modifier-row-is-active {
+  width: 140px;
+  text-align: center;
+}
+
+.modifier-row-handle {
+  width: 80px;
+  align-items: center;
+}
+
+.modifier-row-image {
+  width: 120px;
+}
+
+.modifier-row-name {
+  flex: 1;
+  align-items: center;
+}
+
+.remove-block {
+  width: 60px;
+}
+
+.modifier-row-price {
+  width: 80px;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.inactive-badge-container {
+  width: 70px;
+  margin-right: 15px;
+}
+.display-name-container {
+  min-width: 20%;
+  margin-right: 15px;
+}
+.inactive-badge {
+  color: grey;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}

@@ -1,0 +1,119 @@
+@import "../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../assets/sass/layout/variables";
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: baseline;
+}
+
+.inner-flex-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-container {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin-right: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.custom-container.w-100 {
+  width: 100%;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  width: 80%;
+}
+
+.table-info {
+  text-align: start;
+}
+
+.menu-item-detail {
+  margin-right: 0.25rem;
+}
+
+.menu {
+  border-top: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+  background-color: white;
+}
+
+.custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.badge-color {
+  color: $grubbrr-blue;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}
+
+.badge-color-active {
+  color: green;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}
+
+.badge-color-inactive {
+  color: grey;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}
+
+.menu-category-row-block,
+.menu-item-row-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 1rem 2rem;
+}
+
+.menu-item-row {
+  border-bottom: 2px solid $grubbrr-gray-blue;
+}
+
+.menu-category-row {
+  // transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+  background-color: #fafbfc;
+  border-top: 2px solid $grubbrr-gray-blue;
+  border-bottom: 2px solid $grubbrr-gray-blue;
+  box-shadow: none;
+}
+.add-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.add-item-title {
+  text-transform: uppercase;
+  align-items: center;
+  text-align: center;
+  margin-left: 0.5rem;
+  // height: 50px;
+  // line-height: 50px;
+}
+
+.form-select.status-dropdown {
+  height: calc(3.5rem + calc(1px * 2));
+  min-height: calc(3.5rem + calc(1px * 2));
+  line-height: 1.25;
+}

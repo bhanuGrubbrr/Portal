@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h5 class="modal-title">Kiosk Registration Code</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="activeModal.close('dismiss')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <h3>This code is used to register a kiosk with this location.</h3>
+      <span>It can only be used once and will expire in 2 days</span>
+    </div>
+    <hr />
+    <div>
+      <span class="row">Scan this QR code on the kiosk</span>
+      <img
+        [src]="sanitizer.bypassSecurityTrustResourceUrl(qr)"
+        height="300"
+        width="300"
+        alt="One Time Code"
+      />
+    </div>
+    <div class="row">
+      <span class="row"
+        >Alternatively, manually enter this code on the kiosk</span
+      >
+      <h4>{{ code }}</h4>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    matTooltip="Unlinks and generates new QR code"
+    (click)="relink()"
+  >
+    Relink Kiosk
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    matTooltip="Close"
+    (click)="activeModal.close()"
+  >
+    Close
+  </button>
+</div>

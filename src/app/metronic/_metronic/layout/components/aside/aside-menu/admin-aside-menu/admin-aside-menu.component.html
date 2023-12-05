@@ -1,0 +1,104 @@
+<!-- Dashboard -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/admin"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/graphs/gra009.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ADMINHOME"></span>
+  </a>
+</div>
+
+<!-- Company -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/admin/company"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen009.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ADMINCOMPANIES"></span>
+  </a>
+</div>
+
+<!-- Users -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/admin/users"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/communication/com014.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ADMINUSERS"></span>
+  </a>
+</div>
+
+<!-- Connectors -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/admin/connectors"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/abstract/abs022.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ADMINCONNECTORS"></span>
+  </a>
+</div>
+
+<!-- Loyalty -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/admin/loyalty"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/abstract/abs024.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.ADMINLOYALTY"></span>
+  </a>
+</div>
+
+<!-- Separator -->
+<div class="menu-item">
+  <div class="menu-content">
+    <div class="separator mx-1 my-4"></div>
+  </div>
+</div>
+
+<!-- Changelog  -->
+<div class="menu-item">
+  <a target="_blank" class="menu-link" href="https://grubbrr.releasenotes.io/">
+    <span class="menu-icon">
+      <span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/coding/cod003.svg'"
+      ></span>
+    </span>
+    <span class="menu-title">Release Notes {{ appAngularVersion }}</span>
+  </a>
+</div>

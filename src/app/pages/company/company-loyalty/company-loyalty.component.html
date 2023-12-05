@@ -1,0 +1,64 @@
+<div class="card card-custom card-sticky">
+  <div class="card-header">
+    <h3 class="card-title">
+      <ng-container *ngIf="!hasLoyalty">
+        Select Your Loyalty Program
+      </ng-container>
+      <ng-container *ngIf="hasLoyalty">
+        {{ loyaltyProvider.displayName }}
+      </ng-container>
+    </h3>
+
+    <div class="card-toolbar">
+      <mat-slide-toggle
+        *ngIf="hasLoyalty"
+        [checked]="isActive"
+        (toggleChange)="activeToggled(isActive)"
+        >Is Active</mat-slide-toggle
+      >
+    </div>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="loyaltyForm" *writeConfigRequired="companyId">
+      <div *ngIf="!contentLoaded">
+        <app-table-skeleton></app-table-skeleton>
+      </div>
+      <div *ngIf="!hasLoyalty">
+        <div class="col" *ngFor="let loyaltyProvider of loyaltyProviders">
+          <input
+            type="radio"
+            class="btn-check"
+            value="{{ loyaltyProvider.name }}"
+            id="{{ loyaltyProvider.name }}"
+            (click)="loyaltySelected(loyaltyProvider)"
+          />
+
+          <label
+            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+            for="{{ loyaltyProvider.name }}"
+          >
+            <span class="fw-bolder fs-3">
+              <i class="fas fa-cash-register pe-4"></i>
+              {{ loyaltyProvider.displayName }}
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="hasLoyalty">
+        <div class="pt-4">
+          <app-dynamic-form
+            formControlName="dynamicForm"
+            [shouldResetForm]="false"
+            *ngIf="fields$"
+            [fields$]="fields$"
+            [patchValues]="patchValues"
+            (formSavingEvent)="onSettingsSubmit($event)"
+          >
+          </app-dynamic-form>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

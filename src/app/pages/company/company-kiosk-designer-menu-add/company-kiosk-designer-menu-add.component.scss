@@ -1,0 +1,8 @@
+.menu-designer {
+  flex-direction: row-reverse;
+}
+.menu-designer,
+.menu-designer button {
+  display: flex;
+  align-items: center;
+}

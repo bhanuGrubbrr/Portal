@@ -1,0 +1,73 @@
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h4 class="card-title">Order Level Upsells</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        (saveButtonClickedEvent)="SaveUpsellGroup()"
+        [formDisabled]="!isformValid"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+
+  <div class="card-body max-h-50">
+    <div class="row mt-3">
+      <div class="col-12-6">
+        <form [formGroup]="propertiesForm" *ngIf="propertiesForm">
+          <div class="row">
+            <div class="col-md-10">
+              <label for="displayName" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Name"
+                (ngModelChange)="checkValidation()"
+                required
+              />
+            </div>
+            <div class="col-md-2">
+              <label for="status" class="form-label d-block"> Status </label>
+              <app-grubbrr-switch-form-control formControlName="enabled">
+              </app-grubbrr-switch-form-control>
+            </div>
+          </div>
+        </form>
+        <div class="mt-4">
+          <label for="orderTypes" class="form-label">Order Types</label>
+          <div class="form-check mb-3" *ngFor="let orderType of orderTypes">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="{{ orderType.id }}"
+              [checked]="orderType.checked"
+              (input)="handleInput($event, orderType)"
+            />
+            <label class="form-check-label" for="{{ orderType.id }}">
+              {{ orderType.label }}
+            </label>
+          </div>
+        </div>
+        <app-order-upsell-category
+          *ngIf="currentGroup"
+          type="Category"
+          [upsellID]="!upsellID ? '' : upsellID"
+          (selectOffer)="onSelectOffer($event)"
+          [currentGroup]="currentGroup"
+          [menuSections]="this.menuSections"
+          [menuItems]="menuItems"
+        ></app-order-upsell-category>
+
+        <app-order-upsell-category
+          *ngIf="currentGroup"
+          type="Item"
+          [upsellID]="!upsellID ? '' : upsellID"
+          (selectOffer)="onSelectOffer($event)"
+          [currentGroup]="currentGroup"
+          [menuSections]="this.menuSections"
+          [menuItems]="menuItems"
+        ></app-order-upsell-category>
+      </div>
+    </div>
+  </div>
+</div>

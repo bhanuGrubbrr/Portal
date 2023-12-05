@@ -1,0 +1,9 @@
+<ng-container *ngIf="menuType === MenuTypeEnum.Admin">
+  <app-admin-aside-menu></app-admin-aside-menu>
+</ng-container>
+<ng-container *ngIf="menuType === MenuTypeEnum.Customer">
+  <app-company-aside-menu></app-company-aside-menu>
+</ng-container>
+<ng-container *ngIf="menuType === MenuTypeEnum.Location">
+  <app-location-aside-menu></app-location-aside-menu>
+</ng-container>

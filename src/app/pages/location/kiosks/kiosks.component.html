@@ -1,0 +1,222 @@
+<div class="d-grid gap-10">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h4 class="card-title">Kiosk Devices</h4>
+      <div class="card-toolbar">
+        <div class="d-flex align-items-center flex-row-reverse">
+          <button
+            type="button"
+            (click)="fetchKioskDevices()"
+            class="btn btn-sm btn-light me-2"
+            matTooltip="Refresh list of devices"
+            aria-title="Refresh"
+          >
+            <ng-container *ngIf="!refreshing">
+              <i class="fa-thin fa-arrows-rotate"></i>
+              <span class="indicator-label">Refresh</span>
+            </ng-container>
+
+            <ng-container *ngIf="refreshing">
+              <span class="indicator-progress" [style.display]="'block'">
+                <i class="fa-thin fa-arrows-rotate fa-spin"></i>
+                <span class="indicator-label">Refresh</span>
+              </span>
+            </ng-container>
+          </button>
+
+          <button
+            type="button"
+            (click)="syncKiosks()"
+            class="btn btn-sm btn-light me-2"
+            matTooltip="Sync menu and config to kiosk"
+            aria-title="Refresh"
+          >
+            <ng-container *ngIf="!syncing">
+              <i class="fa-thin fa-arrows-rotate"></i>
+              <span class="indicator-label">Sync</span>
+            </ng-container>
+
+            <ng-container *ngIf="syncing">
+              <span class="indicator-progress" [style.display]="'block'">
+                <i class="fa-thin fa-arrows-rotate fa-spin"></i>
+                <span class="indicator-label">Sync</span>
+              </span>
+            </ng-container>
+          </button>
+
+          <a
+            (click)="openAddKioskDialog()"
+            matTooltip="Onboard new kiosk"
+            class="btn btn-primary btn-sm m-2"
+          >
+            <i class="fas fa-plus fs-4 me-2"></i> Add Kiosk
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div *ngIf="!contentLoaded">
+        <app-table-skeleton></app-table-skeleton>
+      </div>
+      <div *ngIf="contentLoaded">
+        <p-table
+          responsiveLayout="scroll"
+          [value]="kiosks"
+          #dtItems
+          [columns]="cols"
+          [rows]="25"
+          styleClass="p-datatable-customers p-datatable-gridlines p-datatable-striped"
+          [paginator]="false"
+          [globalFilterFields]="[
+            'name',
+            'deviceDetails?.serialNumber',
+            'deviceDetails?.appVersion'
+          ]"
+        >
+          <ng-template pTemplate="caption">
+            <div class="d-flex flex-row mb-3 justify-content-between">
+              <div class="p-2 pe-2">
+                <div class="form-floating mb-3">
+                  <input
+                    class="form-control"
+                    #filter
+                    id="kioskTableSearch"
+                    pInputText
+                    type="text"
+                    (input)="dtItems.filterGlobal(filter.value, 'contains')"
+                    placeholder="Name, serial or version"
+                  />
+                  <label for="kioskTableSearch">Name, serial or version</label>
+                </div>
+              </div>
+              <div class="p-2 pe-2">
+                <button
+                  pButton
+                  label="Clear"
+                  pTooltip="Reset filters"
+                  (click)="clear(dtItems)"
+                  class="p-button-outlined"
+                  icon="pi pi-filter-slash"
+                  tooltipPosition="bottom"
+                ></button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Name
+                  <p-columnFilter
+                    type="text"
+                    field="name"
+                    display="menu"
+                  ></p-columnFilter>
+                  <p-sortIcon field="name"></p-sortIcon>
+                </div>
+              </th>
+              <th pSortableColumn="deviceDetails?.serialNumber">
+                Device
+                <p-columnFilter
+                  type="text"
+                  field="deviceDetails?.serialNumber"
+                  display="menu"
+                ></p-columnFilter
+                ><p-sortIcon field="deviceDetails?.serialNumber"></p-sortIcon>
+              </th>
+              <th pSortableColumn="deviceDetails?.appVersion">
+                App Version
+                <p-columnFilter
+                  type="text"
+                  field="deviceDetails?.appVersion"
+                  display="menu"
+                ></p-columnFilter
+                ><p-sortIcon field="deviceDetails?.appVersion"></p-sortIcon>
+              </th>
+              <th>
+                <div class="p-d-flex p-jc-between p-ai-center">
+                  Last Sync
+                  <p-columnFilter
+                    type="date"
+                    field="kiosk?.lastSync"
+                    display="menu"
+                  ></p-columnFilter>
+                </div>
+              </th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-kiosk let-ri="rowIndex">
+            <tr>
+              <td>
+                {{ kiosk.name }}
+              </td>
+              <td>{{ kiosk.deviceDetails?.serialNumber }}</td>
+              <td>{{ kiosk.deviceDetails?.appVersion }}</td>
+              <td>{{ kiosk?.lastSync }}</td>
+
+              <td class="text-center" valign="middle">
+                <button
+                  pButton
+                  type="button"
+                  class="p-button-rounded p-button-text"
+                  pTooltip="Edit Kiosk"
+                  tooltipPosition="top"
+                  icon="fa fa-pencil"
+                  iconPos="left"
+                  [routerLink]="[
+                    '/location',
+                    locationId,
+                    'kiosk',
+                    'devices',
+                    kiosk.kioskId
+                  ]"
+                ></button>
+
+                <button
+                  *ngIf="kiosk.deviceDetails?.serialNumber === ''"
+                  pButton
+                  type="button"
+                  class="p-button-rounded p-button-text"
+                  pTooltip="Link"
+                  tooltipPosition="top"
+                  icon="fa fa-link-slash"
+                  iconPos="left"
+                  (click)="openKioskOTPDialog(kiosk)"
+                ></button>
+
+                <button
+                  *ngIf="kiosk.deviceDetails?.serialNumber !== ''"
+                  pButton
+                  type="button"
+                  class="p-button-rounded p-button-text p-button-secondary"
+                  pTooltip="Unlink"
+                  tooltipPosition="top"
+                  icon="fa fa-link"
+                  iconPos="left"
+                  (click)="openUnlinkKiosk(kiosk)"
+                ></button>
+
+                <button
+                  pButton
+                  type="button"
+                  class="p-button-rounded p-button-text p-button-danger"
+                  pTooltip="Delete Kiosk"
+                  tooltipPosition="top"
+                  icon="fa fa-trash"
+                  iconPos="left"
+                  (click)="openDeleteConfirmModal(kiosk)"
+                ></button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">No kiosks registered.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

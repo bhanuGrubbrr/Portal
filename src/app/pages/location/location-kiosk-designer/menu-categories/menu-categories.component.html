@@ -1,0 +1,163 @@
+<div *ngIf="!loaded">
+  <app-list-skeleton></app-list-skeleton>
+</div>
+<ng-container *ngIf="loaded">
+  <div class="d-flex mb-4">
+    <div class="d-flex flex-grow-1">
+      <div class="w-100 form-floating mb-3">
+        <input
+          class="form-control"
+          id="orderTableSearch"
+          placeholder="Search Category"
+          (input)="handleSearchChange($event)"
+          [(ngModel)]="searchQuery"
+        />
+        <label for="orderTableSearch">Search Category</label>
+      </div>
+    </div>
+    <div class="ms-2">
+      <select
+        class="form-select status-dropdown"
+        name="items"
+        [(ngModel)]="filterAction"
+        (change)="changeStatusFilter()"
+      >
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+        <option value="2">All</option>
+      </select>
+    </div>
+    <div>
+      <a
+        routerLink="/location/{{ locationId }}/kiosk-designer/menu/category/add"
+        [queryParams]="{ tab: '2' }"
+        class="btn btn-success ms-2"
+      >
+        <span class="indicator-label">Create New</span>
+      </a>
+    </div>
+  </div>
+  <div class="d-flex mb-4">
+    <div class="d-flex flex-grow-2">
+      <select
+        class="form-select"
+        name="country"
+        [(ngModel)]="bulkActionStatus"
+        [disabled]="selection.selected.length === 0"
+      >
+        <option value="2" disabled>Bulk Actions</option>
+        <option value="1">Activate</option>
+        <option value="0">Deactivate</option>
+      </select>
+    </div>
+    <div>
+      <button
+        [disabled]="bulkActionStatus === 2 || selection.selected.length === 0"
+        class="btn btn-success ms-2"
+        (click)="applyBulkAction()"
+      >
+        <span class="indicator-label">Apply</span>
+      </button>
+    </div>
+  </div>
+  <p
+    class="mt-5"
+    *ngIf="
+      !displayCategories ||
+      (displayCategories && displayCategories.length === 0)
+    "
+  >
+    There are no categories in the system.
+  </p>
+  <table
+    *ngIf="displayCategories"
+    class="table table-borderless gx-5 kiosk-designer-table"
+  >
+    <thead>
+      <th>
+        <input
+          type="checkbox"
+          (change)="toggleAllRows()"
+          [checked]="isAllSelected()"
+        />
+      </th>
+      <th scope="col" class="text-uppercase text-center">Image</th>
+      <th
+        [ngClass]="{ 'sorted-col': sortColumn === 'pos-category-name' }"
+        (click)="onClickColumn('pos-category-name')"
+        scope="col"
+        class="text-uppercase"
+      >
+        Category
+      </th>
+      <th
+        [ngClass]="{ 'sorted-col': sortColumn === 'category-name' }"
+        (click)="onClickColumn('category-name')"
+        scope="col"
+        class="text-uppercase"
+      >
+        Display Name
+      </th>
+      <th
+        [ngClass]="{ 'sorted-col': sortColumn === 'status' }"
+        (click)="onClickColumn('status')"
+        scope="col"
+        class="text-uppercase text-center"
+      >
+        Status
+      </th>
+      <th scope="col" class="text-uppercase text-center">Actions</th>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let category of displayCategories
+            | sort : sortComparator : sortDirection
+        "
+      >
+        <td>
+          <input
+            type="checkbox"
+            (change)="selection.toggle(category.id)"
+            [checked]="selection.isSelected(category.id)"
+          />
+        </td>
+        <td style="width: 80px" class="">
+          <app-entity-row-image [imageUrl]="category.media">
+          </app-entity-row-image>
+        </td>
+        <td class="">
+          <h5>{{ category.posCategory?.name ?? category.displayName }}</h5>
+
+          <app-entity-id-badge [entityId]="category.id"> </app-entity-id-badge>
+        </td>
+        <td class="">
+          <strong>{{ category.displayName }}</strong>
+        </td>
+        <td class="text-center align-middle">
+          <app-grubbrr-switch
+            [value]="category.isActive"
+            (switchValueChange)="onChangeActiveStatus(category, $event)"
+          >
+          </app-grubbrr-switch>
+        </td>
+        <td class="text-center align-middle">
+          <a
+            routerLink="/location/{{
+              locationId
+            }}/kiosk-designer/menu/category/edit/{{ category.id }}"
+            [queryParams]="{ tab: '2' }"
+          >
+            <i class="far fas fa-pen fs-1 mb-2"></i>
+          </a>
+          <app-kiosk-designer-dropdown-select
+            [selectedIndex]="0"
+            [options]="['Available', 'Out of Stock for Today', 'Out of Stock']"
+            [id]="category.id"
+          >
+          </app-kiosk-designer-dropdown-select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

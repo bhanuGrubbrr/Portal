@@ -1,0 +1,27 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Payment Settings</h3>
+    <div class="card-toolbar">
+      <div class="d-flex align-items-center"></div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <mat-tab-group
+      [selectedIndex]="paymentCurrentTabIndex"
+      (selectedIndexChange)="tabChanged($event)"
+    >
+      <mat-tab label="Settings">
+        <ng-template matTabContent>
+          <app-payment-settings></app-payment-settings>
+        </ng-template>
+      </mat-tab>
+      <!-- <mat-tab label="Tender Settings" [disabled]="!tenderSettingsRequired" *ngIf="tenderSettingsRequired">
+        <ng-template matTabContent>
+          <app-payment-tender-mapping
+          ></app-payment-tender-mapping>
+        </ng-template>
+      </mat-tab> -->
+    </mat-tab-group>
+  </div>
+</div>

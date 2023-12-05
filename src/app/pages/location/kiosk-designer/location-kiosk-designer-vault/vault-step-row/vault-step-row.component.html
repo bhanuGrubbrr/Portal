@@ -1,0 +1,21 @@
+<div class="d-flex align-items-center mb-5">
+  <div
+    [ngClass]="{
+      'step-marker fs-5 d-flex justify-content-center align-items-center me-4': true,
+      'step-marker--selected': selected
+    }"
+    class=""
+  >
+    {{ stepCount }}
+  </div>
+  <div class="d-flex flex-column">
+    <p class="mb-0">
+      <strong>
+        {{ title }}
+      </strong>
+    </p>
+    <p class="mb-0 text-muted">
+      {{ subtitle }}
+    </p>
+  </div>
+</div>

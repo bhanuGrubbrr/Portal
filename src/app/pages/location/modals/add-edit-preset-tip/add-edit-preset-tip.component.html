@@ -1,0 +1,114 @@
+<form
+  [formGroup]="presetTipForm"
+  needs-validation
+  *ngIf="formReady"
+  novalidate
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ addEditLabel }} Preset Tip</h5>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      (click)="activeModal.close('cancel')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="d-flex flex-row bd-highlight mb-3">
+            <div class="p-2 bd-highlight">
+              <div class="form-check form-check-custom">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  formControlName="isDefault"
+                  placeholder="Is Default"
+                />
+              </div>
+            </div>
+            <div class="p-2 bd-highlight">
+              <label for="isDefault" class="form-label">Is Default</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <input
+            class="form-control form-solid me-2 d-inline"
+            type="number"
+            formControlName="tipPercentageOrAmount"
+            appTwoDigitDecimalNumberDirective
+            inputmode="numeric"
+            placeholder="Default Tip Amount"
+          />
+        </div>
+        <div class="col-8">
+          <div
+            class="btn-group w-100"
+            data-kt-buttons="true"
+            data-kt-buttons-target="[data-kt-button]"
+          >
+            <label
+              #tipPercentageAmountLabel
+              class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary amount-label"
+              data-kt-button="true"
+            >
+              <input
+                title="Is Tip a Percentage"
+                class="btn-check"
+                type="radio"
+                name="tipIsPercentage"
+                checked="tipIsPercentage ? true : false"
+                formControlName="tipIsPercentage"
+                (click)="toggleTipAmount(0)"
+                value="true"
+              />
+              %
+            </label>
+            <label
+              #flatTipAmountLabel
+              class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary active amount-label"
+              data-kt-button="true"
+            >
+              <input
+                title="Is Tip a Percentage"
+                class="btn-check"
+                type="radio"
+                checked="tipIsPercentage ? false : true"
+                name="tipIsPercentage"
+                formControlName="tipIsPercentage"
+                (click)="toggleTipAmount(1)"
+                value="false"
+              />
+              Flat Amount
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-dismiss="modal"
+      (click)="activeModal.close('cancel')"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="activeModal.close(presetTipForm.getRawValue())"
+    >
+      Save
+    </button>
+  </div>
+</form>

@@ -1,0 +1,468 @@
+<form
+  *ngIf="formReady"
+  [formGroup]="locationForm"
+  (ngSubmit)="onSubmit()"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card card-custom card-sticky">
+    <div class="card-header">
+      <h3 class="card-title">Receipt Customization</h3>
+      <div class="card-toolbar">
+        <app-save-cancel-button
+          class="me-2"
+          [saving]="saving"
+          [showCancelButton]="false"
+          [formDisabled]="this.locationForm.invalid"
+          (saveButtonClickedEvent)="onSubmit()"
+        ></app-save-cancel-button>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <h3>Contact Info</h3>
+          <fieldset class="mb-3" formGroupName="receiptAddress">
+            <div class="form-floating mb-3">
+              <input
+                ngx-google-places-autocomplete
+                #placesRef="ngx-places"
+                (onAddressChange)="handleAddressChange($event)"
+                type="text"
+                class="form-control"
+                formControlName="address1"
+                maxlength="50"
+                placeholder="Start typing your address"
+              />
+              <label for="address1">Address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="address2"
+                formControlName="address2"
+                maxlength="50"
+                placeholder="Suite Number/Unit"
+              />
+              <label for="address2">Address 2</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                formControlName="city"
+                maxlength="50"
+                placeholder="City"
+              />
+              <label for="city">City</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="state"
+                formControlName="state"
+                maxlength="30"
+                placeholder="State"
+              />
+              <label for="state">State</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="zipCode"
+                formControlName="zipCode"
+                maxlength="30"
+                placeholder="Zip"
+              />
+              <label for="zipCode">Zip Code</label>
+            </div>
+          </fieldset>
+          <fieldset formGroupName="phone">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="number"
+                maxlength="10"
+                placeholder="Location Phone"
+              />
+              <label for="number">Phone Number</label>
+
+              <small
+                class="text-danger"
+                *ngIf="
+                  locationForm?.get('phone')?.get('number')?.errors?.required &&
+                  (locationForm?.get('phone')?.get('number')?.touched ||
+                    locationForm?.get('phone')?.get('number')?.dirty)
+                "
+              >
+                Phone is required
+              </small>
+              <small
+                class="text-danger"
+                *ngIf="
+                  locationForm?.get('phone')?.get('number')?.errors?.pattern ||
+                  locationForm?.get('phone')?.get('number')?.errors?.maxlength
+                "
+              >
+                Phone is invalid
+              </small>
+            </div>
+          </fieldset>
+
+          <div class="separator border-1 my-4"></div>
+
+          <h3>Custom Text</h3>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="headerText"
+              maxlength="250"
+              placeholder="Receipt Header Text"
+            />
+            <label for="name" class="form-label">Receipt Header Text</label>
+            <div
+              *ngIf="
+                (locationForm.get('headerText')?.invalid &&
+                  locationForm.get('headerText')?.touched) ||
+                locationForm.get('headerText')?.dirty
+              "
+            ></div>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="footerText"
+              placeholder="Receipt Footer Text"
+              maxlength="250"
+            />
+            <label for="name" class="form-label">Receipt Footer Text</label>
+            <div
+              *ngIf="
+                (locationForm.get('footerText')?.invalid &&
+                  locationForm.get('footerText')?.touched) ||
+                locationForm.get('footerText')?.dirty
+              "
+            ></div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h3>Logo</h3>
+          <div class="mb-3">
+            <div class="d-flex flex-row">
+              <div
+                class="form-group"
+                formGroupName="logo"
+                style="max-width: 350px"
+              >
+                <!-- Image Preview -->
+                <div
+                  class="image-previews"
+                  *ngIf="logoPreview && logoPreview !== ''"
+                >
+                  <img aria-label="Image Preview" [src]="logoPreview" />
+                </div>
+                <div></div>
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="logo"
+                    accept="file_type | image/* | media_type"
+                    (change)="handleInputFile($event)"
+                  />
+
+                  <label #logoImageLabel class="custom-file-label" for="url"
+                    >Choose file</label
+                  >
+                </div>
+              </div>
+              <a
+                *ngIf="logoPreview"
+                (click)="removeImage()"
+                matTooltip="Remove Logo"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h3>Auto Print</h3>
+            <div class="flex">
+              <mat-slide-toggle
+                color="primary"
+                formControlName="autoPrint"
+              ></mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modifier Settings -->
+      <hr style="color: #8a949f" />
+      <h3>Modifier Settings</h3>
+      <div class="card-body pe-0 ps-0" formGroupName="receiptVisibilityOptions">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="mb-5 ml-2 toggle-2">
+              <mat-slide-toggle
+                color="primary"
+                class="input-color me-8"
+                type="checkbox"
+                name="modifierGroupNames"
+                formControlName="modifierGroupNames"
+                >Print Modifier Group Names
+              </mat-slide-toggle>
+            </div>
+            <div class="mb-5 ml-2 toggle-2 d-flex align-items-center">
+              <mat-slide-toggle
+                color="primary"
+                class="input-color me-8"
+                type="checkbox"
+                name="defaultModifiers"
+                formControlName="defaultModifiers"
+                [disabled]="
+                  !locationForm
+                    ?.get('receiptVisibilityOptions')
+                    ?.get('freeModifiers')?.value
+                "
+                >Print Default Modifiers
+              </mat-slide-toggle>
+              <i
+                class="fas fa-circle-question fa"
+                matTooltip="This will print out the default modifiers if they remain selected by the customer. Cannot be turned on if Print Free Modifiers is off"
+              ></i>
+            </div>
+            <div class="mb-5 ml-2 toggle-2 d-flex align-items-center">
+              <mat-slide-toggle
+                color="primary"
+                class="input-color me-8"
+                type="checkbox"
+                name="freeModifiers"
+                formControlName="freeModifiers"
+                [disabled]="
+                  !locationForm
+                    ?.get('receiptVisibilityOptions')
+                    ?.get('pricedModifiers')?.value
+                "
+                (change)="changePrintFreeModifiers()"
+                >Print Free Modifiers
+              </mat-slide-toggle>
+              <i
+                class="fas fa-circle-question fa"
+                matTooltip="This will print out all modifiers that the customer selects. Cannot be turned on if Print Priced Modifiers is off"
+              ></i>
+            </div>
+            <div class="mb-5 ml-2 toggle-2">
+              <mat-slide-toggle
+                color="primary"
+                class="input-color me-8"
+                type="checkbox"
+                name="pricedModifiers"
+                formControlName="pricedModifiers"
+                (change)="changePrintPricedModifiers()"
+                >Print Priced Modifiers
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Email Receipts -->
+      <hr style="color: #8a949f" />
+      <div class="card-body pe-0 ps-0">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="d-flex align-items-center">
+              <h3 class="me-4">Email Receipt</h3>
+              <fieldset>
+                <mat-slide-toggle
+                  color="primary"
+                  formControlName="enableEmailReceipt"
+                  (change)="enabledEmailChange()"
+                  >Enabled</mat-slide-toggle
+                >
+              </fieldset>
+            </div>
+            <div
+              class="mt-7"
+              *ngIf="locationForm.controls['enableEmailReceipt'].value"
+            >
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    formControlName="emailFrom"
+                    placeholder="Email"
+                  />
+                  <label for="email">Email</label>
+
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      locationForm?.get('emailFrom')?.errors?.required &&
+                      (locationForm?.get('emailFrom')?.touched ||
+                        locationForm?.get('emailFrom')?.dirty)
+                    "
+                  >
+                    Email is required
+                  </small>
+                  <small
+                    class="text-danger"
+                    *ngIf="locationForm?.get('emailFrom')?.errors?.pattern"
+                  >
+                    Email is invalid
+                  </small>
+                </div>
+              </fieldset>
+
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="emailFromName"
+                    placeholder="Name"
+                    maxlength="35"
+                  />
+                  <label for="name">Name</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="templateId"
+                    placeholder="Template ID"
+                    maxlength="50"
+                  />
+                  <label for="id">Template ID</label>
+
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      locationForm?.get('templateId')?.errors?.required &&
+                      (locationForm?.get('templateId')?.touched ||
+                        locationForm?.get('templateId')?.dirty)
+                    "
+                  >
+                    Template ID is required
+                  </small>
+                </div>
+              </fieldset>
+
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="emailSubject"
+                    placeholder="Subject"
+                    maxlength="160"
+                  />
+                  <label for="emailSubject"
+                    >Subject Format - '((Name))' and '((Order))' will be
+                    substituted with the Customer name and Order Number.</label
+                  >
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      locationForm?.get('emailSubject')?.errors?.required &&
+                      (locationForm?.get('emailSubject')?.touched ||
+                        locationForm?.get('emailSubject')?.dirty)
+                    "
+                  >
+                    Subject is required
+                  </small>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SMS Receipts -->
+
+      <hr class="mt-1" style="color: #8a949f" />
+      <div class="card-body pe-0 ps-0">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="d-flex align-items-center">
+              <h3 class="me-4">SMS Receipt</h3>
+              <fieldset>
+                <mat-slide-toggle
+                  color="primary"
+                  formControlName="enableSmsReceipt"
+                  (change)="enabledSMSChange()"
+                  >Enabled</mat-slide-toggle
+                >
+              </fieldset>
+            </div>
+            <div
+              class="mt-7"
+              *ngIf="locationForm.controls['enableSmsReceipt'].value"
+            >
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="smsApiKey"
+                    placeholder="API Key"
+                  />
+                  <label for="smsApiKey">API Key</label>
+
+                  <small
+                    class="text-danger"
+                    *ngIf="
+                      locationForm?.get('smsApiKey')?.errors?.required &&
+                      (locationForm?.get('smsApiKey')?.touched ||
+                        locationForm?.get('smsApiKey')?.dirty)
+                    "
+                  >
+                    API Key is required
+                  </small>
+                </div>
+              </fieldset>
+              <fieldset class="mb-3">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="smsMessageFormat"
+                    maxlength="100"
+                    placeholder="Thanks for visiting! Here's your receipt! '{link}"
+                  />
+                  <label for="smsApiKey"
+                    >Message Format - '((link))' will be subtituted with a link
+                    to customer's receipt.</label
+                  >
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div *ngIf="!formReady">
+  <app-table-skeleton></app-table-skeleton>
+</div>

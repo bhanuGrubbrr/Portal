@@ -1,0 +1,25 @@
+<div class="d-flex flex-stack flex-wrap">
+  <ul class="pagination">
+    <li (click)="goToPrev()" class="page-item previous">
+      <a class="page-link cursor-pointer">
+        <i class="previous"></i>
+      </a>
+    </li>
+
+    <li
+      *ngFor="let pg of clickablePages"
+      [ngClass]="{ 'page-item': true, active: page === pg }"
+      (click)="onClickPage(pg)"
+    >
+      <a class="page-link cursor-pointer">
+        {{ pg }}
+      </a>
+    </li>
+
+    <li (click)="goToNext()" class="page-item next">
+      <a class="page-link cursor-pointer">
+        <i class="next"></i>
+      </a>
+    </li>
+  </ul>
+</div>

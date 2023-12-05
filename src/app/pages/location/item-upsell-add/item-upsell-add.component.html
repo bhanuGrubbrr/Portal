@@ -1,0 +1,58 @@
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h4 class="card-title">Item Level Upsells</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        (saveButtonClickedEvent)="SaveUpsellGroup()"
+        [formDisabled]="!isformValid"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+
+  <div class="card-body max-h-50">
+    <div class="row mt-3">
+      <div class="col-12-6">
+        <form [formGroup]="propertiesForm" *ngIf="propertiesForm">
+          <div class="row">
+            <div class="col-md-10">
+              <label for="displayName" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                placeholder="Name"
+                (ngModelChange)="checkValidation()"
+                required
+              />
+            </div>
+            <div class="col-md-2">
+              <label for="status" class="form-label d-block"> Status </label>
+              <app-grubbrr-switch-form-control formControlName="enabled">
+              </app-grubbrr-switch-form-control>
+            </div>
+          </div>
+        </form>
+        <app-item-upsell-group
+          *ngIf="currentGroup"
+          type="Item Upsell Group"
+          [upsellID]="!upsellID ? '' : upsellID"
+          (selectOffer)="onSelectOffer($event)"
+          [currentGroup]="currentGroup"
+          [menuItems]="menuItems"
+          [otherItems]="triggers"
+        ></app-item-upsell-group>
+
+        <app-item-upsell-group
+          *ngIf="currentGroup"
+          type="Trigger Item"
+          [upsellID]="!upsellID ? '' : upsellID"
+          (selectOffer)="onSelectOffer($event)"
+          [currentGroup]="currentGroup"
+          [menuItems]="menuItems"
+          [otherItems]="offers"
+        ></app-item-upsell-group>
+      </div>
+    </div>
+  </div>
+</div>

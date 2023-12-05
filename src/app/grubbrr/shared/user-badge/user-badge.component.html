@@ -1,0 +1,12 @@
+<ng-container [ngSwitch]="badgeRole" *ngIf="badgeRole">
+  <ng-container *ngSwitchCase="'Admin'">
+    <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">{{
+      badgeRole
+    }}</span>
+  </ng-container>
+  <ng-container *ngSwitchCase="'User'">
+    <span class="badge badge-light-info fw-bolder fs-8 px-2 py-1 ms-2">{{
+      badgeRole
+    }}</span>
+  </ng-container>
+</ng-container>

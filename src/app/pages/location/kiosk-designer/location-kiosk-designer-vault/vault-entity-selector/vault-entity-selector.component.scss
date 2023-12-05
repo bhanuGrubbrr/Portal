@@ -1,0 +1,26 @@
+@use "sass:map";
+@import "../../../../../../assets/sass/_init.scss";
+
+.pos-vault-entity-selector {
+  border-radius: $card-border-radius;
+  border: 1px solid $gray-200;
+  transition: border 0.3s;
+
+  &-header {
+    transition: background 0.3s;
+    border-radius: $card-border-radius;
+  }
+
+  &--expanded &-header {
+    background-color: $primary-light;
+  }
+
+  &--expanded {
+    border-color: $primary;
+
+    .pos-vault-entity-selector-chevron {
+      transition: all 0.3s;
+      transform: rotate(90deg);
+    }
+  }
+}

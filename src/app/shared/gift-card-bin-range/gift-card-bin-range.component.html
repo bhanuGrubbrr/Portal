@@ -1,0 +1,84 @@
+<div class="gift-card-reg-code" [formGroup]="binForm">
+  <label class="mb-5"
+    ><strong>Gift Cards That Don't Require Reg Codes</strong></label
+  >
+  <div
+    class="row"
+    [class.mt-5]="index !== 0"
+    *ngFor="let bin of addDynamicRow?.controls; let index = index"
+  >
+    <div class="col-md-5">
+      <label *ngIf="index === 0">Start of Range</label>
+      <!-- <input type="hidden" [formControl]="$any(bin).get('id')" /> -->
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="$any(bin).get('from')"
+        (input)="validateNumber($event)"
+        maxlength="16"
+        min="0"
+      />
+    </div>
+    <div class="col-md-5">
+      <label *ngIf="index === 0">End of Range</label>
+      <input
+        type="text"
+        class="form-control"
+        [formControl]="$any(bin).get('to')"
+        (input)="validateNumber($event)"
+        maxlength="16"
+        min="0"
+      />
+    </div>
+    <div
+      class="col-md-2"
+      [class.mt-6]="index === 0"
+      [class.plus-icon-block]="index === 0"
+    >
+      <button
+        pButton
+        (click)="removeBinRow(index)"
+        title="Remove"
+        class="p-button-outlined"
+        icon="fa fa-minus"
+      ></button>
+    </div>
+    <label
+      *ngIf="
+        submitted &&
+          ($any(bin).get('from').errors?.maxlength ||
+            $any(bin).get('to').errors?.maxlength ||
+            $any(bin).get('from').errors?.minlength ||
+            $any(bin).get('to').errors?.minlength);
+        else rangeInvalid
+      "
+      class="mt-2 text-danger"
+    >
+      Card number should be 16 characters long
+    </label>
+    <ng-template #rangeInvalid>
+      <label
+        *ngIf="submitted && bin.errors?.rangeInvalid"
+        class="mt-2 text-danger"
+      >
+        End of Range must be greater than Start of Range.
+      </label>
+    </ng-template>
+  </div>
+  <label *ngIf="requiredError" class="mt-2 text-danger">
+    Please enter Start and End Range.
+  </label>
+  <label *ngIf="addDynamicRow.errors?.rangeIntersect" class="mt-2 text-danger">
+    This Range is already between set in the previous range.
+  </label>
+  <div class="mt-5">
+    <button
+      pButton
+      (click)="addBinRow()"
+      [disabled]="bins.length === MAX_BINS_ALLOWED"
+      title="Add"
+      class="p-button-outlined"
+      icon="fa fa-plus"
+    ></button>
+  </div>
+</div>

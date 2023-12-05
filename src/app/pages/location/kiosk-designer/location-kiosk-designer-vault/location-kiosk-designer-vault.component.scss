@@ -1,0 +1,6 @@
+@use "sass:map";
+@import "../../../../../assets/sass/_init.scss";
+
+.pos-vault-steps-col {
+  border-right: 1px solid $gray-200;
+}

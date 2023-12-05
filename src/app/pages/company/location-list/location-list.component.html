@@ -1,0 +1,117 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Company Locations</h3>
+    <div class="card-toolbar">
+      <a
+        routerLink="/company/{{ companyId }}/location/add"
+        matTooltip="'Add New Location'"
+        class="btn btn-sm btn-light me-2"
+        title="Add A New Location"
+        *writeConfigRequired="companyId"
+      >
+        <i class="fas fa-plus fs-4 me-2"></i>Add New
+      </a>
+    </div>
+  </div>
+  <div class="card-body">
+    <div *ngIf="!contentLoaded">
+      <app-table-skeleton></app-table-skeleton>
+    </div>
+    <div class="table-responsive" *ngIf="contentLoaded" [@inOutAnimation]>
+      <p-table
+        responsiveLayout="scroll"
+        dataKey="id"
+        editMode="row"
+        [value]="locations"
+        #dtItems
+        [rows]="50"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 25, 50, 100]"
+        [loading]="!contentLoaded"
+        styleClass="p-datatable-customers p-datatable-gridlines p-datatable-striped p-datatable-sm"
+        [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} locations"
+        [globalFilterFields]="['name']"
+      >
+        <ng-template pTemplate="caption">
+          <div class="d-flex flex-row mb-3">
+            <div class="p-2 flex-grow-1">
+              <span class="p-input-icon-left p-ml-auto">
+                <i class="pi pi-search"></i>
+                <input
+                  #filter
+                  pInputText
+                  type="text"
+                  (input)="dtItems.filterGlobal(filter.value, 'contains')"
+                  placeholder="Location Name"
+                />
+              </span>
+            </div>
+            <div class="p-2 pe-2">
+              <button
+                pButton
+                label="Clear"
+                pTooltip="Reset filters"
+                (click)="clear(dtItems, filter)"
+                class="p-button-outlined"
+                icon="pi pi-filter-slash"
+                tooltipPosition="bottom"
+              ></button>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">
+              Name
+              <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th>Uses CLM</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-location>
+          <tr>
+            <td>
+              <button
+                (click)="navigateToLocation(location.locationId, location.name)"
+                class="btn btn-sm btn-primary me-2"
+              >
+                {{ location.name }}
+              </button>
+            </td>
+            <td>
+              <span class="badge inactive-badge"> Yes </span>
+            </td>
+            <td class="text-center" valign="middle">
+              <a
+                [routerLink]="['/location', location.locationId, 'edit']"
+                matTooltip="Edit Location"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+                  class="svg-icon svg-icon-3"
+                ></span>
+              </a>
+              <a
+                (click)="openDeactiveModal(location.name, location.locationId)"
+                matTooltip="Delete Location"
+                class="btn btn-icon btn-active-color-danger btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/abstract/abs009.svg'
+                  "
+                  class="svg-icon svg-icon-success svg-icon-3"
+                ></span>
+              </a>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

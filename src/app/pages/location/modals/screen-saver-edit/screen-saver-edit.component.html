@@ -1,0 +1,221 @@
+<div class="modal-header">
+  <h5 class="modal-title">Editing {{ screenSaver.name }}</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="activeModal.close('dismiss')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <form
+          [formGroup]="screenSaverForm"
+          needs-validation
+          novalidate
+          (keydown.enter)="$event.preventDefault()"
+        >
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                  placeholder="Name"
+                />
+                <label for="name" class="form-label">Name</label>
+                <div *ngIf="(f.name.invalid && f.name.touched) || f.name.dirty">
+                  <small class="text-danger" *ngIf="f.name.errors?.required"
+                    >Name is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="sliderText"
+                  placeholder="Slider Text"
+                />
+                <label for="sliderText">Slider Text</label>
+                <div
+                  *ngIf="
+                    (f.sliderText.invalid && f.sliderText.touched) ||
+                    f.sliderText.dirty
+                  "
+                >
+                  <small
+                    class="text-danger"
+                    *ngIf="f.sliderText.errors?.required"
+                    >Slider Text is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <textarea
+                  type="text"
+                  class="form-control"
+                  formControlName="description"
+                  rows="10"
+                  placeholder="Description"
+                >
+                </textarea>
+                <label for="description" class="form-label">Description</label>
+                <div
+                  *ngIf="
+                    (f.description.invalid && f.description.touched) ||
+                    f.description.dirty
+                  "
+                >
+                  <small
+                    class="text-danger"
+                    *ngIf="f.description.errors?.required"
+                    >Description is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-6">
+              <div class="form-floating mb-3">
+                <div
+                  class="btn-group w-100 w-lg-25"
+                  data-kt-buttons="true"
+                  data-kt-buttons-target="[data-kt-button]"
+                >
+                  <label
+                    #imageLabel
+                    class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary"
+                    data-kt-button="true"
+                  >
+                    <input
+                      class="btn-check"
+                      type="radio"
+                      id="mediaType"
+                      formControlName="mediaType"
+                      (click)="toggleMediaType(0)"
+                      value="Image"
+                    />
+                    Image
+                  </label>
+                  <label
+                    #videoLabel
+                    class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary active"
+                    data-kt-button="true"
+                  >
+                    <input
+                      class="btn-check"
+                      type="radio"
+                      id="mediaType"
+                      formControlName="mediaType"
+                      checked="checked"
+                      (click)="toggleMediaType(1)"
+                      value="Video"
+                    />
+                    Video
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-floating mb-3">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="duration"
+                  placeholder="Duration"
+                />
+                <label for="duration">Duration</label>
+                <div
+                  *ngIf="
+                    (f.duration.invalid && f.duration.touched) ||
+                    f.duration.dirty
+                  "
+                >
+                  <small class="text-danger" *ngIf="f.duration.errors?.required"
+                    >Duration is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-12">
+              <div
+                class="form-group"
+                formGroupName="image"
+                style="max-width: 350px"
+              >
+                <div></div>
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="url"
+                    (change)="
+                      handleInputFile($event, KioskImageTypeEnum.ScreenSaver)
+                    "
+                  />
+                  <label
+                    #uploadFileImageLabel
+                    class="custom-file-label"
+                    for="url"
+                    >Choose file</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="videoUrl"
+                  placeholder="Video Url"
+                />
+                <label for="videoUrl" class="form-label">Video Url</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close('close')"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close('save')"
+  >
+    Save
+  </button>
+</div>

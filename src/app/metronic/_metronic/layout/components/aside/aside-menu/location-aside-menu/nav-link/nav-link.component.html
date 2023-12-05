@@ -1,0 +1,22 @@
+<ng-template #template>
+  <div
+    class="menu-item"
+    routerLinkActive="here show hover showing"
+    data-kt-menu-trigger="click"
+  >
+    <div class="menu-link">
+      <span class="menu-bullet">
+        <span class="bullet bullet-dot"></span>
+      </span>
+      <a
+        class="menu-title"
+        routerLinkActive="active"
+        [routerLink]="routerLink"
+        [queryParams]="queryParams"
+        [routerLinkActiveOptions]="routerLinkActiveOptions"
+      >
+        {{ title }}
+      </a>
+    </div>
+  </div>
+</ng-template>

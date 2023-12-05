@@ -1,0 +1,41 @@
+@import "../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../assets/sass/layout/variables";
+
+.table-info-one {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-right: 15px;
+  width: 5%;
+}
+.table-info,
+.table-info-two {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-right: 15px;
+  width: 15%;
+}
+.table-info-two {
+  width: 40%;
+}
+
+.menu-category-row-block {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 1rem;
+}
+
+.menu-category-row {
+  background-color: #fafbfc;
+  border-top: 2px solid $grubbrr-gray-blue;
+  border-bottom: 2px solid $grubbrr-gray-blue;
+  box-shadow: none;
+}
+.table-info-three {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  width: 20%;
+}

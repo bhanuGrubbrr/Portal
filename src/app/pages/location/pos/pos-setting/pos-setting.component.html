@@ -1,0 +1,83 @@
+<form [formGroup]="posForm">
+  <div *ngIf="!contentLoaded">
+    <app-table-skeleton></app-table-skeleton>
+  </div>
+
+  <div *ngIf="showPosList" class="mt-10" #posList [@inOutAnimation]>
+    <div class="mb-10 fv-row">
+      <h3>Please Select your POS</h3>
+      <div class="row mb-2" data-kt-buttons="true">
+        <div class="col" *ngFor="let posType of posTypes">
+          <input
+            formControlName="pos"
+            type="radio"
+            class="btn-check"
+            value="{{ posType.posIntegrationId }}"
+            id="{{ posType.posIntegrationId }}"
+            (click)="posSelected(posType.posIntegrationId)"
+          />
+
+          <label
+            class="btn btn-outline btn-outline-dashed btn-outline-default w-100 p-4"
+            for="{{ posType.posIntegrationId }}"
+          >
+            <span class="fw-bolder fs-3">
+              <i class="fas fa-cash-register pe-4"></i>
+              {{ posType.displayName }}</span
+            ></label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!showPosList" [@inOutAnimation]>
+    <div class="pt-4" *ngIf="posName">
+      <div class="row mb-10">
+        <div class="col">
+          <h3 class="d-inline">{{ posName }}</h3>
+          <button
+            mat-button
+            type="button"
+            class="float-end me-10"
+            (click)="openChangePosModal(posName)"
+          >
+            <i
+              [ngClass]="[
+                'fas fs-4 me-2 ',
+                changePos ? 'fa-lock-open' : 'fa-lock'
+              ]"
+            ></i>
+            Change Pos
+          </button>
+          <button
+            *ngIf="requiresPosProxy"
+            mat-button
+            type="button"
+            class="float-end me-10"
+            (click)="syncProxy()"
+          >
+            Sync Proxy Menu
+          </button>
+          <button
+            *ngIf="requiresPosProxy"
+            mat-button
+            type="button"
+            class="float-end me-10"
+            (click)="openPosProxyAgentOnBoard()"
+          >
+            Pos Proxy Login Code
+          </button>
+        </div>
+      </div>
+      <app-dynamic-form
+        [shouldResetForm]="false"
+        *ngIf="fields$"
+        [fields$]="fields$"
+        [patchValues]="patchValues"
+        (formSavingEvent)="onSettingsSubmit($event)"
+      >
+      </app-dynamic-form>
+    </div>
+  </div>
+</form>

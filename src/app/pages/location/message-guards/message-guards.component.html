@@ -1,0 +1,214 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">{{ pageTitle }}</h3>
+    <div class="card-toolbar">
+      <a
+        *ngIf="!EditMode && !MappingMode"
+        matTooltip="Add New Order Type"
+        (click)="enterNewEdit()"
+        title="Add A New Order Type"
+        class="btn btn-sm btn-light me-2"
+      >
+        <i class="fas fa-plus fs-4 me-2"></i>Add New
+      </a>
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+        [formDisabled]="EditMode && PropertiesForm.invalid"
+      ></app-save-cancel-button>
+
+      <a
+        *ngIf="EditMode || MappingMode"
+        (click)="default()"
+        class="btn btn-danger"
+        >Cancel</a
+      >
+    </div>
+  </div>
+
+  <div class="card-body p4" *ngIf="showLoader">
+    <app-menu-skeleton></app-menu-skeleton>
+  </div>
+
+  <app-location-inheritance-banner
+    *ngIf="!showLoader"
+    [title]="'Menu Linked'"
+    [body]="'Changes made will override data coming from the parent location.'"
+    [hasParentLocation]="hasParentLocation"
+  >
+  </app-location-inheritance-banner>
+
+  <ng-container *ngIf="!EditMode && !MappingMode">
+    <div *ngIf="!showLoader" class="d-flex flex-column w-50">
+      <div class="ms-5 my-5">
+        <h3 class="mb-5">Guards</h3>
+        <div class="mb-5 d-flex flex-row">
+          <!-- <div class="form-check mb-3 me-5">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="OrderType.id"
+              (input)="HandleInput($event)"
+              [checked]="UpsellsEnabled"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Enabled
+            </label>
+          </div> -->
+        </div>
+        <div
+          cdkDropList
+          class="example-list"
+          (cdkDropListDropped)="drop(MessageGuards, $event)"
+        >
+          <div
+            class="example-box"
+            *ngFor="let guard of MessageGuards; let i = index"
+            cdkDrag
+          >
+            {{ guard?.name }}
+            <div class="handle" cdkDragHandle>
+              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+                ></path>
+                <path d="M0 0h24v24H0z" fill="none"></path>
+              </svg>
+            </div>
+            <div (click)="enterEditMode(guard, i)" class="secondary-button">
+              <svg
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z"
+                />
+              </svg>
+            </div>
+            <div (click)="deleteGuard(guard, i)" class="delete-button">
+              <svg
+                width="12"
+                height="12"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="EditMode && !MappingMode">
+    <div class="d-flex">
+      <div
+        *ngIf="!showLoader"
+        class="d-flex flex-column align-items-baseline ms-5 mb-5 me-10"
+      >
+        <div class="my-5" [formGroup]="PropertiesForm">
+          <h3>Name</h3>
+          <div>
+            <input
+              formControlName="name"
+              type="text"
+              placeholder="Name"
+              class="filterer w-100"
+              maxlength="40"
+            />
+          </div>
+          <br />
+          <div formGroupName="message">
+            <h3>Title</h3>
+            <div>
+              <input
+                formControlName="title"
+                type="text"
+                placeholder="title"
+                class="filterer w-100"
+                maxlength="40"
+              />
+            </div>
+            <br />
+            <h3>Subtitle</h3>
+            <div>
+              <input
+                formControlName="subtitle"
+                type="text"
+                placeholder="subtitle"
+                class="filterer w-100"
+                maxlength="200"
+              />
+            </div>
+            <br />
+            <app-image-upload-control
+              restrictionsText="JPG, PNG, GIF, or WEBP up to 2MB"
+              formControlName="image"
+            >
+            </app-image-upload-control>
+          </div>
+          <select formControlName="trigger">
+            <option
+              *ngFor="let enum of triggers | keyvalue; let c = index"
+              [value]="enum.value"
+            >
+              {{ enum.key }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="my-5 d-flex flex-row px-10">
+        <div class="d-flex flex-column me-5">
+          <h3>Items</h3>
+          <div
+            class="d-flex"
+            *ngFor="let item of CurrentGuard.items; let i = index"
+          >
+            <select [(ngModel)]="CurrentGuard.items[i]">
+              <option
+                *ngFor="let item of availableItems; let c = index"
+                [value]="item.id"
+              >
+                {{ item.name }}
+              </option>
+            </select>
+            <button (click)="deleteItemMapping(i)">DELETE</button>
+          </div>
+          <button (click)="addNewItemMapping()">Add new mapping</button>
+        </div>
+        <div class="d-flex flex-column">
+          <h3>Categories</h3>
+          <div
+            class="d-flex"
+            *ngFor="category; of: CurrentGuard.categories; let i = index"
+          >
+            <select [(ngModel)]="CurrentGuard.categories[i]">
+              <option
+                *ngFor="let cat of availableCats; let c = index"
+                [value]="cat.id"
+              >
+                {{ cat.name }}
+              </option>
+            </select>
+            <button (click)="deleteCategoryMapping(i)">DELETE</button>
+          </div>
+          <button (click)="addNewCategoryMapping()">Add new mapping</button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="MappingMode">
+    <app-item-category-mappings
+      #itemMappings
+      [locationId]="locationId"
+      [guards]="MessageGuards"
+    ></app-item-category-mappings>
+  </ng-container>
+</div>

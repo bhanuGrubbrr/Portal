@@ -1,0 +1,40 @@
+<div *ngIf="active" class="backdrop" (click)="deactivate()"></div>
+<div class="action-chevron" id="action-chevron" (click)="activate()">
+  <i
+    *ngIf="!active; else chevronUp"
+    id="chevron-down"
+    class="fa-solid fa-chevron-down"
+  ></i>
+  <ng-template #chevronUp>
+    <i id="chevron-up" class="fa-solid fa-chevron-up"></i>
+  </ng-template>
+  <div *ngIf="active" [style]="styleObject" class="dropdown">
+    <div
+      *ngFor="let concept of concepts; index as i"
+      class="concept-row"
+      (click)="select(concept)"
+    >
+      <div
+        class="check-box"
+        [ngClass]="{ selected: concept.id === activeConceptId }"
+      >
+        <i
+          *ngIf="concept.id === activeConceptId"
+          class="check fas fa-check"
+          style="font-size: 2rem"
+        ></i>
+      </div>
+
+      <div
+        class="info-box"
+        [ngClass]="{ selected: concept.id === activeConceptId }"
+      >
+        <img
+          src="{{ concept.theme?.media?.categoryHeader }}"
+          class="concept-image"
+        />
+        <div class="concept-name">{{ concept.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>

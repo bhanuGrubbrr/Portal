@@ -1,0 +1,14 @@
+e2e
+.angular
+node_modules
+pnpm-lock.yaml
+karma.conf.js
+.eslintrc.json
+src/app/grubbrr/generated
+*.graphql
+src/assets/
+package.json
+package-lock.json
+tsconfig.json
+tsconfig.spec.json
+tsconfig.app.json

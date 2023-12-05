@@ -1,0 +1,68 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Manage Users</h3>
+    <div class="card-toolbar">
+      <a
+        (click)="openEditUser()"
+        class="btn btn-sm btn-light me-2"
+        matTooltip="Add A New User"
+        aria-title="Add A New User"
+      >
+        <i class="fas fa-plus fs-4 me-2"></i>Add New
+      </a>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="!contentLoaded">
+      <app-table-skeleton></app-table-skeleton>
+    </div>
+    <div class="table-responsive" *ngIf="contentLoaded" [@inOutAnimation]>
+      <table
+        id="tblCompanies"
+        class="table table-striped table-hover table-row-bordered border g-2"
+      >
+        <thead>
+          <tr class="fw-bold fs-6 text-muted">
+            <th>Email</th>
+            <th>Role</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" class="test">
+            <td>{{ user.email }}</td>
+            <td>
+              {{ user.role }}
+            </td>
+            <td class="text-center" valign="middle">
+              <a
+                (click)="openEditUser(user)"
+                matTooltip="Edit User"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+              <a
+                (click)="openDeactiveModal(user)"
+                matTooltip="Remove User"
+                class="btn btn-icon btn-active-color-danger btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-danger svg-icon-3"
+                ></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

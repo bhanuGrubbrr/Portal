@@ -1,0 +1,68 @@
+<p-confirmPopup></p-confirmPopup>
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Item Upsells</h3>
+    <div class="card-toolbar">
+      <div>
+        <a
+          routerLink="/location/{{ locationId }}/menu/item-upsell-new/add"
+          class="btn btn-success ms-2"
+        >
+          <span class="indicator-label">Create New</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="loading">
+    <app-list-skeleton></app-list-skeleton>
+  </div>
+  <div class="card-body" *ngIf="!loading">
+    <div cdkDropList (cdkDropListDropped)="drop(groupData, $event)">
+      <div *ngFor="let item of groupData; let i = index" cdkDrag>
+        <div class="mb-5">
+          <div class="menu-category-row">
+            <div class="menu-category-row-block">
+              <div class="text-secondary cursor-move table-info-one">
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/layouts/lay011.svg'
+                  "
+                >
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; width: 100%">
+                <div class="table-info-two">
+                  {{ groupData[i].properties?.name }}
+                </div>
+
+                <div class="table-info-three">
+                  <a
+                    class="btn btn-icon"
+                    routerLink="/location/{{
+                      locationId
+                    }}/menu/item-upsell-new/add"
+                    [queryParams]="{ id: i }"
+                    ><i class="fas fa-edit fs-4"></i
+                  ></a>
+
+                  <button
+                    class="btn btn-icon me-3"
+                    (click)="confirm($event, item)"
+                  >
+                    <i class="fas fa-trash fs-4"></i>
+                  </button>
+                  <app-grubbrr-switch
+                    #enabled
+                    [value]="groupData[i].properties?.enabled"
+                    (switchValueChange)="toggleUpsellStatus(item)"
+                  >
+                  </app-grubbrr-switch>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

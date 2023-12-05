@@ -1,0 +1,156 @@
+<div class="card p-5">
+  <div class="d-flex mb-3">
+    <div class="me-auto p-2"><h3>Menu Sync Schedule</h3></div>
+    <div class="p-2">
+      <button
+        type="button"
+        (click)="onAddSyncSchedule()"
+        class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+      >
+        <span class="indicator-label">Add New Sync Schedule</span>
+      </button>
+    </div>
+    <div class="p-2">
+      <button
+        type="button"
+        (click)="onSubmit()"
+        class="btn btn-outline btn-primary btn-active-light-primary me-2"
+        [disabled]="saving"
+      >
+        <ng-container *ngIf="!saving">
+          <span class="indicator-label">Save</span>
+        </ng-container>
+
+        <ng-container *ngIf="saving">
+          <span class="disabled" [style.display]="'block'">
+            Saving...{{ " " }}
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div *ngIf="!contentLoaded">
+        <app-table-skeleton></app-table-skeleton>
+      </div>
+      <div *ngIf="contentLoaded" class="container-fluid">
+        <div *ngIf="posSyncTrackings">
+          <div *ngFor="let tracking of posSyncTrackings">
+            <form class="form-inline">
+              <details class="card-body">
+                <summary>
+                  <div class="card card-flush card-bordered">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <h3 class="me-5">{{ tracking.displayTime }}</h3>
+                        <div
+                          class="me-3"
+                          *ngFor="let dayOfWeek of daysOfWeek | keyvalue"
+                          [ngClass]="[
+                            tracking.daysOfTheWeek?.includes(dayOfWeek.key)
+                              ? 'text-primary'
+                              : ''
+                          ]"
+                        >
+                          {{ dayOfWeek.value.charAt(0) }}
+                        </div>
+                      </div>
+
+                      <div class="card-toolbar">
+                        <button
+                          type="button"
+                          class="btn btn-icon btn-active-color-danger btn-sm me-1"
+                          (click)="onDelete(tracking)"
+                          matTooltip="Delete Scheduled Sync"
+                        >
+                          <span
+                            [inlineSVG]="
+                              './assets/media/icons/duotune/general/gen027.svg'
+                            "
+                            class="svg-icon svg-icon-danger svg-icon-3"
+                          ></span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </summary>
+
+                <div class="card-body">
+                  <h5>Time of day:</h5>
+
+                  <select
+                    class="form-select"
+                    name="scheduleHour"
+                    (change)="onHourSelect(tracking, $event)"
+                  >
+                    <option value="">--</option>
+                    <option
+                      *ngFor="let hour of hoursInDay"
+                      [selected]="tracking.displayHour === hour"
+                      value="{{ hour }}"
+                    >
+                      {{ hour }}
+                    </option>
+                  </select>
+
+                  :
+                  <select
+                    class="form-select"
+                    name="hourQuarter"
+                    (change)="onHourQuarterSelect(tracking, $event)"
+                  >
+                    <option value="">--</option>
+                    <option
+                      *ngFor="let quarterHour of quarterHours"
+                      [selected]="tracking.scheduleHourQuarter === quarterHour"
+                      value="{{ quarterHour }}"
+                    >
+                      {{ quarterHour === 0 ? "00" : quarterHour }}
+                    </option>
+                  </select>
+
+                  <select
+                    class="form-select ms-2"
+                    name="meridiem"
+                    (change)="onMeridiemSelect(tracking, $event)"
+                  >
+                    <option value="">--</option>
+                    <option [selected]="tracking.isAM" value="am">AM</option>
+                    <option [selected]="!tracking.isAM" value="pm">PM</option>
+                  </select>
+
+                  Coordinated Universal Time (UTC)
+
+                  <h5 class="mt-4">Select days of the week:</h5>
+                  <div
+                    class="float-start"
+                    *ngFor="let dayOfWeek of daysOfWeek | keyvalue"
+                  >
+                    <div
+                      class="btn me-2 mt-2"
+                      [ngClass]="[
+                        tracking.daysOfTheWeek?.includes(dayOfWeek.key)
+                          ? 'btn-primary'
+                          : 'btn-outline btn-outline-primary btn-outline-dashed'
+                      ]"
+                      (click)="onDayOfWeekSelect(tracking, dayOfWeek.key)"
+                    >
+                      <span class="indicator-label">
+                        {{ dayOfWeek.value }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<ul
+  class="kiosk-designer-breadcrumb font-weight-bold breadcrumb fw-semibold fs-7 pt-4 pb-4 ps-3 pe-3"
+>
+  <!--begin::Item-->
+  <li *ngFor="let item of breadcrumbs; let i = index" class="breadcrumb-item">
+    <ng-template [ngIf]="i + 1 !== breadcrumbs.length">
+      <a
+        (click)="onClickItemLink(item)"
+        class="text-gray-700 text-hover-primary"
+      >
+        {{ item.label }}
+      </a>
+    </ng-template>
+    <ng-template [ngIf]="i + 1 === breadcrumbs.length">
+      {{ item.label }}
+    </ng-template>
+  </li>
+</ul>

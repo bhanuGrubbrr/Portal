@@ -1,0 +1,51 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Locale</h3>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="w-25 mb-10">
+      <h2 class="mb-5">Kiosk Locale</h2>
+      <form *ngIf="Loaded" [formGroup]="LocaleForm">
+        <ng-container formGroupName="currency">
+          <label for="currency-locale" class="form-label"
+            >Choose a currency:</label
+          >
+          <select
+            name="status"
+            id="currency-locale"
+            class="form-select form-select-sm"
+            formControlName="code"
+          >
+            <option
+              *ngFor="let currency of currencyOptions"
+              [value]="currency.code"
+            >
+              {{ currency.label }}
+            </option>
+          </select>
+        </ng-container>
+        <br />
+        <ng-container formGroupName="locale">
+          <label for="locale" class="form-label">Choose a Locale:</label>
+          <select
+            name="status"
+            id="locale"
+            class="form-select form-select-sm"
+            formControlName="code"
+          >
+            <option *ngFor="let locale of localeOptions" [value]="locale.code">
+              {{ localeLabel(locale.code) }}
+            </option>
+          </select>
+        </ng-container>
+      </form>
+    </div>
+  </div>
+</div>

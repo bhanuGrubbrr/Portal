@@ -1,0 +1,17 @@
+<div class="mt-4">
+  <app-entity-typeahead-search
+    [label]="label"
+    [placeholder]="placeholder"
+    [typeaheadOptions]="availableItems"
+    [getSuggestionLabel]="getSuggestionLabel"
+    [getSuggestionLabelId]="getSuggestionLabelId"
+    (selectOption)="onSelectOption($event)"
+  >
+  </app-entity-typeahead-search>
+  <div class="mt-4 d-flex flex-wrap">
+    <div *ngFor="let item of value">
+      <app-entity-badge [label]="getName(item)" (remove)="onRemoveItem(item)">
+      </app-entity-badge>
+    </div>
+  </div>
+</div>

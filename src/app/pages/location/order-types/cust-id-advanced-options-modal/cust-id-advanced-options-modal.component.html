@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h5 class="modal-title">Name Options</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <label class="form-label col-4 align-self-center"
+        >Ask for Name Before Order
+      </label>
+      <div class="col-8">
+        <mat-slide-toggle
+          color="primary"
+          matTooltip="Show the Prompt for Name screen before or after placing the order."
+          [(ngModel)]="nameSettings.askBeforeOrder"
+        ></mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="close(false)"
+  >
+    Cancel
+  </button>
+  <button type="button" class="btn btn-primary" (click)="close(true)">
+    Accept
+  </button>
+</div>

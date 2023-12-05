@@ -1,0 +1,89 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Text Overrides</h3>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="w-25 mb-10">
+      <label class="form-label">Current Language</label>
+      <select class="form-select" (change)="languageChanged($event)">
+        <option *ngFor="let lang of languages" [value]="lang.id">
+          {{ lang.label }}
+        </option>
+      </select>
+    </div>
+    <label class="ml-5 mt-5 mb-2"
+      >Modify default words and phrases. Phrases with brackets allow for data to
+      be inserted for respective overrides.</label
+    >
+    <div class="table-responsive">
+      <table
+        id="tblLangauges"
+        class="table table-striped table-hover table-row-bordered border g-2"
+      >
+        <thead>
+          <tr class="fw-bold fs-6 text-muted pt-2">
+            <th class="col-2">Page</th>
+            <th class="col-3">Element</th>
+            <th class="col-3">Default Text</th>
+            <th class="col-4">Override Text</th>
+            <th class="col-1">Blank</th>
+            <th class="col-1">Reset</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let languageRowModel of gridData"
+            [style.background]="languageRowModel.color"
+          >
+            <td class="ml-5">
+              <label class="col-form-label">{{ languageRowModel.page }}</label>
+            </td>
+            <td class="ml-5">
+              <label class="col-form-label">{{
+                languageRowModel.element
+              }}</label>
+            </td>
+            <td class="ml-5">
+              {{ languageRowModel.default }}
+            </td>
+            <td class="ml-5">
+              <input
+                type="text"
+                class="form-control w-max h-max"
+                [(ngModel)]="languageRowModel.override"
+              />
+            </td>
+            <td class="ml-5" style="text-align: center; vertical-align: middle">
+              <input
+                type="checkbox"
+                matTooltip="Override with blank text"
+                class="form-check-input"
+                [checked]="languageRowModel.blank"
+                (change)="blank(languageRowModel, $event)"
+              />
+            </td>
+            <td class="ml-5">
+              <a
+                (click)="reset(languageRowModel)"
+                matTooltip="Reset to default"
+                class="btn btn-icon btn-active-color-danger btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="'./assets/media/icons/duotune/arrows/arr029.svg'"
+                  class="svg-icon svg-icon-danger svg-icon-4"
+                ></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

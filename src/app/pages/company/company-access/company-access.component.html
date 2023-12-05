@@ -1,0 +1,60 @@
+<div class="col">
+  <div class="card p-3">
+    <div class="d-flex justify-content-between text-center">
+      <h1>Company Users</h1>
+      <app-company-access-add-user
+        *writeAccessRequired="companyId"
+        (newItemEvent)="newUserAdded($event)"
+      ></app-company-access-add-user>
+    </div>
+  </div>
+  <div class="card p-5 table-responsive">
+    <table class="table table-striped gx-5">
+      <thead>
+        <tr>
+          <th scope="col">Email</th>
+          <th scope="col">Access</th>
+          <th scope="col" *writeAccessRequired="companyId">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of companyUsers">
+          <td>{{ user.userEmail }}</td>
+          <td>
+            <span
+              [ngClass]="[
+                'badge fw-bolder me-auto px-4 py-3 ',
+                user.role?.name === 'FullAccess' ? 'bg-success' : 'bg-primary'
+              ]"
+            >
+              {{ user.role?.display }}
+            </span>
+          </td>
+          <td *writeAccessRequired="companyId">
+            <a
+              (click)="openEditAccessModal(user)"
+              matTooltip="Edit Access"
+              class="btn btn-icon btn-active-color-primary btn-sm me-1"
+            >
+              <span
+                [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+                class="svg-icon svg-icon-3"
+              ></span>
+            </a>
+
+            <a
+              (click)="openRemoveAccessModal(user)"
+              matTooltip="Remove Access"
+              class="btn btn-icon btn-active-color-danger btn-sm me-1"
+            >
+              <span
+                [inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+                class="svg-icon svg-icon-danger svg-icon-3"
+              ></span>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

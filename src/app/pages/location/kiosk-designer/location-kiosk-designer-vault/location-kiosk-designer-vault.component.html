@@ -1,0 +1,49 @@
+<div class="card shadow-sm mb-10">
+  <div class="card-body pt-0 pb-0">
+    <div class="row">
+      <div class="col-md-3 pos-vault-steps-col">
+        <div class="d-flex flex-column mt-5 mb-5">
+          <div>
+            <app-vault-step-row
+              stepCount="01"
+              title="Menu Pull"
+              subtitle="Pull menu from POS"
+            >
+            </app-vault-step-row>
+            <app-vault-step-row
+              stepCount="02"
+              title="Category"
+              subtitle="Add categories to your menu"
+            >
+            </app-vault-step-row>
+            <app-vault-step-row
+              stepCount="03"
+              title="Item"
+              subtitle="Add items to your menu"
+            >
+            </app-vault-step-row>
+            <app-vault-step-row
+              stepCount="04"
+              title="Modifier Groups"
+              subtitle="Add modifier groups to your menu"
+            >
+            </app-vault-step-row>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div *ngIf="categories" class="p-5">
+          <h5>02 Category - POS Category header</h5>
+          <p class="text-muted">a bunch of great text here</p>
+          <ng-template ngFor let-item [ngForOf]="categories">
+            <app-vault-entity-selector
+              [entity]="item"
+              [children]="item.children"
+            >
+            </app-vault-entity-selector>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+.parent-example-box {
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
+  z-index: 1;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.parent-example-box:hover {
+  background: rgba(17, 255, 17, 0.067);
+}
+
+.handle {
+  color: #ccc;
+  cursor: move;
+}
+
+.cdk-drag-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 45px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.parent-example-list.cdk-drop-list-dragging
+  .parent-example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.inactive-badge-container {
+  width: 70px;
+  margin-right: 15px;
+}
+.display-name-container {
+  width: 15%;
+  margin-right: 15px;
+}
+.inactive-badge {
+  color: grey;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}

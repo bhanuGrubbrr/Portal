@@ -1,0 +1,198 @@
+<ng-container *ngIf="loading">
+  <app-boxes-skeleton></app-boxes-skeleton>
+</ng-container>
+<ng-container *ngIf="!loading">
+  <div class="row g-5 g-xxl-8 pb-10">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">
+            Dashboard Summary and KPI Report
+            <i class="fas fa-info-circle fa ms-2 me-2" matTooltip="....."></i>
+            Current Range: {{ dateLabel }}
+          </h3>
+          <div class="card-link mt-3 d-flex justify-content-evenly">
+            <div class="m-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter a date range </mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input
+                    matStartDate
+                    placeholder="Start date"
+                    [value]="initialStartDate"
+                    #dateRangeStart
+                  />
+                  <input
+                    #dateRangeEnd
+                    matEndDate
+                    placeholder="End date"
+                    [value]="initialEndDate"
+                    (dateChange)="
+                      fireCalendarEvent(dateRangeStart, dateRangeEnd)
+                    "
+                  />
+                </mat-date-range-input>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-date-range-picker
+                  #picker
+                  [calendarHeaderComponent]="CustomHeaderComponent"
+                ></mat-date-range-picker>
+                <div
+                  class="position-absolute translate-middle-y top-50 end-0 me-3"
+                >
+                  <!--begin::Svg Icon | path: icons/duotune/finance/fin002.svg-->
+                  <i
+                    class="fas fa-info-circle fa"
+                    matTooltip="To limit the report to a certain date range, type a range of dates here or click to choose them from the calendar."
+                  ></i>
+                </div>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-5 g-xxl-8">
+    <div class="col-xl-6">
+      <div class="card">
+        <div class="card-body">
+          <h3>Sales Summary</h3>
+
+          <div
+            class="d-flex"
+            *ngFor="let reportField of report?.summary?.reportFields"
+          >
+            <div class="p-2 flex-grow-1 reportfield">
+              {{ reportField.label
+              }}<i
+                class="fas fa-info-circle fa ms-2"
+                matTooltip="{{ reportField.tooltip }}"
+                matTooltipPosition="right"
+              ></i>
+            </div>
+            <div class="p-2 reportfield">
+              {{ reportField.value | currency : report.currencyCode }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="row mb-5">
+        <div class="col-6">
+          <app-stats-widget5
+            class="card bg-primary hoverable h-100"
+            color="primary"
+            title="{{ report.averageOrder | currency : report.currencyCode }}"
+            description="Average Order"
+          ></app-stats-widget5>
+        </div>
+        <div class="col-6">
+          <app-stats-widget5
+            class="card bg-success hoverable mb-5"
+            color="success"
+            title="{{ report.highestOrder | currency : report.currencyCode }}"
+            description="Highest Order"
+          ></app-stats-widget5>
+          <app-stats-widget5
+            class="card bg-info hoverable"
+            color="info"
+            title="{{ report.lowestOrder | currency : report.currencyCode }}"
+            description="Lowest Order"
+          ></app-stats-widget5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <app-stats-widget5
+            class="card bg-dark hoverable mb-5 mb-xl-8"
+            color="info"
+            title="{{
+              report.totalNumberOfOrders | number : '' : report.localeCode
+            }}"
+            description="Total Orders"
+          ></app-stats-widget5>
+        </div>
+        <div class="col-4">
+          <app-stats-widget5
+            class="card bg-dark hoverable mb-5 mb-xl-8"
+            color="info"
+            title="{{ report.totalTips | currency : report.currencyCode }}"
+            description="Total Tips"
+          ></app-stats-widget5>
+        </div>
+        <div class="col-4">
+          <app-stats-widget5
+            class="card bg-dark hoverable mb-5 mb-xl-8"
+            color="info"
+            title="{{ report.totalUpsells | currency : report.currencyCode }}"
+            description="Total Upsells"
+          ></app-stats-widget5>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-5 g-xxl-8 pb-10">
+      <div class="col-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Top 5 Items</h3>
+          </div>
+          <div class="card-link">
+            <div class="card flex justify-content-center">
+              <p-chart
+                height="300"
+                type="doughnut"
+                [data]="topSellersItemData"
+                [options]="options"
+              ></p-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Top 5 Categories</h3>
+          </div>
+          <div class="card-link">
+            <div class="card flex justify-content-center">
+              <p-chart
+                height="300"
+                type="doughnut"
+                [data]="topSellersCategoryData"
+                [options]="options"
+              ></p-chart>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hiding the Customer Section for now, until we can define what they are, set the other div to col-8 when ready -->
+      <div class="col-4" *ngIf="false">
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Customers</h3></div>
+          <div class="card card-link">
+            <div
+              class="d-flex fw-bold fs-1"
+              *ngFor="
+                let customerReportField of report?.customers?.reportFields
+              "
+            >
+              <div class="p-2 flex justify-content-start">
+                {{ customerReportField.value }}
+              </div>
+              <div class="p-2 flex justify-content-start">
+                {{ customerReportField.label }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

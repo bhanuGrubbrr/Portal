@@ -1,0 +1,15 @@
+<div class="concept-header">
+  <div
+    class="image-row"
+    [ngStyle]="{ background: '#fff url(' + image + ') no-repeat 0 0' }"
+  ></div>
+  <div class="concept-selector">
+    <div class="selector-text">{{ activeConcept.name }}</div>
+    <app-concept-switcher-dropdown
+      [concepts]="concepts"
+      [activeConceptId]="activeConcept.id"
+      (conceptChangeEvent)="selectConcept($event)"
+    ></app-concept-switcher-dropdown>
+  </div>
+  <div class="schedule-text"></div>
+</div>

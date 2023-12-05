@@ -1,0 +1,6 @@
+<div *ngFor="let field of fields$ | async" class="form-row">
+  <app-dynamic-form-field
+    [field]="field"
+    [dynamicform]="dynamicform"
+  ></app-dynamic-form-field>
+</div>

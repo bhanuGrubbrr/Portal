@@ -1,0 +1,33 @@
+<div class="row align-items-top">
+  <div class="col-6">
+    <label class="form-label">{{ label }}</label>
+    <div class="custom-file">
+      <input
+        type="file"
+        class="custom-file-input"
+        id="logo"
+        accept="file_type | image/* | media_type"
+        (change)="handleUpload($event)"
+      />
+
+      <label class="custom-file-label" for="url">{{ mediaAsset?.name }}</label>
+    </div>
+  </div>
+  <div class="offset-3 col-3 text-end">
+    <label class="form-label">Preview</label>
+    <div>
+      <img class="img-fluid" [src]="mediaAsset?.displayUrl" />
+    </div>
+    <a
+      (click)="remove()"
+      matTooltip="Remove Image"
+      class="btn btn-icon btn-active-color-primary btn-sm me-1"
+    >
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen027.svg'"
+        class="svg-icon svg-icon-3"
+        fill="none"
+      ></span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="d-flex flex-row align-items-center mb-3">
+  <div class="p-2">
+    <ngx-colors
+      class="d-inline"
+      ngx-colors-trigger
+      acceptLabel="Set"
+      [(ngModel)]="colorValue"
+      [id]="colorPickerName"
+      (input)="updateColorPicker($event)"
+    >
+    </ngx-colors>
+  </div>
+  <div class="p-2">
+    <input
+      type="text"
+      [id]="inputName"
+      [value]="colorValue"
+      class="form-control d-inline"
+      (change)="colorPickerChange($event)"
+    />
+  </div>
+</div>

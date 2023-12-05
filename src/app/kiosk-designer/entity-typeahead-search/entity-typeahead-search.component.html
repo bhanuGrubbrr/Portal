@@ -1,0 +1,25 @@
+<label *ngIf="label" for="displayName" class="searchbox-label form-label">
+  {{ label }}
+</label>
+<div class="searchbox-container">
+  <div class="search-icon-container">
+    <i class="search-icon fa-solid fa-magnifying-glass"></i>
+  </div>
+  <input
+    type="text"
+    class="form-control searchbox"
+    placeholder="{{ placeholder }}"
+    required
+    [(ngModel)]="searchQuery"
+  />
+  <ul class="list-container" *ngIf="searchQuery">
+    <li
+      (click)="onClickOption(option)"
+      *ngFor="let option of visibleOptions; let i = index"
+      class="item{{ i + 1 < visibleOptions.length ? ' bar' : '' }}"
+    >
+      <div class="item-name">{{ getSuggestionLabel(option) }}</div>
+      <div class="item-id">#{{ getSuggestionLabelId(option) }}</div>
+    </li>
+  </ul>
+</div>

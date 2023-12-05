@@ -1,0 +1,57 @@
+<div class="card card-custom card-sticky">
+  <div class="card-header border-0">
+    <h3 class="card-title">{{ locationName }}</h3>
+  </div>
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    [(activeId)]="currentTabIndex"
+    class="nav-tabs nav nav-tabs justify-content-flex-start fade show"
+  >
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Menu</a>
+      <ng-template ngbNavContent>
+        <app-kiosk-designer-menu
+          [locationId]="locationId"
+        ></app-kiosk-designer-menu>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Categories</a>
+      <ng-template ngbNavContent>
+        <app-kiosk-designer-menu-categories
+          [locationId]="locationId"
+        ></app-kiosk-designer-menu-categories>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Items</a>
+      <ng-template ngbNavContent>
+        <app-kiosk-designer-menu-items
+          [locationId]="locationId"
+        ></app-kiosk-designer-menu-items>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Modifier Groups</a>
+      <ng-template ngbNavContent>
+        <app-kiosk-designer-modifier-groups
+          [locationId]="locationId"
+        ></app-kiosk-designer-modifier-groups>
+      </ng-template>
+    </li>
+
+    <li [ngbNavItem]="5">
+      <a ngbNavLink>Modifiers</a>
+      <ng-template ngbNavContent>
+        <app-modifiers [locationId]="locationId"></app-modifiers>
+      </ng-template>
+    </li>
+  </ul>
+  <div class="card-body">
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>

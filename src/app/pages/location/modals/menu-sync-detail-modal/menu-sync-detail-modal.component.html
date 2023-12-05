@@ -1,0 +1,95 @@
+<div class="modal-header">
+  <div class="d-flex justify-content-start">
+    <h5 class="modal-title">Log Details</h5>
+  </div>
+  <div class="d-flex justify-content-end align-items-center">
+    <div class="me-4">
+      <h5>Duration: {{ duration | date : "mm:ss" }}</h5>
+    </div>
+    <div>
+      <span
+        [ngClass]="[
+          'badge fw-bolder me-auto px-4 py-3 ',
+          syncRecord.status === 'Exception' ? 'bg-danger' : 'bg-success'
+        ]"
+      >
+        {{ syncRecord.status }}
+      </span>
+    </div>
+  </div>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <ng-container [ngSwitch]="recordStatus">
+        <ng-container *ngSwitchCase="'error'">
+          <div class="text-center">
+            <p>Exception occurred importing your menu</p>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'fullmenu'">
+          <div class="fullmenu">
+            <i class="fas fa-utensils d-inline me-4"></i>
+            <h2 class="d-inline">Imported Full Menu</h2>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'hasRecords'">
+          <ng-container>
+            <table
+              class="table table-striped"
+              *ngIf="allItemPropertyChanges.length > 0"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let menuChange of itemItemPropertyChanges;
+                    trackBy: trackById
+                  "
+                >
+                  <td>{{ menuChange.id }}</td>
+                  <td>{{ menuChange.name }}</td>
+                  <td>{{ menuChange.type }}</td>
+                  <td>
+                    <ul style="list-style: none">
+                      <li *ngFor="let propChange of menuChange.propertyChanges">
+                        Property: {{ propChange.property }} <br />
+                        Was: {{ propChange.prev }} <br />
+                        Is: {{ propChange.new }}
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+          <ng-container *ngIf="!allItemPropertyChanges.length">
+            <div class="fullmenu">
+              <i class="fa-solid fa-magnifying-glass-minus d-inline me-4"></i>
+              <h2 class="d-inline">{{ noChangesMessage }}</h2>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="me-4" *ngIf="syncRecord.snapshotId">
+      <p>Sync ID: {{ syncRecord.snapshotId }}</p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close('close')"
+  >
+    Close
+  </button>
+</div>

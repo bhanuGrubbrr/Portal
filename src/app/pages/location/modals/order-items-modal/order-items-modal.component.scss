@@ -1,0 +1,91 @@
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+.header-details div div div {
+  min-width: 250px;
+  text-overflow: ellipsis;
+}
+
+th[scope="col"] {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.button-item-refund {
+  background-color: #ffc24e;
+  color: #fff;
+}
+
+.button-partial-refund {
+  background-color: #ffa800;
+  color: #fff;
+}
+
+.refunded-text {
+  color: #f1416c !important;
+}
+th[scope="col"] .form-check-input {
+  border-bottom-width: 1px;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+}
+
+::ng-deep ngb-accordion .card-header {
+  min-height: auto !important;
+  padding-bottom: 2px !important;
+}
+
+span::-webkit-scrollbar,
+ol::-webkit-scrollbar,
+ul::-webkit-scrollbar,
+pre::-webkit-scrollbar,
+div::-webkit-scrollbar {
+  width: 0.8rem;
+  height: 0.4rem;
+}
+
+::ng-deep ngb-accordion .card .card-header {
+  padding-left: 7%;
+}
+
+.card.card-bordered {
+  border: 1px solid #a1a5b7;
+}
+
+.order-detail-total-row {
+  background-color: #f5f8fa;
+}
+
+.order-detail-card {
+  background-color: #f5f8fa;
+  border-radius: $border-radius;
+  padding: $container-padding-x;
+}
+
+.order-detail-comma-sep-modifier-list {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline;
+
+    &:after {
+      content: ", ";
+    }
+
+    &:last-of-type::after {
+      content: "";
+    }
+  }
+}
+
+// TODO: bootstrap's utility class `font-weight-bold` should cover
+// this but it isn't included in our selection of BS classes in
+// asssets/sass/core/components. If that's added, this can be replaced
+.order-detail-bold {
+  font-weight: $font-weight-bold;
+}

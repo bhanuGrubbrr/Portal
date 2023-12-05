@@ -1,0 +1,132 @@
+<form
+  [formGroup]="itemForm"
+  (ngSubmit)="onSubmit()"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+  *ngIf="formReady"
+>
+  <div class="card shadow-sm mb-10">
+    <div class="card-header">
+      <h4 class="card-title">Edit Item</h4>
+      <div class="card-toolbar">
+        <app-save-cancel-button
+          class="me-2"
+          [formDisabled]="false"
+          [saving]="false"
+          [backURL]="
+            '/location/' + locationId + '/kiosk-designer/menu?tab=' + tab
+          "
+          (saveButtonClickedEvent)="onSubmit()"
+        ></app-save-cancel-button>
+      </div>
+    </div>
+    <div class="card-body max-h-50">
+      <div class="row">
+        <div class="col">
+          <h2>
+            {{ menuItem?.pos?.name }}
+            <app-entity-id-badge
+              *ngIf="menuItem?.pos?.id"
+              [entityId]="menuItem?.pos?.id"
+            >
+            </app-entity-id-badge>
+          </h2>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-10">
+              <label for="displayName" class="form-label">Display Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="displayName"
+                placeholder="Name"
+                required
+              />
+            </div>
+            <div class="col-md-2">
+              <label for="isActive" class="form-label d-block"> Status </label>
+              <app-grubbrr-switch-form-control formControlName="isActive">
+              </app-grubbrr-switch-form-control>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              formControlName="description"
+              rows="5"
+              placeholder="{{ descriptionPlaceholderText }}"
+            ></textarea>
+          </div>
+          <div class="mt-4">
+            <label for="calorieText" class="form-label">Calorie Label</label>
+            &nbsp;<i
+              class="fas fa-circle-question fa"
+              matTooltip="
+            This is a calorie text that will show under the item or modifier (example: “100 cal”)"
+            ></i>
+            <input
+              type="text"
+              maxlength="25"
+              class="form-control"
+              formControlName="calorieText"
+              placeholder="Calorie Label"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button class="btn btn-success me-2 assigned-locations">
+            Assigned Locations
+          </button>
+
+          <app-image-upload-control
+            restrictionsText="JPG, PNG, GIF, or WEBP up to 2MB, Min. pixels 320 for width and height required"
+            formControlName="image"
+          >
+          </app-image-upload-control>
+          <div class="mt-10">
+            <app-radio-selector-control
+              label="Modifier Display"
+              [options]="modifierDisplayOptions"
+              formControlName="modifierDisplayMode"
+            >
+            </app-radio-selector-control>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4" formArrayName="layoutUpdates" *ngIf="!loading">
+        <div
+          *ngIf="menuLayoutAssoicationFormControlIndex > -1"
+          [formGroupName]="menuLayoutAssoicationFormControlIndex"
+        >
+          <div class="row">
+            <div class="col-md-6">
+              <app-entity-multi-select
+                label="Categories"
+                [availableItems]="selectableCategorys"
+                formControlName="categories"
+                [getName]="getCategoryDisplayName"
+                [getSuggestionLabel]="getCategoryDisplayName"
+                [getSuggestionLabelId]="getCategoryId"
+              >
+              </app-entity-multi-select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <app-modifier-group-list-editor
+          [availableItems]="allModifierGroups"
+          [locationId]="locationId"
+          formControlName="modifierGroups"
+        >
+        </app-modifier-group-list-editor>
+      </div>
+    </div>
+  </div>
+</form>

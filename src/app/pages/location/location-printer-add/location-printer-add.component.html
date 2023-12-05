@@ -1,0 +1,87 @@
+<form
+  *ngIf="addPrinterForm"
+  [formGroup]="addPrinterForm"
+  novalidate
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card card-custom">
+    <div class="card-header">
+      <h4 class="card-title">{{ pageTitle }}</h4>
+      <div class="card-toolbar">
+        <app-save-cancel-button
+          class="me-2"
+          (saveButtonClickedEvent)="onSubmit()"
+          [formDisabled]="addPrinterForm.invalid"
+        ></app-save-cancel-button>
+      </div>
+    </div>
+
+    <div class="card-body" *ngIf="formReady">
+      <div class="row">
+        <div class="col-md-6">
+          <label for="name" class="form-label">Printer Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Printer Name"
+          />
+
+          <div *ngIf="(f.name.invalid && f.name.touched) || f.name.dirty">
+            <small class="text-danger" *ngIf="f.name.errors?.required"
+              >Printer Name is required</small
+            >
+          </div>
+        </div>
+
+        <div class="col-md-8 py-5">
+          <label>
+            <input type="checkbox" formControlName="kitchenPrinter" /> Backup
+            Printer<i
+              class="fas fa-info-circle fa ms-2 me-2"
+              matTooltip="It will print KOTs for paid failed orders"
+            ></i>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label for="model" class="form-label">Model</label>
+          <select
+            name="model"
+            class="form-select"
+            (ngModelChange)="modelChanged($event)"
+            formControlName="model"
+          >
+            <option>Epson TM88</option>
+            <option>Seiko</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 pt-5">
+          <label for="ipAddress" class="form-label">Ip Address</label>
+
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ipAddress"
+            placeholder="Enter an Ip Address"
+          />
+          <div
+            *ngIf="
+              (f.ipAddress.invalid && f.ipAddress.touched) || f.ipAddress.dirty
+            "
+          >
+            <small class="text-danger" *ngIf="f.ipAddress.errors?.required"
+              >Ip Address is required</small
+            ><small class="text-danger" *ngIf="f.ipAddress.errors?.pattern"
+              >Ip Address is not valid</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

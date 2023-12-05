@@ -1,0 +1,9 @@
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+.checkbox-card {
+  border: 1px solid $light-blue-gray;
+  border-radius: 5px;
+  padding: 15px 10px;
+  cursor: pointer;
+}

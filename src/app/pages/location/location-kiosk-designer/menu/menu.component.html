@@ -1,0 +1,99 @@
+<div *ngIf="!loaded">
+  <app-list-skeleton></app-list-skeleton>
+</div>
+<ng-container *ngIf="loaded">
+  <app-concept-switcher
+    *ngIf="activeConcept && conceptsEnabled"
+    [concepts]="concepts"
+    [activeConcept]="activeConcept"
+    (conceptChangeEvent)="setActiveConceptId($event)"
+  ></app-concept-switcher>
+  <div class="d-flex mb-4">
+    <div class="d-flex flex-grow-1">
+      <div class="w-100 form-floating mb-3">
+        <input
+          class="form-control"
+          id="orderTableSearch"
+          placeholder="Search Category"
+          (input)="handleSearchChange($event)"
+          [(ngModel)]="searchQuery"
+        />
+        <label for="orderTableSearch"
+          ><span
+            class="pr-2"
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen062.svg'"
+          ></span
+          >Search Menu</label
+        >
+      </div>
+    </div>
+    <div class="ms-2">
+      <select
+        class="form-select status-dropdown"
+        name="items"
+        [(ngModel)]="statusFilter"
+        (change)="changeStatusFilter()"
+      >
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
+        <option value="3">All</option>
+      </select>
+    </div>
+    <div>
+      <a
+        routerLink="/location/{{ locationId }}/kiosk-designer/menu/category/add"
+        class="btn btn-success ms-2"
+      >
+        <span class="indicator-label">Create Category</span>
+      </a>
+    </div>
+  </div>
+  <div
+    cdkDropList
+    class="category-list"
+    (cdkDropListDropped)="drop(categories, $event)"
+  >
+    <div *ngFor="let category of categories" cdkDrag>
+      <app-menu-category-row
+        [locationId]="locationId"
+        [isLoyaltyEnabled]="isLoyaltyEnabled"
+        [layout]="layout"
+        [category]="category"
+        [allItems]="allItems"
+        (clickItemToAdd)="onClickAddItem($event)"
+        (clickRemoveCategory)="onClickRemoveCategory($event)"
+        (clickEditMenuItem)="onClickEditMenuItem(locationId, $event)"
+        (clickRemoveMenuItem)="onClickRemoveItem(category, $event)"
+        (clickColumnSelection)="onClickColumnSelection($event)"
+        [showSubcategoryMenuItems]="false"
+        (sortCategoryItems)="onSortCategoryItems($event)"
+        (setLoyaltyOnly)="onSetLoyaltyOnly($event)"
+        [level]="0"
+        [statusFilter]="statusFilter"
+      >
+      </app-menu-category-row>
+    </div>
+  </div>
+  <app-add-entity-button
+    *ngIf="!isCategoryTypeaheadVisible"
+    (clickAddButton)="showCategoryAdder()"
+    label="Add Category"
+  >
+  </app-add-entity-button>
+  <div *ngIf="isCategoryTypeaheadVisible">
+    <app-entity-typeahead-search
+      (selectOption)="onSelectOption($event)"
+      [getSuggestionLabelId]="getSuggestionLabelId"
+      [getSuggestionLabel]="getSuggestionLabel"
+      [typeaheadOptions]="availableCategoriesToAdd"
+    >
+    </app-entity-typeahead-search>
+  </div>
+  <p
+    class="mt-5"
+    *ngIf="!categories || (categories && categories.length === 0)"
+  >
+    There are no menus in the system. Before you create a new menu, make sure
+    you have configured a menu or synched with a POS in at least one location
+  </p>
+</ng-container>

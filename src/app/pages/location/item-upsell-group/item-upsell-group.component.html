@@ -1,0 +1,58 @@
+<div class="mt-5">
+  <div class="d-flex align-items-center justify-content-between">
+    <h3 class="mb-0">{{ type }}</h3>
+  </div>
+  <div class="mt-5 mb-5 border border-secondary">
+    <div class="d-flex w-100 align-items-baseline">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop(offers, $event)"
+        class="d-flex flex-column w-100"
+      >
+        <div
+          class="d-flex align-items-center parent-example-box ps-5 pe-5 pt-3 pb-3 border border-secondary d-block bg-white overflow-hidden position-relative"
+          *ngFor="let section of offers; let i = index"
+          cdkDrag
+        >
+          <div class="me-4">
+            <span
+              class="svg-icon-primary svg-icon-2x"
+              [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+            >
+            </span>
+          </div>
+          <div class="d-flex flex-grow-1">
+            <div class="d-flex align-items-center display-name-container">
+              <div class="font-weight-bold text-md">
+                {{ section.object.name }}
+              </div>
+              <div class="item-id">#{{ section.object.id }}</div>
+            </div>
+          </div>
+          <div (click)="RemoveOffer(i)" class="delete-button">
+            <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M23 20.168l-8.185-8.187 8.185-8.174-2.832-2.807-8.182 8.179-8.176-8.179-2.81 2.81 8.186 8.196-8.186 8.184 2.81 2.81 8.203-8.192 8.18 8.192z"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-add-entity-button
+      *ngIf="!isCategoryTypeaheadVisible"
+      (clickAddButton)="showCategoryAdder()"
+      label="{{ buttonText }}"
+    >
+    </app-add-entity-button>
+    <div *ngIf="isCategoryTypeaheadVisible">
+      <app-entity-typeahead-search
+        (selectOption)="onSelectOption($event)"
+        [getSuggestionLabelId]="getSuggestionLabelId"
+        [getSuggestionLabel]="getSuggestionLabel"
+        [typeaheadOptions]="availableCategoriesToAdd"
+      >
+      </app-entity-typeahead-search>
+    </div>
+  </div>
+</div>

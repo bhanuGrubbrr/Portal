@@ -1,0 +1,24 @@
+<button
+  type="button"
+  (click)="onSubmit()"
+  [disabled]="formDisabled"
+  class="btn btn-success me-2"
+>
+  <ng-container *ngIf="!saving">
+    <span class="indicator-label">Save</span>
+  </ng-container>
+
+  <ng-container *ngIf="saving">
+    <span class="indicator-progress" [style.display]="'block'">
+      Please wait...{{ " " }}
+      <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+    </span>
+  </ng-container>
+</button>
+
+<a
+  (click)="this.navigation.back(backURL)"
+  class="btn btn-danger"
+  *ngIf="showCancelButton"
+  >Cancel</a
+>

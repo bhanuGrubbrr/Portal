@@ -1,0 +1,303 @@
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h4 class="card-title">Loyalty</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [formDisabled]="false"
+        [saving]="false"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="saveDefaultLoyaltyRewardImage()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body max-h-50" *ngIf="this.loyaltyMedia">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Profile Header Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="
+                    handleImageChange($event, 'defaultProfileHeaderImage')
+                  "
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  HEADER?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    HEADER?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-profile-header-image.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultProfileHeaderImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Top Corner Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="handleImageChange($event, 'defaultTopCornerImage')"
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  TOP_CORNER?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    TOP_CORNER?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-corner-image.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultTopCornerImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Rewards Background Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="
+                    handleImageChange($event, 'defaultRewardsBackgroundImage')
+                  "
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  REWARDS_BACKGROUND?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    REWARDS_BACKGROUND?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-background-image.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultRewardsBackgroundImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Reward Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="handleImageChange($event, 'defaultRewardImage')"
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  REWARD?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    REWARD?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-reward-image.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultRewardImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Profile Footer Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="
+                    handleImageChange($event, 'defaultProfileFooterImage')
+                  "
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  FOOTER?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    FOOTER?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-footer-image.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultProfileFooterImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Checkout Header Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="
+                    handleImageChange($event, 'defaultCheckoutHeaderImage')
+                  "
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  CHECKOUT_HEADER?.file?.name
+                }}</label>
+              </div>
+            </div>
+            <div class="offset-3 col-3 text-end">
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="
+                    CHECKOUT_HEADER?.preview ??
+                    './assets/media/previews/loyalty/default-loyalty-checkout-header.png'
+                  "
+                />
+              </div>
+              <a
+                (click)="removeImageChange('defaultCheckoutHeaderImage')"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+
+          <app-appearance-asset
+            label="Default Loyalty Sign In Header"
+            [(mediaAsset)]="this.loyaltyMedia.defaultSignInHeaderImage"
+          ></app-appearance-asset>
+
+          <app-appearance-asset
+            label="Default Loyalty Sign In Instructions"
+            [(mediaAsset)]="this.loyaltyMedia.defaultLoyaltyInstructionsImage"
+          ></app-appearance-asset>
+
+          <app-appearance-asset
+            label="Default Loyalty Sign In Perks Image"
+            [(mediaAsset)]="this.loyaltyMedia.defaultLoyaltyPerksImage"
+          ></app-appearance-asset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div
+  *ngIf="hasParentLocation"
+  class="card-body alert alert-primary d-flex flex-column p-4 mb-2"
+>
+  <div class="d-flex flex-column">
+    <h4 class="mb-1 text-dark">{{ title }}</h4>
+    <span>{{ body }}</span>
+  </div>
+  <button
+    type="button"
+    class="position-absolute my-auto end-0 btn"
+    (click)="linkToLocationSettings()"
+  >
+    Edit Parent Link
+  </button>
+</div>

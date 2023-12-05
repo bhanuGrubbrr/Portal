@@ -1,0 +1,68 @@
+<div class="mt-5">
+  <h3>Modifiers</h3>
+  <div>
+    <app-entity-list-breadcrumbs
+      (clickItem)="clickBreadcrumb($event)"
+      [breadcrumbs]="modifierBreadcrumbs"
+    >
+    </app-entity-list-breadcrumbs>
+  </div>
+  <div class="mt-5 mb-5 border border-secondary">
+    <!-- THESE STYLES ARE REALLY BAD PLZ UPDATE WHEN WE KNOW THE REAL UI -->
+    <div class="p-4 d-flex">
+      <div class="flex-grow-1 text-uppercase text-muted">Modifier</div>
+      <div class="text-uppercase text-muted modifier-row-invisible">
+        Invisible Modifier
+      </div>
+      <div class="text-uppercase text-muted text-center modifier-row-price">
+        Extra Price
+      </div>
+      <div class="text-uppercase text-muted modifier-row-is-active">
+        Max Qty
+      </div>
+      <div class="text-uppercase text-muted modifier-row-is-default">
+        Selected by default?
+      </div>
+    </div>
+
+    <div class="d-flex w-100 align-items-baseline">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+        class="d-flex flex-column w-100"
+      >
+        <div
+          class="border border-secondary d-block bg-white overflow-hidden"
+          *ngFor="let item of currentModifierList"
+          cdkDrag
+        >
+          <app-modifier-row
+            (clickRemove)="onClickRemoveModifier($event)"
+            [item]="item"
+            [locationId]="locationId"
+            (clickModifierName)="navigateToNestedModifier($event)"
+            (modifierChanged)="updateModifier($event)"
+          >
+          </app-modifier-row>
+        </div>
+      </div>
+    </div>
+    <app-add-entity-button
+      *ngIf="!isAdding"
+      (clickAddButton)="onClickAdd()"
+      label="Add Modifier"
+    >
+    </app-add-entity-button>
+    <div class="p-4" *ngIf="isAdding">
+      <app-entity-typeahead-search
+        (selectOption)="onSelectOption($event)"
+        [getSuggestionLabelId]="getSuggestionLabelId"
+        [getSuggestionLabel]="getSuggestionLabel"
+        [typeaheadOptions]="availableItems"
+        [placeholder]="'Enter Modifier Name'"
+        [modifierGroupId]="modifierGroupId"
+      >
+      </app-entity-typeahead-search>
+    </div>
+  </div>
+</div>

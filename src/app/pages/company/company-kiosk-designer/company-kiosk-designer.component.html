@@ -1,0 +1,35 @@
+<div class="card card-custom card-sticky">
+  <div class="card-header border-0">
+    <h3 class="card-title">{{ companyName }}</h3>
+  </div>
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    [(activeId)]="currentTabIndex"
+    class="nav-tabs nav nav-tabs justify-content-flex-start fade show"
+  >
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Menu</a>
+      <ng-template ngbNavContent>
+        <app-company-kiosk-designer-menu
+          [companyId]="companyId"
+        ></app-company-kiosk-designer-menu>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Categories</a>
+      <ng-template ngbNavContent> Categories content </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Items</a>
+      <ng-template ngbNavContent> Items content </ng-template>
+    </li>
+    <li [ngbNavItem]="4">
+      <a ngbNavLink>Modifier Groups</a>
+      <ng-template ngbNavContent> Modifier Groups content </ng-template>
+    </li>
+  </ul>
+  <div class="card-body">
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>

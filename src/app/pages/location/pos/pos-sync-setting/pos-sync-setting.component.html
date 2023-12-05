@@ -1,0 +1,102 @@
+<form [formGroup]="posSyncForm" *ngIf="posSyncForm">
+  <div class="row mt-10">
+    <h3>Configure which new records import as active</h3>
+    <div class="row mt-10">
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="checkbox"
+          class="form-check-input me-3"
+          formControlName="menuCategoryOverrides"
+        />
+        Categories
+      </label>
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="checkbox"
+          class="form-check-input me-3"
+          formControlName="menuItemOverrides"
+        />
+        Items
+      </label>
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="checkbox"
+          class="form-check-input me-3"
+          formControlName="modifierGroupOverrides"
+        />
+        Modifier Groups
+      </label>
+      <label class="form-check-label ps-2 mb-2">
+        <span
+          ><input
+            type="checkbox"
+            class="form-check-input me-3"
+            formControlName="modifierOverrides"
+          />
+          Modifiers</span
+        >
+        &nbsp;<i
+          class="fas fa-info-circle fa"
+          matTooltip="
+        This will mark any item that are also modifiers as active when imported
+        "
+        ></i>
+      </label>
+    </div>
+  </div>
+  <div class="row mt-10">
+    <h3>Configure how POS updates are pushed to the kiosk after a POS Sync</h3>
+    <div class="row mt-10">
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="radio"
+          class="form-check-input me-3"
+          formControlName="updates"
+          value="kioskPriceUpdate"
+        />
+        Only update pricing on the kiosk
+      </label>
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="radio"
+          class="form-check-input me-3"
+          formControlName="updates"
+          value="kioskFullMenuUpdate"
+        />
+        Automatically update the full menu on the kiosk
+      </label>
+      <label class="form-check-label ps-2 mb-2">
+        <input
+          type="radio"
+          class="form-check-input me-3"
+          formControlName="updates"
+          value="kioskNoUpdate"
+        />
+        Do not update the kiosk
+      </label>
+    </div>
+  </div>
+  <div class="row mt-10">
+    <div class="col-12">
+      <button
+        type="button"
+        (click)="onSubmit()"
+        class="btn btn-success me-2"
+        [disabled]="posSyncForm.invalid"
+      >
+        <ng-container *ngIf="!saving">
+          <span class="indicator-label">Save</span>
+        </ng-container>
+
+        <ng-container *ngIf="saving">
+          <span class="indicator-progress" [style.display]="'block'">
+            Please wait...{{ " " }}
+            <span
+              class="spinner-border spinner-border-sm align-middle ms-2"
+            ></span>
+          </span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</form>

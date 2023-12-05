@@ -1,0 +1,13 @@
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+.plus-square {
+  background: $light-blue-gray;
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+
+  i {
+    font-size: 2rem;
+  }
+}

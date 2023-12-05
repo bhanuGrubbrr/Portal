@@ -1,0 +1,84 @@
+<div *ngIf="!loaded">
+  <app-boxes-skeleton></app-boxes-skeleton>
+</div>
+
+<div *ngIf="loaded">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Features</h3>
+    </div>
+    <div class="row m-5">
+      <div class="col-6 col-xs-12">
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="form-check form-check-solid mb-5 ml-2 toggle-2">
+                <label>Support Multi-Concepts</label>
+                <mat-slide-toggle
+                  color="primary"
+                  class="form-check-input input-color me-8"
+                  type="checkbox"
+                  name="inheritKioskSettings"
+                  matTooltip="Turn on Multi-Concepts to show different concept/restaurant menus at the same time on the kiosk. You will be able to configure different menu items for each concept."
+                  [checked]="conceptsEnabled"
+                  (change)="
+                    conceptsToggle(this.locationId, this.conceptsEnabled)
+                  "
+                >
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-xs-12">
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="form-check form-check-solid mb-5 ml-2 toggle-2">
+                <label>Show Item Calories</label>
+                <mat-slide-toggle
+                  color="primary"
+                  class="form-check-input input-color me-8"
+                  type="checkbox"
+                  name="inheritKioskSettings"
+                  [checked]="caloriesEnabled"
+                  (change)="
+                    caloriesToggle(this.locationId, this.caloriesEnabled)
+                  "
+                >
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-xs-12">
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="form-check form-check-solid mb-5 ml-2 toggle-2">
+                <label>Item Special Requests</label>
+                <mat-slide-toggle
+                  color="primary"
+                  class="form-check-input input-color me-8"
+                  type="checkbox"
+                  name="inheritKioskSettings"
+                  [checked]="itemSpecialRequestEnabled"
+                  (change)="
+                    itemSpecialRequestToggle(
+                      this.locationId,
+                      this.caloriesEnabled
+                    )
+                  "
+                >
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

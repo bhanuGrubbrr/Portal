@@ -1,0 +1,78 @@
+<div class="modal-header">
+  <h5 class="modal-title">Please Confirm?</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="activeModal.close('dismiss')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        <!--begin::Svg Icon | path: assets/media/icons/duotune/general/gen040.svg-->
+        <span class="svg-icon svg-icon-danger svg-icon-5x"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <rect
+              opacity="0.3"
+              x="2"
+              y="2"
+              width="20"
+              height="20"
+              rx="10"
+              fill="black"
+            />
+            <rect
+              x="7"
+              y="15.3137"
+              width="12"
+              height="2"
+              rx="1"
+              transform="rotate(-45 7 15.3137)"
+              fill="black"
+            />
+            <rect
+              x="8.41422"
+              y="7"
+              width="12"
+              height="2"
+              rx="1"
+              transform="rotate(45 8.41422 7)"
+              fill="black"
+            /></svg
+        ></span>
+        <!--end::Svg Icon-->
+      </div>
+      <div class="col-md-10">
+        <p class="text-center">Do you really want to delete {{ staffName }}?</p>
+      </div>
+    </div>
+    <div class="row"></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close('cancel')"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    (click)="activeModal.close(staffId)"
+  >
+    DELETE
+  </button>
+</div>

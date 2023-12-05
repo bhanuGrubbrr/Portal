@@ -1,0 +1,348 @@
+<div *ngIf="!loaded">
+  <app-boxes-skeleton></app-boxes-skeleton>
+</div>
+
+<div *ngIf="loaded">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Colors</h3>
+      <button
+        type="submit"
+        [disabled]="!this.kioskColors"
+        class="btn btn-success m-5"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+    </div>
+    <div class="row m-5">
+      <div class="col">
+        <table class="table table-borderless">
+          <tbody>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Primary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'primary')
+                          "
+                          [colorValue]="this.kioskColors.primary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Primary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onPrimary')
+                          "
+                          [colorValue]="this.kioskColors.onPrimary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Secondary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'secondary')
+                          "
+                          [colorValue]="this.kioskColors.secondary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Secondary color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onSecondary')
+                          "
+                          [colorValue]="this.kioskColors.onSecondary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Tertiary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'tertiary')
+                          "
+                          [colorValue]="this.kioskColors.tertiary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Tertiary Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onTertiary')
+                          "
+                          [colorValue]="this.kioskColors.onTertiary"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Background</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'background')
+                          "
+                          [colorValue]="this.kioskColors.background"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Background Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onBackground')
+                          "
+                          [colorValue]="this.kioskColors.onBackground"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Surface Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'surface')
+                          "
+                          [colorValue]="this.kioskColors.surface"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Surface Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onSurface')
+                          "
+                          [colorValue]="this.kioskColors.onSurface"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            <tr>
+              <div class="row">
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>Error Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'error')
+                          "
+                          [colorValue]="this.kioskColors.error"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-xs-12">
+                  <div class="form-group">
+                    <div class="row align-items-center">
+                      <div class="col-4">
+                        <label>On Error Color</label>
+                      </div>
+                      <div class="col-8">
+                        <app-color-input
+                          (colorChangedEvent)="
+                            onColorChangedEvent($event, 'onError')
+                          "
+                          [colorValue]="this.kioskColors.onError"
+                        >
+                        </app-color-input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+        <h6 class="card-title">Loyalty Colors</h6>
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label>On Loyalty Accent</label>
+            </div>
+            <div class="col-8">
+              <app-color-input
+                (colorChangedEvent)="
+                  onLoyaltyColorChangedEvent($event, 'onLoyaltyAccent')
+                "
+                [colorValue]="this.loyaltyColors.onLoyaltyAccent"
+              >
+              </app-color-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label>Loyalty</label>
+            </div>
+            <div class="col-8">
+              <app-color-input
+                (colorChangedEvent)="
+                  onLoyaltyColorChangedEvent($event, 'loyalty')
+                "
+                [colorValue]="this.loyaltyColors.loyalty"
+              >
+              </app-color-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label>On Loyalty</label>
+            </div>
+            <div class="col-8">
+              <app-color-input
+                (colorChangedEvent)="
+                  onLoyaltyColorChangedEvent($event, 'onLoyalty')
+                "
+                [colorValue]="this.loyaltyColors.onLoyalty"
+              >
+              </app-color-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label>Loyalty Accent</label>
+            </div>
+            <div class="col-8">
+              <app-color-input
+                (colorChangedEvent)="
+                  onLoyaltyColorChangedEvent($event, 'loyaltyAccent')
+                "
+                [colorValue]="this.loyaltyColors.loyaltyAccent"
+              >
+              </app-color-input>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row align-items-center">
+            <div class="col-4">
+              <label>Loyalty Background</label>
+            </div>
+            <div class="col-8">
+              <app-color-input
+                (colorChangedEvent)="
+                  onLoyaltyColorChangedEvent($event, 'loyaltyBackground')
+                "
+                [colorValue]="this.loyaltyColors.loyaltyBackground"
+              >
+              </app-color-input>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

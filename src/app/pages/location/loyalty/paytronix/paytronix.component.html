@@ -1,0 +1,110 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h4 class="card-title fs-5">Paytronix</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex">
+      <div class="w-50 mb-10" [formGroup]="PaytronixForm">
+        <div class="mb-5">
+          <label for="locationKey">Merchant Id</label>
+          <input
+            class="form-control mb-5"
+            id="merchantId"
+            placeholder="Merchant Id"
+            formControlName="merchantId"
+            type="number"
+          />
+          <label for="businessKey">Store Code</label>
+          <input
+            class="form-control mb-5"
+            id="storeCode"
+            placeholder="Store Code"
+            formControlName="storeCode"
+            type="text"
+          />
+          <label for="businessKey">Operator Id</label>
+          <input
+            class="form-control mb-5"
+            id="operatorId"
+            placeholder="Operator Id"
+            formControlName="operatorId"
+            type="number"
+          />
+          <label for="businessKey">Terminal Id</label>
+          <input
+            class="form-control mb-5"
+            id="terminalId"
+            placeholder="Terminal Id"
+            formControlName="terminalId"
+            type="number"
+          />
+          <label for="businessKey">Url</label>
+          <input
+            class="form-control mb-5"
+            id="url"
+            placeholder="Url"
+            formControlName="url"
+          />
+          <label for="businessKey">API Version</label>
+          <input
+            class="form-control mb-5"
+            id="apiVersion"
+            placeholder="API Version"
+            formControlName="apiVersion"
+          />
+          <label for="businessKey">Loyalty Template Code</label>
+          <input
+            class="form-control mb-5"
+            id="loyaltyTemplateCode"
+            placeholder="Loyalty Template Code"
+            formControlName="loyaltyTemplateCode"
+            type="number"
+          />
+        </div>
+        <label for="businessKey">Loyalty Wallet Code</label>
+        <input
+          class="form-control mb-5"
+          id="loyaltyWalletCode"
+          placeholder="Loyalty Wallet Code"
+          formControlName="loyaltyWalletCode"
+          type="number"
+        />
+      </div>
+      <div class="w-25 ms-10" [formGroup]="ConfigForm">
+        <div class="mb-5 mt-10">
+          <div class="mb-2">
+            <input
+              class="form-check-input mb-5"
+              id="enabled"
+              placeholder="Store Code"
+              type="checkbox"
+              formControlName="enabled"
+            />
+            <label class="form-check-label ms-2" for="enabled">Enabled</label>
+          </div>
+          <div>
+            <label for="maximumSelectableRewards"
+              >Maximum Selectable Rewards</label
+            >
+            <input
+              class="form-control mb-5"
+              id="maximumSelectableRewards"
+              placeholder="0"
+              type="number"
+              max="10"
+              min="0"
+              formControlName="maximumSelectableRewards"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

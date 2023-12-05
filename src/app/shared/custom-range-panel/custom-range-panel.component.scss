@@ -1,0 +1,29 @@
+$width: 128px;
+$height: 100%;
+
+:host {
+  position: absolute;
+  width: $width;
+  left: -$width; // to render it on the right side, use "right: -$width" instead
+  height: $height;
+}
+
+:host(.touch-ui) {
+  position: relative;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: $height;
+}
+
+.mat-elevation-z3 {
+  height: 100%;
+}
+
+::ng-deep .mat-datepicker-content {
+  border-radius: 0px 4px 4px 0px;
+}
+
+.mat-card {
+  border-radius: 4px 0px 0px 4px;
+}

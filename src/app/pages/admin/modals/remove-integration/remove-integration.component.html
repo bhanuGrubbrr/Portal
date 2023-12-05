@@ -1,0 +1,42 @@
+<div class="modal-header">
+  <h5 class="modal-title">Remove {{ name }}</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="text">
+      This action cannot be undone. Please<span *ngIf="name !== ''">
+        type the name to</span
+      >
+      confirm.
+    </div>
+    <div class="md-form" *ngIf="name !== ''">
+      <input
+        mdbInput
+        [(ngModel)]="typedName"
+        (keyup)="checkTypedName()"
+        type="text"
+        id="form1"
+        class="form-control"
+      />
+      <label for="form1">Type '{{ name }}'</label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    data-dismiss="modal"
+    (click)="activeModal.close()"
+  >
+    Cancel
+  </button>
+  <button
+    type="button"
+    class="btn btn-danger"
+    [disabled]="!isTypedValid"
+    (click)="activeModal.close(true)"
+  >
+    Remove
+  </button>
+</div>

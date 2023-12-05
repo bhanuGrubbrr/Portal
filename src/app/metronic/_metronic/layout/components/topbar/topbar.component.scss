@@ -1,0 +1,22 @@
+/* Add the following CSS to center the span element */
+#kt_header_user_menu_toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center; /* Center the text horizontally */
+}
+
+#kt_header_user_menu_toggle button {
+  margin-bottom: 4px; /* Add space between the button and span */
+  margin-top: 10px;
+}
+
+.icon_label {
+  display: block;
+  color: #a1a5b7;
+}
+
+.fa:hover,
+.icon_label:hover {
+  opacity: 0.5;
+}

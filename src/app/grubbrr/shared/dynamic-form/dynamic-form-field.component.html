@@ -1,0 +1,122 @@
+<div class="row mb-6" [formGroup]="dynamicform" class="{{ field.controlType }}">
+  <div class="row mb-3">
+    <label
+      *ngIf="field.controlType !== 'link'"
+      [attr.for]="field.key"
+      class="col-sm-2 col-form-label {{ field.controlType }}"
+      >{{ field.label | fixLabels }} {{ field.required ? "*" : "" }}</label
+    >
+    <div class="col-sm-10">
+      <ng-container [ngSwitch]="field.controlType">
+        <ng-container *ngSwitchCase="'hidden'">
+          <input
+            type="hidden"
+            [formControlName]="field.key"
+            [id]="field.key"
+            [value]="field.value"
+          />
+        </ng-container>
+      </ng-container>
+
+      <ng-container [ngSwitch]="field.controlType">
+        <ng-container *ngSwitchCase="'textbox'">
+          <input
+            title="{{ field.key }}"
+            type="text"
+            class="form-control form-control-solid me-2"
+            [formControlName]="field.key"
+            [id]="field.key"
+            [required]="field.required"
+            [value]="field.value"
+          />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'link'">
+          <button
+            (click)="goTo(field.value)"
+            type="button flex "
+            class="btn btn-primary"
+          >
+            {{ field.label }}
+          </button>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'numbertextbox'">
+          <input
+            title="{{ field.key }}"
+            type="number"
+            class="form-control form-control-solid me-2"
+            onwheel="this.blur()"
+            [formControlName]="field.key"
+            [id]="field.key"
+            [required]="field.required"
+            [value]="field.value"
+          />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'password'">
+          <input
+            title="{{ field.key }}"
+            [type]="showPassword"
+            class="form-control form-control-lg form-control-solid password"
+            [formControlName]="field.key"
+            [id]="field.key"
+            [required]="field.required"
+          />
+          <i class="bi bi-eye-slash" (click)="togglePassword()"></i>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'url'">
+          <input
+            title="{{ field.key }}"
+            type="url"
+            class="form-control form-control-lg form-control-solid"
+            [formControlName]="field.key"
+            [id]="field.key"
+            [required]="field.required"
+          />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'checkbox'">
+          <div class="form-check form-check-custom">
+            <input
+              title="{{ field.key }}"
+              class="form-check-input"
+              type="checkbox"
+              [formControlName]="field.key"
+              [checked]="field.value === 'true' ? true : false"
+              [value]="field.value"
+            />
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'dropdown'">
+          <select
+            [id]="field.key"
+            [formControlName]="field.key"
+            class="form-select mb-3"
+            title="{{ field.key }}"
+          >
+            <option
+              *ngFor="let opt of field.options"
+              [value]="opt.key"
+              [selected]="opt.selected"
+              [ngValue]="opt.value"
+            >
+              {{ opt.value }}
+            </option>
+          </select>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="(f?.invalid && f?.touched) || f?.dirty">
+    <small class="text-danger" *ngIf="f?.errors?.required">
+      {{ field.label | fixLabels }} is required
+    </small>
+    <div class="text-danger" *ngIf="f?.errors?.pattern">
+      {{ field?.additionalErrorMessage }}
+    </div>
+  </div>
+</div>

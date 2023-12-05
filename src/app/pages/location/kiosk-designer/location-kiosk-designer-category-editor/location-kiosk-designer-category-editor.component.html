@@ -1,0 +1,146 @@
+<form
+  [formGroup]="categoryForm"
+  (ngSubmit)="onSubmit()"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card shadow-sm mb-10">
+    <div class="card-header">
+      <h4 class="card-title">
+        {{ cardTitle }}
+      </h4>
+      <div class="card-toolbar">
+        <app-save-cancel-button
+          class="me-2"
+          [formDisabled]="false"
+          [saving]="false"
+          [backURL]="
+            '/location/' + locationId + '/kiosk-designer/menu?tab=' + tab
+          "
+          (saveButtonClickedEvent)="onSubmit()"
+        ></app-save-cancel-button>
+      </div>
+    </div>
+    <div class="card-body max-h-50">
+      <div *ngIf="initialData">
+        <h2>
+          {{ initialData?.posCategory?.name }}
+          <app-entity-id-badge [entityId]="initialData?.id">
+          </app-entity-id-badge>
+        </h2>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12-6">
+          <div class="row">
+            <div class="col-md-10">
+              <label for="displayName" class="form-label">Display Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="displayName"
+                placeholder="Name"
+                required
+              />
+            </div>
+            <div class="col-md-2">
+              <label for="displayName" class="form-label d-block">
+                Status
+              </label>
+              <app-grubbrr-switch-form-control formControlName="isActive">
+              </app-grubbrr-switch-form-control>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              formControlName="description"
+              rows="5"
+              placeholder="Enter description here"
+            ></textarea>
+          </div>
+
+          <div class="mt-4">
+            <app-image-upload-control
+              restrictionsText="JPG, PNG, GIF, or WEBP up to 2MB, Min. pixels 320 for width and height required"
+              formControlName="image"
+              label="Image"
+            >
+            </app-image-upload-control>
+          </div>
+
+          <h4 class="mt-5">Menu Display Settings</h4>
+          <div formArrayName="menuLayoutAssociations" *ngIf="!loading">
+            <app-concept-switcher
+              *ngIf="activeConcept"
+              [concepts]="concepts"
+              [activeConcept]="activeConcept"
+              (conceptChangeEvent)="setActiveConceptId($event)"
+            ></app-concept-switcher>
+            <div
+              *ngIf="menuLayoutAssoicationFormControlIndex > -1"
+              [formGroupName]="menuLayoutAssoicationFormControlIndex"
+            >
+              <div class="mt-4">
+                <label for="parentCategoryId" class="form-label"
+                  >Parent Category</label
+                >
+                <div class="input-group mb-3">
+                  <select
+                    formControlName="parentCategoryId"
+                    class="form-select"
+                  >
+                    <option [value]="null">No parent</option>
+                    <option
+                      [value]="category.id"
+                      *ngFor="let category of parentCategoryOptions"
+                    >
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <!-- 
+              <div formGroupName="displayOrder" class="mt-4">
+                <label for="displayName" class="form-label"
+                  >Display Order</label
+                >
+                <div class="input-group mb-3">
+                  <select
+                    formControlName="order"
+                    name="status"
+                    class="form-select w-25 flex-grow-0"
+                  >
+                    <option value="after">After</option>
+                    <option value="before">Before</option>
+                  </select>
+                  <select formControlName="categoryId" class="form-select">
+                    <option [value]="null">Select category</option>
+                    <option
+                      [value]="category.id"
+                      *ngFor="let category of displayOrderCategoryOptions"
+                    >
+                      {{ category.displayName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-text">
+                  You can modify display order after saving as well.
+                </div> 
+              </div> -->
+
+              <app-item-list-editor
+                [availableItems]="availableItems"
+                formControlName="items"
+              >
+              </app-item-list-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

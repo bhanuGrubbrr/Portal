@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Add User</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('close')"
+  ></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>Email</label>
+      <div class="input-group">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="Enter Email"
+          formControlName="email"
+          (change)="checkUser()"
+        />
+      </div>
+      <div class="input-group mt-3">
+        <select
+          class="form-select"
+          placeholder="User Access"
+          formControlName="role"
+        >
+          <option value="">Select User Access</option>
+          <option *ngFor="let access of accessList" [ngValue]="access">
+            {{ access }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    (click)="onSubmit()"
+    class="btn btn-primary me-2"
+    [disabled]="userForm.invalid"
+  >
+    <ng-container *ngIf="!saving">
+      <span class="indicator-label">{{ actionLabel }} User </span>
+    </ng-container>
+
+    <ng-container *ngIf="saving">
+      <span class="indicator-progress" [style.display]="'block'">
+        Please wait...{{ " " }}
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+      </span>
+    </ng-container>
+  </button>
+</div>

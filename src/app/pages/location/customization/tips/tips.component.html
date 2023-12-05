@@ -1,0 +1,116 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h3 class="card-title">Tips</h3>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="mb-10 tip-card-left" *ngIf="loaded" [formGroup]="TipForm">
+      <div class="checkbox-container d-flex flex-column">
+        <div class="form-check form-check-solid mb-5 checkbox-1">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="inheritKioskSettings"
+            [checked]="TipsEnabled"
+            formControlName="enableTips"
+            (change)="TipToggle()"
+          />
+          <label class="form-check-label" for="inheritKioskSettings"
+            >Enable Tips</label
+          >
+        </div>
+        <div class="form-check form-check-solid mb-5 checkbox-1">
+          <input
+            class="form-check-input"
+            id="default-checkbox"
+            type="checkbox"
+            [(ngModel)]="DefaultEnabled"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="toggleDefaultSelected()"
+            name="isDefaultSelected"
+          />
+          <label class="form-check-label" for="isDefaultSelected"
+            >Select Default Tip</label
+          >
+        </div>
+      </div>
+      <div class="d-flex align-items-center single-column">
+        <div class="d-flex flex-column me-3" formGroupName="tips">
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="tip1"
+              placeholder="Tip 1"
+              min="0"
+              formControlName="tip1"
+            />
+            <span class="input-group-text">%</span>
+            <input
+              type="radio"
+              name="default-tip"
+              id="default-1"
+              class="radio-button"
+              [checked]="TipSettings.tips[0].isDefault === true"
+              (click)="toggleTipDefault(0)"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="tip1"
+              placeholder="Tip 2"
+              min="0"
+              formControlName="tip2"
+            />
+            <span class="input-group-text">%</span>
+            <input
+              type="radio"
+              name="default-tip"
+              id="default-2"
+              class="radio-button"
+              [checked]="TipSettings.tips[1].isDefault === true"
+              (click)="toggleTipDefault(1)"
+            />
+          </div>
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="tip1"
+              placeholder="Tip 3"
+              min="0"
+              formControlName="tip3"
+            />
+            <span class="input-group-text">%</span>
+            <input
+              type="radio"
+              name="default-tip"
+              id="default-3"
+              class="radio-button"
+              [checked]="TipSettings.tips[2].isDefault === true"
+              (click)="toggleTipDefault(2)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="single-column d-flex flex-column">
+        <div class="row my-1">
+          <label class="col-sm-6 col-form-label pb-4">Tip Tender Mapping</label>
+          <select class="form-select" formControlName="tender">
+            <option *ngFor="let opt of GratuityTenders" [value]="opt.id">
+              {{ opt.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

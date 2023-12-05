@@ -1,0 +1,13 @@
+<div>
+  <label for="displayName" class="form-label">{{ label }}</label>
+  <div class="radio-selector-control-wrapper">
+    <div *ngFor="let option of options" class="me-2">
+      <app-radio-selector-control-option
+        [label]="option.label"
+        [selected]="option.value === value"
+        (selectOption)="onSelect(option)"
+      >
+      </app-radio-selector-control-option>
+    </div>
+  </div>
+</div>

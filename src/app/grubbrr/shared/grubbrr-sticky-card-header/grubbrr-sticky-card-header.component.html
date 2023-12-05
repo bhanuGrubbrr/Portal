@@ -1,0 +1,22 @@
+<div
+  class="card-header"
+  id="kt_card_header"
+  sticky
+  #cardHeader
+  data-kt-sticky="true"
+  data-kt-sticky-name="sticky-card"
+  data-kt-sticky-left="auto"
+  data-kt-sticky-right="15px"
+  data-kt-sticky-top="109px"
+  data-kt-sticky-zindex="90"
+  data-kt-sticky-offset="20px"
+>
+  <h3 class="card-title">{{ cardTitle }}</h3>
+  <div class="card-toolbar">
+    <div class="container mt-3 d-flex flex-row-reverse">
+      <ng-container>
+        <ng-template *ngTemplateOutlet="templateRef"></ng-template>
+      </ng-container>
+    </div>
+  </div>
+</div>

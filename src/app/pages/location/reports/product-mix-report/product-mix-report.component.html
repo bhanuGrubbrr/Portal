@@ -1,0 +1,175 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">
+      Dashboard
+      <i
+        class="fas fa-info-circle fa ms-2 me-2"
+        matTooltip="This report will show the assortment of items sold for a specifically selected date filter."
+      ></i>
+      Current Range: {{ orderDateLabel }}
+    </h3>
+    <div class="card-link mt-3 d-flex justify-content-evenly">
+      <div class="m-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter a date range </mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input
+              matStartDate
+              placeholder="Start date"
+              [value]="initialStartDate"
+              #dateRangeStart
+            />
+            <input
+              #dateRangeEnd
+              matEndDate
+              placeholder="End date"
+              [value]="initialEndDate"
+              (dateChange)="fireCalendarEvent(dateRangeStart, dateRangeEnd)"
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-date-range-picker
+            #picker
+            [calendarHeaderComponent]="CustomHeaderComponent"
+          ></mat-date-range-picker>
+          <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+            <!--begin::Svg Icon | path: icons/duotune/finance/fin002.svg-->
+            <i
+              class="fas fa-info-circle fa"
+              matTooltip="To limit the report to a certain date range, type a range of dates here or click to choose them from the calendar."
+            ></i>
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-column">
+      <p-table
+        [value]="DisplaySections"
+        sortField="name"
+        exportFilename="Product Mix {{ dateRangeStart.value }} to {{
+          dateRangeEnd.value
+        }}"
+        sortMode="single"
+        rowGroupMode="subheader"
+        groupRowsBy="name"
+        [globalFilterFields]="['name']"
+        responsiveLayout="scroll"
+        styleClass="p-datatable-customers p-datatable-gridlines"
+      >
+        <ng-template pTemplate="caption">
+          <div class="d-flex flex-row justify-content-end">
+            <div class="p-2 pe-2">
+              <button
+                pButton
+                label="Export"
+                pTooltip="To download an Excel-friendly .csv file, click this button"
+                class="p-button-outlined"
+                icon="fa fa-file-arrow-down"
+                tooltipPosition="bottom"
+                (click)="exportCSV(dateRangeStart, dateRangeEnd)"
+              ></button>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Units Sold</th>
+            <th>
+              Avg Price<i
+                class="fas fa-info-circle fa ms-2 me-2"
+                matTooltip="The avg price sold"
+              ></i>
+            </th>
+            <th>
+              Modifier Total<i
+                class="fas fa-info-circle fa ms-2 me-2"
+                matTooltip="The total amout of modifiers sold"
+              ></i>
+            </th>
+            <th>
+              <div>
+                Grand Total<i
+                  class="fas fa-info-circle fa ms-2 me-2"
+                  matTooltip="The total amount sold with modifiers, and discounts."
+                ></i>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="groupheader" let-section>
+          <tr class="bg-secondary" pRowGroupHeader>
+            <td>
+              <span class="fw-bold"
+                >{{ section.name }} - ({{
+                  section.id | dropsubstr : "cat-"
+                }})</span
+              >
+            </td>
+            <td>
+              <span class="fw-bold">{{ section.sectionQuantity }}</span>
+            </td>
+            <td>
+              <span class="fw-bold">{{
+                section.sectionAvgPrice | currency : "USD"
+              }}</span>
+            </td>
+            <td>
+              <span class="fw-bold">{{
+                section.sectionModifierTotal | currency : "USD"
+              }}</span>
+            </td>
+
+            <td>
+              <span class="fw-bold">{{
+                section.sectionTotal + section.sectionModifierTotal
+                  | currency : "USD"
+              }}</span>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-section let-rowIndex="rowIndex">
+          <tr *ngFor="let item of section.content">
+            <td style="width: 40rem">
+              &nbsp; &nbsp;&nbsp; &nbsp; {{ item.name }} - ({{
+                item.id | dropsubstr : "mni-"
+              }})
+            </td>
+            <td>
+              {{ item.quantity }}
+            </td>
+            <td>
+              {{ item.price | currency : "USD" }}
+            </td>
+            <td>
+              {{ item.modifierTotal | currency : "USD" }}
+            </td>
+
+            <td>
+              {{ item.total + item.modifierTotal | currency : "USD" }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td>Totals</td>
+            <td>{{ ProductMixReport.TotalSold }}</td>
+            <td>{{ ProductMixReport.AvgPrices | currency : "USD" }}</td>
+            <td>{{ ProductMixReport.ModifierTotal | currency : "USD" }}</td>
+            <td>
+              {{
+                ProductMixReport.GrossTotals + ProductMixReport.ModifierTotal
+                  | currency : "USD"
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

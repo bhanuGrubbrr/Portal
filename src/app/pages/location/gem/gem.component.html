@@ -1,0 +1,12 @@
+<!-- TODO: Pull GEM config from environment file -->
+<div *ngIf="companyId && locationId && !loading">
+  <gem-event-explorer-widget
+    [company]="companyId"
+    [location]="locationId"
+    [application]="application"
+    [module]="module"
+    [token]="token"
+    timezone="America/New_York"
+    [apiBaseUrl]="gemURL"
+  ></gem-event-explorer-widget>
+</div>

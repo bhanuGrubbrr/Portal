@@ -1,0 +1,81 @@
+<div class="mt-5">
+  <div class="d-flex align-items-center justify-content-between">
+    <h3 class="mb-0">Modifier Groups</h3>
+  </div>
+  <div class="mt-5 mb-5 border border-secondary">
+    <div class="d-flex w-100 align-items-baseline">
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+        class="d-flex flex-column w-100"
+      >
+        <div
+          class="d-flex align-items-center parent-example-box ps-5 pe-5 pt-3 pb-3 border border-secondary d-block bg-white overflow-hidden"
+          *ngFor="let item of displayedItems"
+          cdkDrag
+        >
+          <div class="me-4">
+            <span
+              class="svg-icon-primary svg-icon-2x"
+              [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+            >
+            </span>
+          </div>
+          <div class="d-flex flex-grow-1">
+            <div class="d-flex flex-column flex-grow-2 display-name-container">
+              <div class="font-weight-bold text-md">
+                {{ item.displayName || item.name }}
+              </div>
+              <app-entity-id-badge [entityId]="item.id"> </app-entity-id-badge>
+            </div>
+            <div class="inactive-badge-container mt-3">
+              <span *ngIf="!item.isActive" class="badge inactive-badge">
+                Inactive
+              </span>
+            </div>
+          </div>
+          <div class="me-10">
+            <i
+              class="fa-solid fa-ellipsis"
+              style="font-size: 2rem"
+              [matMenuTriggerFor]="menu"
+            >
+            </i>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onClickEdit(item.id)">Edit</button>
+            </mat-menu>
+          </div>
+          <div class="mr-20">
+            <app-entity-list-remove-button
+              (clickRemove)="onRemoveModifierGroup(item)"
+            >
+            </app-entity-list-remove-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-add-entity-button
+      *ngIf="!isAdding"
+      (clickAddButton)="onClickAdd()"
+      label="Add Modifier Group"
+    >
+    </app-add-entity-button>
+    <div class="p-4" *ngIf="isAdding">
+      <app-entity-typeahead-search
+        (selectOption)="onSelectOption($event)"
+        [getSuggestionLabelId]="getSuggestionLabelId"
+        [getSuggestionLabel]="getSuggestionLabel"
+        [typeaheadOptions]="availableItems"
+        [placeholder]="modifierGroupPlaceholder"
+      >
+      </app-entity-typeahead-search>
+    </div>
+  </div>
+</div>
+<app-paginator
+  (goToPage)="goToPage($event)"
+  [perPage]="perPage"
+  [numberOfResults]="value.length"
+  [page]="page"
+>
+</app-paginator>

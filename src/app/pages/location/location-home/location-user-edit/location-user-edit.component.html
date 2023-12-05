@@ -1,0 +1,66 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Edit User: {{ this.email }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="editUserForm">
+      <div class="form-group">
+        <label>Access Type</label>
+        <div class="input-group mt-3">
+          <select
+            class="form-select"
+            placeholder="User Access"
+            formControlName="role"
+          >
+            <option [value]="roleName" selected>{{ roleName }}</option>
+            <option
+              *ngFor="let access of realList"
+              [ngValue]="access"
+              click="curSelected(access)"
+            >
+              {{ access }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      (click)="onSubmit()"
+      class="btn btn-success btn-outline-success"
+      [disabled]="saving"
+    >
+      <ng-container *ngIf="!saving"> Save </ng-container>
+
+      <ng-container *ngIf="saving">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...{{ "" }}
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<a
+  (click)="open(content)"
+  matTooltip="Edit Access"
+  class="btn btn-icon btn-active-color-primary btn-sm me-1"
+>
+  <span
+    [inlineSVG]="'./assets/media/icons/duotune/art/art005.svg'"
+    class="svg-icon svg-icon-3"
+  ></span>
+</a>

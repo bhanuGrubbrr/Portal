@@ -1,0 +1,23 @@
+@import "../../../assets/sass/core/components/_variables.scss";
+@import "../../../assets/sass/layout/variables";
+
+$size: 20px;
+
+.delete-button {
+  border: none;
+  margin: auto;
+  background: $red;
+  width: $size;
+  height: $size;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:disabled {
+    background-color: #ccc;
+  }
+}
+
+.delete-button .fas {
+  color: $white;
+}

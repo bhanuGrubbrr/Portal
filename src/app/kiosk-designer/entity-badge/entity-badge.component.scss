@@ -1,0 +1,9 @@
+@import "../../../assets/sass/core/components/_variables.scss";
+@import "../../../assets/sass/layout/variables";
+
+.kiosk-designer-entity-badge {
+  border-radius: 5px;
+  background-color: $page-bg;
+  color: #fff;
+  padding: 5px 15px;
+}

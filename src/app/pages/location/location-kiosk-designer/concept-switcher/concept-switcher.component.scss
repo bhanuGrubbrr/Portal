@@ -1,0 +1,30 @@
+.concept-header {
+  position: relative;
+  width: 100%;
+  height: 5rem;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.image-row {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+.concept-selector {
+  height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+}
+.selector-text {
+  height: 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+.selector-icon {
+}
+
+.schedule-text {
+}

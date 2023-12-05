@@ -1,0 +1,27 @@
+.highlight-payment label {
+  color: #009ef7;
+  border-color: #009ef7;
+  background-color: #f1fff5 !important;
+}
+
+.font-awesome-icons::before {
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  color: rgb(80 205 137);
+  -webkit-font-smoothing: antialiased;
+}
+
+.highlight-payment .checked::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00c";
+  margin: 0px 4px;
+}
+
+.table tr:first-child,
+.table th:first-child,
+.table td:first-child {
+  padding-left: 6px;
+}

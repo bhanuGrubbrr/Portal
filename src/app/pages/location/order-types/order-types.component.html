@@ -1,0 +1,273 @@
+<div class="d-flex flex-column w-100 gap-5">
+  <div class="card shadow-md mb-1">
+    <div class="card-header">
+      <h1 class="card-title font-weight-bold fs-2">Order Types & Identity</h1>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h4 class="card-title fs-5">Order Types</h4>
+      <div class="card-toolbar">
+        <a
+          *ngIf="!isEditMode"
+          (click)="addNewOrderType()"
+          matTooltip="Add"
+          class="btn btn-sm btn-primary me-2"
+          [@inOutAnimation]
+        >
+          <i class="fas fa-plus fs-4 me-2"></i>Add
+        </a>
+        <a
+          (click)="openTokenOptions()"
+          matTooltip="Advanced Options"
+          class="btn btn-sm btn-secondary me-2"
+          [@inOutAnimation]
+        >
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen019.svg'"
+            class="svg-icon svg-icon-primary svg-icon-3 me-2"
+          ></span
+          >Advanced Options
+        </a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive" *ngIf="loaded" [@inOutAnimation]>
+        <table
+          id="tblOrderTypes"
+          class="table table-striped table-hover table-row-bordered border g-2"
+        >
+          <thead>
+            <tr class="fw-bold fs-6 text-muted py-4">
+              <th style="min-width: 225px">Label</th>
+              <th class="text-center" style="width: 50px">Enabled</th>
+              <th class="text-center" style="width: 225px">Order Identity</th>
+              <th class="text-center" style="width: 225px">
+                Customer Identity
+              </th>
+              <th class="text-center" style="width: 225px">Order Id Prefix</th>
+              <th class="text-center" style="width: 225px">Pos Mapping</th>
+              <th class="text-center" style="width: 120px">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordType of orderTypes" style="height: 4rem">
+              <td>
+                <div
+                  *ngIf="ordType.isEditing; else elseBlock"
+                  class="d-flex flex-column"
+                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="ordType.model.label"
+                    (keyup)="validateRow(ordType)"
+                    #ctrl="ngModel"
+                  />
+                  <div
+                    *ngIf="!isNameValid"
+                    class="d-flex flex-column text-center p-2"
+                  >
+                    <div class="text-danger fs-9">Select a different name.</div>
+                  </div>
+                </div>
+                <ng-template #elseBlock>
+                  <div>
+                    {{ ordType.model.label }}
+                  </div>
+                </ng-template>
+              </td>
+              <td class="text-center">
+                <mat-slide-toggle
+                  color="primary"
+                  [disabled]="
+                    !ordType.isEditing ||
+                    isLastEnabled(ordType) ||
+                    !multiOrderType
+                  "
+                  [(ngModel)]="ordType.model.enabled"
+                  [matTooltip]="
+                    !multiOrderType || isLastEnabled(ordType)
+                      ? 'Cannot disable if it is the last Order Type.'
+                      : ''
+                  "
+                ></mat-slide-toggle>
+              </td>
+              <td>
+                <select
+                  *ngIf="ordType.isEditing; else ordIdentityElse"
+                  id="custIdSelect"
+                  class="form-select"
+                  [(ngModel)]="ordType.model.orderIdentity!.orderIdentityMode"
+                >
+                  <option
+                    *ngFor="let idOpts of orderIdOptions"
+                    [value]="idOpts.id"
+                  >
+                    {{ idOpts.label }}
+                  </option>
+                </select>
+                <ng-template #ordIdentityElse>
+                  <div class="text-center">
+                    {{
+                      getLabel(
+                        ordType.model.orderIdentity?.orderIdentityMode,
+                        true
+                      )
+                    }}
+                  </div>
+                </ng-template>
+              </td>
+              <td>
+                <div
+                  class="d-flex justify-content-between mb-5"
+                  *ngIf="ordType.isEditing; else custIdentityElse"
+                >
+                  <select
+                    id="custIdSelect"
+                    class="form-select"
+                    [(ngModel)]="
+                      ordType.model.orderIdentity!.customerIdentityMode
+                    "
+                  >
+                    <option
+                      *ngFor="let idOpts of customerIdOptions"
+                      [value]="idOpts.id"
+                    >
+                      {{ idOpts.label }}
+                    </option>
+                  </select>
+                  <a
+                    *ngIf="
+                      ordType.model.orderIdentity?.customerIdentityMode !== 0
+                    "
+                    (click)="openNameOptions(ordType)"
+                    matTooltip="Advanced Options"
+                    class="w-3rem align-self-center btn btn-icon btn-active-color-primary btn-sm me-1"
+                  >
+                    <span
+                      [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen055.svg'
+                      "
+                      class="svg-icon svg-icon-primary svg-icon-3"
+                    ></span>
+                  </a>
+                </div>
+                <ng-template #custIdentityElse>
+                  <div class="text-center">
+                    {{
+                      getLabel(
+                        ordType.model.orderIdentity?.customerIdentityMode
+                      )
+                    }}
+                  </div>
+                </ng-template>
+              </td>
+
+              <td>
+                <input
+                  *ngIf="
+                    ordType.isEditing && ordType.model.orderIdentity;
+                    else prefixElse
+                  "
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="ordType.model.orderIdentity.orderIdPrefix"
+                  #ctrl="ngModel"
+                />
+                <ng-template #prefixElse>
+                  <div>
+                    {{ ordType.model.orderIdentity?.orderIdPrefix }}
+                  </div>
+                </ng-template>
+              </td>
+
+              <td class="text-center">
+                <div *ngIf="ordType.isEditing; else posMapElse">
+                  <select
+                    id="posMappingSelect"
+                    class="form-select"
+                    [(ngModel)]="ordType.model.externalDeliveryMode"
+                  >
+                    <option></option>
+                    <option
+                      *ngFor="let posOrdTyps of posOrderTypes"
+                      [value]="posOrdTyps.id"
+                    >
+                      {{ posOrdTyps.label }}
+                    </option>
+                  </select>
+                </div>
+                <ng-template #posMapElse>
+                  {{ getPosOrderTypeFormattedLabel(ordType.model) }}
+                </ng-template>
+              </td>
+              <td class="text-center">
+                <div class="d-flex justify-content-center">
+                  <div *ngIf="ordType.isEditing; else actionsElse">
+                    <a
+                      (click)="toggleEdit(ordType)"
+                      *ngIf="validateRow(ordType)"
+                      matTooltip="Save"
+                      class="btn btn-icon btn-active-color-success btn-sm me-1"
+                    >
+                      <span
+                        [inlineSVG]="
+                          './assets/media/icons/duotune/general/gen043.svg'
+                        "
+                        class="svg-icon svg-icon-1 svg-icon-success"
+                      ></span>
+                    </a>
+                  </div>
+                  <a
+                    *ngIf="ordType.isEditing"
+                    (click)="toggleEdit(ordType, true)"
+                    matTooltip="Cancel"
+                    class="btn btn-icon btn-active-color-tertirary btn-sm me-1"
+                  >
+                    <span
+                      [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen040.svg'
+                      "
+                      class="svg-icon svg-icon-1"
+                    ></span>
+                  </a>
+                  <ng-template #actionsElse>
+                    <a
+                      *ngIf="showEdit(ordType)"
+                      (click)="toggleEdit(ordType)"
+                      matTooltip="Edit"
+                      class="btn btn-icon btn-active-color-primary btn-sm me-1"
+                    >
+                      <span
+                        [inlineSVG]="
+                          './assets/media/icons/duotune/art/art005.svg'
+                        "
+                        class="svg-icon svg-icon-1"
+                      ></span>
+                    </a>
+                  </ng-template>
+
+                  <a
+                    (click)="removeOrderType(ordType)"
+                    matTooltip="Remove"
+                    *ngIf="showEdit(ordType) && !ordType.isEditing"
+                    class="btn btn-icon btn-active-color-danger btn-sm me-1"
+                  >
+                    <span
+                      [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen027.svg'
+                      "
+                      class="svg-icon svg-icon-danger svg-icon-1"
+                    ></span>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

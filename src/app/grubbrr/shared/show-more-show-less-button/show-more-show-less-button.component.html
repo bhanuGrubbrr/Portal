@@ -1,0 +1,14 @@
+<button
+  class="btn btn-sm btn-link"
+  (click)="onShowMoreClick()"
+  *ngIf="count > itemsToShow"
+>
+  Show More
+</button>
+<button
+  class="btn btn-sm btn-link"
+  (click)="onShowLessClick()"
+  *ngIf="itemsToShow > 10"
+>
+  Show Less
+</button>

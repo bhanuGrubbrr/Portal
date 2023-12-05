@@ -1,0 +1,11 @@
+<app-location-kiosk-designer-modifier-group-editor
+  [modifierGroup]="modifierGroup"
+  [allItems]="allItems"
+  [allModifiers]="availableModifiersToAdd"
+  [allModifierGroups]="allModifierGroups"
+  *ngIf="modifierGroup"
+  (formSubmitted)="onSubmit($event)"
+  [locationId]="locationId"
+  cardTitle="Edit Modifier Group"
+>
+</app-location-kiosk-designer-modifier-group-editor>

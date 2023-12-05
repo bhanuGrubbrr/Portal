@@ -1,0 +1,181 @@
+<div *ngIf="!loaded">
+  <app-list-skeleton></app-list-skeleton>
+</div>
+<ng-container *ngIf="loaded">
+  <div class="d-flex mb-4">
+    <div class="d-flex flex-grow-1">
+      <div class="w-100 form-floating mb-3">
+        <input
+          class="form-control"
+          id="orderTableSearch"
+          placeholder="Search Menus"
+          (input)="handleSearchChange()"
+          [(ngModel)]="searchQuery"
+        />
+        <label for="orderTableSearch"
+          ><span
+            class="pr-2"
+            [inlineSVG]="'./assets/media/icons/duotune/general/gen062.svg'"
+          ></span
+          >Search Menus</label
+        >
+      </div>
+    </div>
+    <div class="ms-2">
+      <select
+        class="form-select status-dropdown"
+        name="location"
+        [(ngModel)]="location"
+        (change)="changeLocation()"
+      >
+        <option value="all">All Locations</option>
+        <option
+          value="{{ location.locationId }}"
+          *ngFor="let location of locations"
+        >
+          {{ location.name }}
+        </option>
+      </select>
+    </div>
+    <div class="ms-2">
+      <select
+        class="form-select status-dropdown"
+        name="status"
+        [(ngModel)]="statusFilter"
+        (change)="changeStatusFilter()"
+      >
+        <option value="1">Active</option>
+        <option value="2">Inactive</option>
+        <option value="3">All</option>
+      </select>
+    </div>
+    <div>
+      <a
+        routerLink="/company/{{ companyId }}/kiosk-designer/menu/add"
+        class="btn btn-success ms-2"
+      >
+        <span class="indicator-label">Create New</span>
+      </a>
+    </div>
+  </div>
+  <p *ngIf="menus && menus.length === 0">
+    There are no menus in the system. Before you create a new menu, make sure
+    you have configured a menu or synched with a POS in at least one location
+  </p>
+  <div
+    cdkDropList
+    class="category-list"
+    (cdkDropListDropped)="drop(menus, $event)"
+    *ngIf="menus && menus.length > 0"
+  >
+    <div *ngFor="let menu of menus" cdkDrag>
+      <div class="mb-5">
+        <div class="menu-category-row">
+          <div
+            class="menu-category-row-block"
+            ng-reflect-ng-style="[object Object]"
+            style="margin-left: 0px"
+          >
+            <div class="text-secondary cursor-move table-info">
+              <span ng-reflect-inline-s-v-g="./assets/media/icons/duotune/l">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  width="24px"
+                  height="24px"
+                  viewBox="0 0 24 24"
+                  version="1.1"
+                >
+                  <g
+                    stroke="none"
+                    stroke-width="1"
+                    fill="transparent"
+                    fill-rule="evenodd"
+                  >
+                    <rect
+                      fill="#7E8299"
+                      x="4"
+                      y="4"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                    <rect
+                      fill="#7E8299"
+                      x="4"
+                      y="10"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                    <rect
+                      fill="#7E8299"
+                      x="10"
+                      y="4"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                    <rect
+                      fill="#7E8299"
+                      x="10"
+                      y="10"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                    <rect
+                      fill="#7E8299"
+                      x="4"
+                      y="16"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                    <rect
+                      fill="#7E8299"
+                      x="10"
+                      y="16"
+                      width="4"
+                      height="4"
+                      rx="2"
+                    ></rect>
+                  </g>
+                </svg>
+              </span>
+            </div>
+            <div class="table-info col-md-3">
+              <div class="mr-1">{{ menu.displayName }}</div>
+            </div>
+            <div class="table-info col-md-4">
+              <div class="mr-1">{{ menu.location }}</div>
+            </div>
+            <div class="col-md-1">
+              <app-grubbrr-switch
+                [value]="menu.isActive"
+                (switchValueChange)="onChangeActiveStatus()"
+              >
+              </app-grubbrr-switch>
+            </div>
+            <div class="col-md-1">
+              <mat-icon class="me-2">menu_book</mat-icon>
+            </div>
+            <div class="col-md-1">
+              <a
+                routerLink="/company/{{ companyId }}/kiosk-designer/menu/edit/{{
+                  menu.id
+                }}"
+                [queryParams]="{ tab: '1' }"
+              >
+                <i class="far fas fa-pen fs-1 mb-2"></i>
+              </a>
+            </div>
+            <div class="col-md-1">
+              <mat-icon class="me-2">content_copy</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

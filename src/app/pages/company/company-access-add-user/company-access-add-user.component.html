@@ -1,0 +1,69 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add User</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('close')"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+        <div class="input-group">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Enter Email...."
+            formControlName="userEmail"
+          />
+        </div>
+        <div class="input-group mt-3">
+          <select
+            class="form-select"
+            placeholder="User Access"
+            formControlName="role"
+          >
+            <option value="">Select User Access</option>
+            <option
+              *ngFor="let access of accessList"
+              [ngValue]="access"
+              click="curSelected(access)"
+            >
+              {{ access }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      (click)="onSubmit()"
+      class="btn btn-success btn-outline-success"
+      [disabled]="addUserForm.invalid"
+    >
+      <ng-container *ngIf="!saving"> Add User </ng-container>
+      <ng-container *ngIf="saving">
+        <span class="indicator-progress" [style.display]="'block'">
+          Please wait...{{ "" }}
+          <span
+            class="spinner-border spinner-border-sm align-middle ms-2"
+          ></span>
+        </span>
+      </ng-container>
+    </button>
+  </div>
+</ng-template>
+
+<button
+  class="btn btn-success btn-outline-success"
+  [disabled]="saving"
+  (click)="open(content)"
+>
+  Add User
+</button>

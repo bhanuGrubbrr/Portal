@@ -1,0 +1,27 @@
+.nav-item {
+  cursor: pointer;
+  box-sizing: border-box;
+  opacity: 0.6;
+  min-width: 160px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+}
+
+.nav-tabs {
+  color: #5e6278;
+}
+
+.nav-link.active,
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+  border-color: white !important;
+  border-bottom: 1px solid #3f51b5 !important;
+}
+
+.nav-link {
+  color: #181c32;
+}

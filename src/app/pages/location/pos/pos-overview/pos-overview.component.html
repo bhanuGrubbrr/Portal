@@ -1,0 +1,170 @@
+<div class="card card-custom card-sticky">
+  <div class="card-header">
+    <h3 class="card-title">Pos Settings / Logs / Schedule</h3>
+    <div class="card-toolbar">
+      <div class="d-flex align-items-center">
+        <div class="p-2">
+          <button
+            [disabled]="disableRefreshButton"
+            mat-raised-button
+            matTooltip="Refresh UI"
+            type="button"
+            class="btn btn-primary"
+            (click)="onRefresh()"
+            type="button"
+            (click)="onRefresh()"
+            class="btn btn-outline btn-outline-dashed btn-outline-success btn-active-light-success me-2"
+          >
+            <ng-container *ngIf="!refreshing">
+              <span class="indicator-label">Refresh</span>
+            </ng-container>
+
+            <ng-container *ngIf="refreshing">
+              <span class="indicator-progress" [style.display]="'block'">
+                Refreshing ...{{ " " }}
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+          </button>
+        </div>
+        <div class="p-2">
+          <mat-form-field appearance="outline">
+            <mat-date-range-input [rangePicker]="picker">
+              <input
+                matStartDate
+                placeholder="Start date"
+                #dateRangeStart
+                [value]="initialStartDate"
+              />
+              <input
+                matEndDate
+                placeholder="End date"
+                #dateRangeEnd
+                [value]="initialEndDate"
+                (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)"
+              />
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+        <div class="p-2">
+          <button
+            type="button"
+            matTooltip="Sync with Pos"
+            (click)="onSync()"
+            class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+            *writeConfigRequired="locationId"
+          >
+            <ng-container *ngIf="!savingSync">
+              <span class="indicator-label">Sync</span>
+            </ng-container>
+
+            <ng-container *ngIf="savingSync">
+              <span class="indicator-progress" [style.display]="'block'">
+                Please wait...{{ " " }}
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+          </button>
+        </div>
+        <div class="p-2">
+          <button
+            type="button"
+            matTooltip="Pull Latest Synced Menu"
+            (click)="pullLatestMenu()"
+            class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary me-2"
+            *writeConfigRequired="locationId"
+          >
+            <ng-container *ngIf="!pullingLatestMenu">
+              <span class="indicator-label">Pull Latest Menu</span>
+            </ng-container>
+
+            <ng-container *ngIf="pullingLatestMenu">
+              <span class="indicator-progress" [style.display]="'block'">
+                Please wait...{{ " " }}
+                <span
+                  class="spinner-border spinner-border-sm align-middle ms-2"
+                ></span>
+              </span>
+            </ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div *ngIf="!contentLoaded">
+      <app-table-skeleton></app-table-skeleton>
+    </div>
+    <div class="container-fluid" *ngIf="contentLoaded">
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="posCurrentTabIndex"
+        (navChange)="navChanged($event)"
+        class="nav-tabs nav nav-tabs justify-content-center nav-fill fade show"
+        [destroyOnHide]="false"
+      >
+        <li [ngbNavItem]="1" [disabled]="!hasPOS">
+          <a ngbNavLink>History</a>
+          <ng-template ngbNavContent let-active>
+            <app-pos-sync-history
+              [events$]="fetchHistorySubject$.asObservable()"
+            >
+            </app-pos-sync-history>
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="2">
+          <a ngbNavLink>Settings</a>
+          <ng-template ngbNavContent let-active>
+            <app-pos-setting
+              [hasPOS]="hasPOS"
+              (posSelectedEvent)="posSelected($event)"
+              (disableSyncEvnt)="disableSync($event)"
+            >
+            </app-pos-setting>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" [disabled]="!hasPosSyncEnabled">
+          <a ngbNavLink>Sync Settings</a>
+          <ng-template ngbNavContent let-active>
+            <app-pos-sync-setting
+              [posSettings]="posSettings"
+            ></app-pos-sync-setting>
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="4">
+          <a ngbNavLink>Schedule</a>
+          <ng-template ngbNavContent let-active>
+            <app-pos-schedule> </app-pos-schedule>
+          </ng-template>
+        </li>
+
+        <li [ngbNavItem]="5" *ngIf="showAgentLogs" [disabled]="!hasPOS">
+          <a ngbNavLink>Agent Logs</a>
+          <ng-template ngbNavContent let-active>
+            <app-agent-logs
+              [hasPOS]="hasPOS"
+              [posDisplayName]="posDisplayName"
+              [posTypeName]="posTypeName"
+              [events$]="fetchHistorySubject$.asObservable()"
+            ></app-agent-logs>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+  </div>
+</div>

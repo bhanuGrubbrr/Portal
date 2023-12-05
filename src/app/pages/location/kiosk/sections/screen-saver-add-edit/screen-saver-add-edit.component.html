@@ -1,0 +1,245 @@
+<form
+  [formGroup]="screenSaverForm"
+  class="grubbrrform"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h3 class="card-title">{{ pageTitle }} Screen Saver</h3>
+      <div class="card-toolbar">
+        <a
+          (click)="this.navigation.back()"
+          class="btn btn-sm btn-light me-2"
+          matTooltip="Back to Kiosk Home Screen Settings"
+          aria-title="Back to Kiosk Home Screen Settings"
+        >
+          <i class="fas fa-arrow-left fs-4 me-2"></i>Back
+        </a>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="formReady">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="name" class="col-3 col-form-label">Name</label>
+              <div class="col-9">
+                <input
+                  class="form-control"
+                  type="text"
+                  formControlName="name"
+                  placeholder="Name"
+                  aria-labelledby="name"
+                  id="name"
+                />
+                <div *ngIf="(f.name.invalid && f.name.touched) || f.name.dirty">
+                  <small class="text-danger" *ngIf="f.name.errors?.required"
+                    >Name is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="sliderText" class="col-3 col-form-label"
+                >Slider Text</label
+              >
+              <div class="col-9">
+                <input
+                  class="form-control"
+                  type="text"
+                  formControlName="sliderText"
+                  placeholder=""
+                  aria-labelledby="sliderText"
+                  id="sliderText"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="description" class="col-3 col-form-label"
+                >Description</label
+              >
+              <div class="col-9">
+                <textarea
+                  type="text"
+                  class="form-control"
+                  formControlName="description"
+                  rows="10"
+                  placeholder="Description"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="name" class="col-3 col-form-label"
+                >Concessionaire</label
+              >
+              <div class="col-9">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="mediaTypeImage" class="col-3 col-form-label"
+                >Type</label
+              >
+              <div class="col-9">
+                <div
+                  class="btn-group w-100 w-lg-25"
+                  data-kt-buttons="true"
+                  data-kt-buttons-target="[data-kt-button]"
+                >
+                  <label
+                    #imageLabel
+                    class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary"
+                    data-kt-button="true"
+                  >
+                    <input
+                      class="btn-check"
+                      type="radio"
+                      id="mediaTypeImage"
+                      formControlName="mediaType"
+                      (click)="toggleMediaType(MediaType.Image)"
+                      value="Image"
+                    />
+                    Image
+                  </label>
+                  <label
+                    #videoLabel
+                    class="btn btn-outline-secondary text-muted text-hover-white text-active-white btn-outline btn-active-primary"
+                    data-kt-button="true"
+                  >
+                    <input
+                      class="btn-check"
+                      type="radio"
+                      id="mediaTypeVideo"
+                      formControlName="mediaType"
+                      (click)="toggleMediaType(MediaType.Video)"
+                      value="Video"
+                    />
+                    Video
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="duration" class="col-2 col-form-label"
+                >Duration</label
+              >
+              <div class="col-10">
+                <input
+                  class="form-control"
+                  type="number  "
+                  formControlName="duration"
+                  placeholder=""
+                  aria-labelledby="duration"
+                  id="duration"
+                />
+                <div
+                  *ngIf="
+                    (f.duration.invalid && f.duration.touched) ||
+                    f.duration.dirty
+                  "
+                >
+                  <small class="text-danger" *ngIf="f.duration.errors?.required"
+                    >Duration is required</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-6">
+            <div class="form-group row">
+              <label for="image" class="col-3 col-form-label"
+                >Add an Image</label
+              >
+              <div class="col-9">
+                <span *ngIf="showImage">
+                  <div
+                    class="form-group"
+                    formGroupName="image"
+                    style="max-width: 350px"
+                  >
+                    <!-- Image Preview -->
+                    <div
+                      class="image-previews"
+                      *ngIf="imagePreview && imagePreview !== ''"
+                    >
+                      <img [src]="imagePreview" />
+                    </div>
+                    <div></div>
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="url"
+                        accept="file_type | image/* | media_type"
+                        (change)="handleInputFile($event)"
+                      />
+                      <label
+                        #uploadFileImageLabel
+                        class="custom-file-label"
+                        for="url"
+                        >Choose file</label
+                      >
+                    </div>
+                  </div>
+                </span>
+
+                <span *ngIf="!showImage">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="videoUrl"
+                      placeholder="Video Url"
+                    />
+                    <label for="videoUrl" class="form-label">Video Url</label>
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-6">&nbsp;</div>
+        </div>
+
+        <div class="container mt-3 d-flex flex-row-reverse">
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            title="Save Screen Saver"
+            class="btn btn-success m-3"
+          >
+            Save
+          </button>
+          <button
+            type="submit"
+            title="Cancel"
+            (click)="this.navigation.back()"
+            class="btn btn-danger m-3"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

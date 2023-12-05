@@ -1,0 +1,9 @@
+<app-location-kiosk-designer-category-editor
+  [initialData]="category"
+  [saving]="saving"
+  (formSubmitted)="onSubmit($event)"
+  *ngIf="category"
+  cardTitle="Edit Category"
+  [locationId]="locationId"
+>
+</app-location-kiosk-designer-category-editor>

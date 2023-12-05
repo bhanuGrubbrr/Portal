@@ -1,0 +1,17 @@
+@use "sass:map";
+@import "../../../../../../assets/sass/_init.scss";
+
+$step-marker-size: 50px;
+
+.step-marker {
+  width: $step-marker-size;
+  height: $step-marker-size;
+  text-align: center;
+  background-color: $gray-200;
+  border-radius: 8px;
+
+  &--selected {
+    background-color: $success-light;
+    color: $success;
+  }
+}

@@ -1,0 +1,230 @@
+<form
+  [formGroup]="businessHoursForm"
+  (ngSubmit)="onSubmit()"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+  *ngIf="formReady"
+>
+  <div class="card card-custom card-sticky">
+    <div class="card-header">
+      <h4 class="card-title">Business hours</h4>
+      <div class="card-toolbar">
+        <app-save-cancel-button
+          class="me-2"
+          [saving]="false"
+          [showCancelButton]="false"
+          [formDisabled]="businessHoursForm && businessHoursForm.invalid"
+          (saveButtonClickedEvent)="onSubmit()"
+        ></app-save-cancel-button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <div>
+            <div class="row">
+              <div class="mb-3 d-flex">
+                <label for="enabled" class="form-label d-inline-block me-5"
+                  >Use Kiosk Business Hours</label
+                >
+                <app-grubbrr-switch-form-control formControlName="enabled">
+                </app-grubbrr-switch-form-control>
+              </div>
+            </div>
+            <div
+              class="row"
+              *ngIf="businessHoursForm && businessHoursForm.value.enabled"
+            >
+              <label class="form-label d-inline-block me-5 mb-5"
+                >What do you want to show on the kiosk when it is not during
+                kiosk business hours?</label
+              >
+              <div class="row">
+                <label>
+                  <input type="radio" formControlName="showType" value="1" />
+                  &nbsp;Show a Message
+                </label>
+                <label>
+                  <input type="radio" formControlName="showType" value="0" />
+                  &nbsp;Show Black Screen
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="mt-10"
+            *ngIf="
+              businessHoursForm &&
+              businessHoursForm.value.showType === '1' &&
+              businessHoursForm.value.enabled
+            "
+          >
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="title"
+                placeholder="Title"
+                maxlength="50"
+              />
+              <label for="title">Title</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="subtitle"
+                placeholder="Subtitle"
+                maxlength="50"
+              />
+              <label for="subtitle">Subtitle</label>
+            </div>
+            <div class="form-floating mb-3">
+              <textarea
+                class="form-control"
+                formControlName="message"
+                rows="5"
+                maxlength="400"
+                placeholder="Message"
+                style="height: 100px; white-space: pre-wrap"
+              ></textarea>
+              <label for="message">Message</label>
+            </div>
+            <div class="mb-3 d-flex">
+              <label
+                for="showScreensaver"
+                class="form-label d-inline-block me-5"
+                >Show Screensaver</label
+              >
+              <app-grubbrr-switch-form-control
+                formControlName="showScreensaver"
+              >
+              </app-grubbrr-switch-form-control>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row mb-4 working-hours-container"
+        *ngIf="businessHoursForm && businessHoursForm.value.enabled"
+      >
+        <div class="col-md-8">
+          <label class="form-label d-inline-block me-5">Business hours</label>
+          <div
+            class="row mb-5"
+            *ngFor="let row of addDynamicRow?.controls; let i = index"
+          >
+            <div class="col-md-2 p-3">
+              <label class="form-check-label ps-2"
+                ><input
+                  type="checkbox"
+                  class="form-check-input me-3"
+                  (change)="changeWeek(row)"
+                  [formControl]="$any(row).get('selected')"
+                />
+                {{ daysOfWeek.get($any(row).get("day").value) }}</label
+              >
+            </div>
+            <div class="col-md-10">
+              <ng-container
+                *ngFor="
+                  let hour of $any(row).get('hours')?.controls;
+                  let j = index
+                "
+              >
+                <div class="row align-items-center mb-5">
+                  <div class="col-md-3">
+                    <p-calendar
+                      [timeOnly]="true"
+                      hourFormat="12"
+                      [stepMinute]="1"
+                      [inline]="false"
+                      [showIcon]="true"
+                      icon="pi pi-clock"
+                      [disabled]="!$any(row).get('selected').value"
+                      [formControl]="$any(hour).get('from')"
+                    ></p-calendar>
+                  </div>
+                  <div class="col-md-1 text-center">
+                    <label>to</label>
+                  </div>
+                  <div class="col-md-3">
+                    <p-calendar
+                      [timeOnly]="true"
+                      [stepMinute]="1"
+                      hourFormat="12"
+                      [inline]="false"
+                      [showIcon]="true"
+                      icon="pi pi-clock"
+                      [disabled]="!$any(row).get('selected').value"
+                      [formControl]="$any(hour).get('to')"
+                    ></p-calendar>
+                  </div>
+                  <div class="col-md-4">
+                    <a
+                      *ngIf="j === 0"
+                      title="Add"
+                      class="btn btn-light p-2"
+                      (click)="add(row)"
+                      [class.disabled]="
+                        !$any(row).get('selected').value ||
+                        $any(row).get('hours').length >= 4
+                      "
+                    >
+                      <i class="fas fa-plus fs-4 ps-1 pe-1"></i>
+                    </a>
+                    <a
+                      *ngIf="j === 0"
+                      title="Add"
+                      class="btn btn-light p-2 ms-2"
+                      (click)="applyAll(row, i)"
+                      [class.disabled]="!$any(row).get('selected').value"
+                    >
+                      <i class="fas fa-check fs-4 ps-1 pe-1"></i>
+                      Apply to all days
+                    </a>
+                    <a
+                      *ngIf="j > 0"
+                      title="Remove"
+                      class="btn btn-light p-2"
+                      (click)="remove(row, j)"
+                      [class.disabled]="!$any(row).get('selected').value"
+                    >
+                      <i class="fas fa-minus fs-4 ps-1 pe-1"></i>
+                    </a>
+                  </div>
+                </div>
+                <label
+                  *ngIf="
+                    $any(hour).get('from').errors?.required ||
+                    $any(hour).get('to').errors?.required
+                  "
+                  class="text-danger mb-2"
+                >
+                  The start and end time is required.
+                </label>
+                <label
+                  *ngIf="
+                    !$any(row).errors?.rangeIntersect &&
+                    $any(hour).errors?.rangeInvalid
+                  "
+                  class="text-danger mb-2"
+                >
+                  The end time needs to be later than the start time.
+                </label>
+              </ng-container>
+              <label
+                *ngIf="$any(row).errors?.rangeIntersect"
+                class="text-danger mb-2"
+              >
+                This Range is already between set in the previous range.
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

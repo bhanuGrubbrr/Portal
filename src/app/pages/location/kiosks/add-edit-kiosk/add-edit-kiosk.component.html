@@ -1,0 +1,58 @@
+<form
+  [formGroup]="kioskForm"
+  class="grubbrrform form"
+  needs-validation
+  (ngSubmit)="onSubmit()"
+  novalidate
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card card-custom card-sticky">
+    <app-grubbrr-sticky-card-header cardTitle="{{ pageTitle }}">
+      <ng-template #templateRef>
+        <button
+          type="submit"
+          [disabled]="kioskForm.invalid"
+          class="btn btn-success"
+        >
+          Save
+        </button>
+
+        <button
+          type="button"
+          (click)="this.navigation.back()"
+          class="btn btn-sm btn-light me-2"
+          matTooltip="Back to device list"
+        >
+          <i class="fas fa-arrow-left"></i> Back
+        </button>
+      </ng-template>
+    </app-grubbrr-sticky-card-header>
+
+    <div class="card-body container" *ngIf="formReady">
+      <div class="container-fluid">
+        <mat-card class="mb-4">
+          <mat-card-title>General Settings</mat-card-title>
+        </mat-card>
+        <!-- <ng-container *ngIf="formReady" formArrayName="paymentProviderSettingsUI"> -->
+        <!-- <ng-container *ngIf="formReady"> -->
+
+        <mat-card
+          class="mb-4"
+          *ngFor="let paymentForm of paymentForms | keyvalue"
+        >
+          <mat-card-title
+            >{{ paymentForm.key }} Payment Settings</mat-card-title
+          >
+
+          <app-dynamic-fields
+            [fields$]="paymentForm.value"
+            [patchValues]="paymentValues.get(paymentForm.key)!"
+            [dynamicform]="kioskForm"
+          >
+          </app-dynamic-fields>
+        </mat-card>
+        <!-- </ng-container> -->
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+<select
+  name="columnSelect"
+  class="form-select col-select"
+  (ngModelChange)="columnChanged($event)"
+  [(ngModel)]="column"
+>
+  <option value="1">| 1 column</option>
+  <option value="2">|| 2 column</option>
+  <option value="3">||| 3 column</option>
+</select>

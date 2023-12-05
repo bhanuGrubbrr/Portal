@@ -1,0 +1,117 @@
+<!-- Dashboard -->
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/company/{{ companyId }}"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen001.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title" translate="MENU.COMPANYHOME"></span>
+  </a>
+</div>
+
+<!-- Separator -->
+<div class="menu-item">
+  <div class="menu-content">
+    <div class="separator mx-1 my-4"></div>
+  </div>
+</div>
+
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/company/{{ companyId }}/locations"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/ecommerce/ecm004.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title">Locations</span>
+  </a>
+</div>
+
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/company/{{ companyId }}/access"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen051.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title">Company Access</span>
+  </a>
+</div>
+
+<div class="menu-item">
+  <a
+    class="menu-link without-sub"
+    routerLink="/company/{{ companyId }}/loyalty"
+    routerLinkActive="active"
+  >
+    <span class="menu-icon">
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/ecommerce/ecm007.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </span>
+    <span class="menu-title">Loyalty</span>
+  </a>
+</div>
+<!-- menu manager updated -->
+<div
+  class="menu-item menu-accordion"
+  data-kt-menu-trigger="click"
+  routerLinkActive="here show hover showing"
+>
+  <span class="menu-link">
+    <span class="menu-icon">
+      <span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/graphs/gra008.svg'"
+      ></span>
+    </span>
+    <span class="menu-title">Menu Manager</span>
+    <span class="menu-arrow"></span>
+  </span>
+  <div class="menu-sub menu-sub-accordion" routerLinkActive="menu-active-bg">
+    <!-- Menu -->
+    <app-nav-link
+      title="Menu"
+      routerLink="/company/{{ companyId }}/kiosk-designer/menu"
+      [queryParams]="{ tab: '1' }"
+    >
+    </app-nav-link>
+  </div>
+</div>
+
+<!-- Separator -->
+<div class="menu-item">
+  <div class="menu-content">
+    <div class="separator mx-1 my-4"></div>
+  </div>
+</div>
+
+<!-- Changelog  -->
+<div class="menu-item">
+  <a target="_blank" class="menu-link" href="https://grubbrr.releasenotes.io/">
+    <span class="menu-icon">
+      <span
+        class="svg-icon svg-icon-2"
+        [inlineSVG]="'./assets/media/icons/duotune/coding/cod003.svg'"
+      ></span>
+    </span>
+    <span class="menu-title">Release Notes {{ appAngularVersion }}</span>
+  </a>
+</div>

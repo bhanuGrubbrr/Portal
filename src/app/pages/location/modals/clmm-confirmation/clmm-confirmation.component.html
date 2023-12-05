@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h5 class="modal-title">Company Level Menu Management</h5>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <p *ngIf="isCLMM">
+        If you turn on CLM for this location, then please make sure to assign a
+        Company Menu to this location.
+      </p>
+      <p *ngIf="!isCLMM">
+        If you turn off CLM on for this location, your location menu may not
+        work. You will need to switch to this location and configure a menu if
+        one was not created previously.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.close(false)"
+  >
+    CANCEL
+  </button>
+  <button
+    type="button"
+    (click)="activeModal.close(true)"
+    class="btn btn-primary"
+  >
+    OK
+  </button>
+</div>

@@ -1,0 +1,57 @@
+<div class="modal-header" *ngIf="contentLoaded">
+  <h5 class="modal-title">Edit Access for: {{ userRole.userEmail }}</h5>
+  <button
+    type="button"
+    class="close"
+    data-dismiss="modal"
+    (click)="activeModal.close('dismiss')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <form (ngSubmit)="onSubmit()" [formGroup]="companyAccessForm">
+        <div class="form-group">
+          <label>Access Type</label>
+          <div class="input-group mt-3">
+            <select
+              class="form-select"
+              placeholder="Company Access"
+              formControlName="role"
+            >
+              <option value="{{ userRole.role?.name }}" selected>
+                {{ userRole.role?.display }}
+              </option>
+              <option
+                *ngFor="let access of realList"
+                [ngValue]="access"
+                click="curSelected(access)"
+              >
+                {{ access }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    (click)="onSubmit()"
+    class="btn btn-success btn-outline-success"
+    [disabled]="saving"
+  >
+    <ng-container *ngIf="!saving"> Save </ng-container>
+
+    <ng-container *ngIf="saving">
+      <span class="indicator-progress" [style.display]="'block'">
+        Please wait...{{ "" }}
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+      </span>
+    </ng-container>
+  </button>
+</div>

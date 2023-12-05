@@ -1,0 +1,52 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <div class="d-flex flex-column">
+      <h4 class="modal-title mb-2">Sections Rule</h4>
+      <h6>
+        Skip to the next group if an item in the cart is from certain sections
+      </h6>
+    </div>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+      (click)="close()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <h4>Skip if there are any of these in the cart:</h4>
+    <div *ngIf="!Loaded">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div *ngIf="Loaded">
+      <div class="form-check mb-3" *ngFor="let section of Sections">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="section.id"
+          (input)="HandleInput($event, section)"
+          [checked]="section?.checked"
+        />
+        <label class="form-check-label" for="flexCheckDefault">
+          {{ section.name }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="close()"
+      data-bs-dismiss="modal"
+    >
+      Close
+    </button>
+    <button type="button" class="btn btn-primary" (click)="save()">
+      Save changes
+    </button>
+  </div>
+</div>

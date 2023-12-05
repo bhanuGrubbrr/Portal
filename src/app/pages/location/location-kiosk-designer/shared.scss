@@ -1,0 +1,20 @@
+@import "../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../assets/sass/layout/variables";
+
+.kiosk-designer-table {
+  border: 1px solid $light-blue-gray;
+  & > :not(:first-child) {
+    border: 0;
+  }
+}
+
+.kiosk-designer-table th {
+  color: #a1a5b7;
+  font-weight: $font-weight-bold;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.kiosk-designer-table tbody td {
+  border-top: 1px solid $light-blue-gray;
+}

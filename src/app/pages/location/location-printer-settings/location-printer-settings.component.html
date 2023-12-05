@@ -1,0 +1,107 @@
+<div class="d-grid gap-10">
+  <div class="card shadow-sm">
+    <div class="card-header">
+      <h4 class="card-title">Printer Settings</h4>
+      <div class="card-toolbar">
+        <div class="d-flex align-items-center flex-row-reverse">
+          <a
+            routerLink="/location/{{ locationId }}/kiosk/printer/add"
+            class="btn btn-success ms-2"
+            matTooltip="Add New Printer"
+          >
+            <span class="indicator-label">Add New</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div *ngIf="!contentLoaded">
+        <app-table-skeleton></app-table-skeleton>
+      </div>
+      <div *ngIf="contentLoaded">
+        <p-table
+          responsiveLayout="scroll"
+          [value]="allPrinters"
+          #dtItems
+          [columns]="cols"
+          [rows]="25"
+          styleClass="p-datatable-customers p-datatable-gridlines p-datatable-striped"
+          [paginator]="false"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">
+                <div class="p-d-flex p-jc-between p-ai-center">Name</div>
+              </th>
+              <th pSortableColumn="model">Model</th>
+              <th pSortableColumn="ipAddress">Ip Address</th>
+              <th pSortableColumn="kitchenPrinter">Backup Printer</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-printer let-ri="rowIndex">
+            <tr>
+              <td>
+                {{ printer?.name }}
+              </td>
+              <td>{{ printer?.model }}</td>
+              <td>{{ printer?.ipAddress }}</td>
+              <td>
+                {{ printer?.kitchenPrinter ? "Yes" : "No" }}
+              </td>
+              <td valign="middle">
+                <div class="d-flex align-items-center">
+                  <a
+                    [routerLink]="[
+                      '/location',
+                      locationId,
+                      'kiosk',
+                      'printer',
+                      printer?.id,
+                      'edit'
+                    ]"
+                    matTooltip="Edit Printer"
+                    class="btn btn-icon btn-active-color-primary btn-sm me-1"
+                  >
+                    <span
+                      [inlineSVG]="
+                        './assets/media/icons/duotune/art/art005.svg'
+                      "
+                      class="svg-icon svg-icon-2"
+                    ></span>
+                  </a>
+
+                  <a
+                    matTooltip="Delete Printer"
+                    (click)="onDelete(printer)"
+                    class="btn btn-icon btn-active-color-danger btn-sm me-3"
+                  >
+                    <span
+                      [inlineSVG]="
+                        './assets/media/icons/duotune/general/gen027.svg'
+                      "
+                      class="svg-icon svg-icon-danger svg-icon-2"
+                    ></span>
+                  </a>
+                  <app-grubbrr-switch
+                    formControlName="enabled"
+                    [value]="printer.enabled"
+                    (switchValueChange)="
+                      onPrinterStatusChange(printer, !printer.enabled)
+                    "
+                  >
+                  </app-grubbrr-switch>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">No Printer yet.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

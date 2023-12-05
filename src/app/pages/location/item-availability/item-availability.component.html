@@ -1,0 +1,84 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">{{ pageTitle }}</h3>
+  </div>
+  <div class="card-body">
+    <div *ngIf="!contentLoaded">
+      <app-table-skeleton></app-table-skeleton>
+    </div>
+    <ng-container *ngIf="contentLoaded">
+      <div class="d-flex mb-4">
+        <div class="d-flex flex-grow-1">
+          <div class="w-100 form-floating mb-3">
+            <input
+              class="form-control"
+              id="orderTableSearch"
+              placeholder="Search Items"
+              [(ngModel)]="searchQuery"
+              (input)="onChangeSearchStatusFilter()"
+            />
+            <label for="orderTableSearch">Search Items</label>
+          </div>
+        </div>
+        <div class="ms-2">
+          <select
+            class="form-select status-dropdown"
+            name="items"
+            [(ngModel)]="filterAction"
+            (change)="onChangeSearchStatusFilter()"
+          >
+            <option value="2">All</option>
+            <option value="1">86'd</option>
+            <option value="0">Un-86'd</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-5" *ngIf="!displayedItems.length">
+        <p *ngIf="!menuItems.length">
+          There are no 86'd items or modifiers in the system.
+        </p>
+        <p *ngIf="menuItems.length > 0">
+          There are no
+          {{ +filterAction === 0 ? "Un-86'd" : "86'd" }}
+          items or modifiers available.
+        </p>
+      </div>
+      <table
+        *ngIf="displayedItems && displayedItems.length > 0"
+        class="table table-borderless gx-5 kiosk-designer-table"
+      >
+        <thead>
+          <th scope="col" class="text-uppercase">Name</th>
+          <th scope="col" class="text-uppercase text-center">86 Status</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of displayedItems">
+            <td class="">
+              <h5>{{ item.name }}</h5>
+              <p class="m-0">
+                <app-entity-id-badge [entityId]="item.id">
+                </app-entity-id-badge>
+              </p>
+            </td>
+            <td class="text-center align-middle">
+              <app-grubbrr-switch
+                [value]="item.is86"
+                (switchValueChange)="toggle(item)"
+              >
+              </app-grubbrr-switch>
+              <p class="mb-n7 fs-7 fw-bolder" *ngIf="item.is86">Sold Out</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-paginatotron
+        [hidden]="displayedItems && displayedItems.length === 0"
+        [(index)]="pageIndex"
+        [pageSize]="perPage"
+        [items]="filteredItems"
+        (pageOfItemsEvent)="setDisplayedItems($event)"
+      >
+      </app-paginatotron>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,194 @@
+<div class="mb-5">
+  <div class="menu-category-row" (click)="toggle()">
+    <div
+      class="menu-category-row-block"
+      [ngStyle]="{ 'margin-left': level + 'px' }"
+    >
+      <div class="mr-3" *ngIf="showSubcategoryMenuItems">
+        <span class="badge badge-color"></span>
+      </div>
+
+      <div class="text-secondary cursor-move">
+        <span
+          [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+        ></span>
+      </div>
+      <div class="loyalty-badge" *ngIf="isLoyaltyEnabled">
+        <i class="fa-regular fa-trophy-star fs-3" *ngIf="loyaltyOnly"></i>
+      </div>
+      <!-- loop image below -->
+      <app-entity-row-image [imageUrl]="category.media"> </app-entity-row-image>
+      <div style="display: flex; align-items: center; width: 80%">
+        <div class="table-info">
+          <div class="mr-1" style="font-weight: bold">
+            {{ category.displayName }}
+          </div>
+
+          <div
+            class="menu-item-detail"
+            *ngIf="subCategories && subCategories.length"
+          >
+            {{ subCategories && subCategories?.length }}
+            Subcategory
+          </div>
+          <div
+            class="menu-item-detail"
+            *ngIf="this.category?.items && this.category?.items?.length"
+          >
+            {{ this.category?.items && this.category?.items?.length }} items
+          </div>
+        </div>
+        <div>
+          <div class="mr-3" *ngIf="!showSubcategoryMenuItems">
+            <span class="badge badge-color">Category</span>
+          </div>
+
+          <div class="mr-3" *ngIf="showSubcategoryMenuItems">
+            <span class="badge badge-color">Subcategory</span>
+          </div>
+        </div>
+        <div class="mr-3 p-1" *ngIf="this.category.isActive">
+          <span class="badge badge-color-active">Active</span>
+        </div>
+        <div class="mr-3 p-1" *ngIf="!this.category.isActive">
+          <span class="badge badge-color-inactive">Inactive</span>
+        </div>
+        <app-kiosk-designer-dropdown-select
+          #dropdownSelect
+          (selectOption)="onClickRemove($event)"
+          [options]="options"
+          [id]="category.id"
+        >
+        </app-kiosk-designer-dropdown-select>
+
+        <app-column-selection
+          (selectColumn)="onColumnSelect($event, category)"
+          [id]="category.id"
+          [category]="category"
+        >
+        </app-column-selection>
+      </div>
+      <div class="mr-3"></div>
+      <div class="toggle-button">
+        <ng-template
+          [ngIf]="showMenuItems"
+          class="svg-icon-primary svg-icon-2x"
+        >
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/layouts/lay012.svg'"
+          ></span>
+        </ng-template>
+        <ng-template
+          [ngIf]="!showMenuItems"
+          class="svg-icon-primary svg-icon-2x"
+        >
+          <span
+            [inlineSVG]="'./assets/media/icons/duotune/layouts/lay013.svg'"
+          ></span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu subcategory -->
+  <div *ngIf="showMenuItems">
+    <div cdkDropList (cdkDropListDropped)="drop(subCategories, $event, 1)">
+      <div *ngFor="let subCategory of subCategories" cdkDrag>
+        <app-menu-category-row
+          [locationId]="locationId"
+          [category]="subCategory"
+          [allItems]="allItems"
+          (clickItemToAdd)="ClickAddItem($event)"
+          (clickRemoveCategory)="ClickRemoveCategory($event)"
+          (clickEditMenuItem)="ClickEditMenuItem($event)"
+          (clickRemoveMenuItem)="ClickRemoveItem($event)"
+          (sortCategoryItems)="onSortCategoryItems($event)"
+          [showSubcategoryMenuItems]="true"
+          [level]="level + categoryMargin"
+          [statusFilter]="statusFilter"
+        >
+        </app-menu-category-row>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="drop(this.items, $event, 2)">
+        <div
+          class="menu-item-row"
+          *ngFor="let menuItems of this.items; let i = index"
+          cdkDrag
+        >
+          <div
+            class="menu-item-row-block"
+            [ngStyle]="{ 'margin-left': level + itemMargin + 'px' }"
+          >
+            <div class="mr-3" *ngIf="showSubcategoryMenuItems">
+              <span class="badge badge-color"></span>
+            </div>
+            <div class="text-secondary cursor-move" style="color: #ccc">
+              <span
+                class=""
+                [inlineSVG]="'./assets/media/icons/duotune/layouts/lay011.svg'"
+              ></span>
+            </div>
+            <!-- loop image below -->
+            <!-- <img width="40" height="40" [src]="menuItems.image" /> -->
+            <app-entity-row-image [imageUrl]="menuItems.image">
+            </app-entity-row-image>
+            <div style="display: flex; align-items: center; width: 80%">
+              <div class="table-info">
+                <div style="font-weight: bold">
+                  {{ menuItems.price | currency }}
+                </div>
+              </div>
+              <div class="table-info">
+                <div class="mr-1" style="font-weight: bold">
+                  {{ menuItems.displayName }}
+                </div>
+                <!-- <div class="mr-1">Description</div> -->
+              </div>
+              <div class="table-info">
+                <div class="mr-3 p-1" *ngIf="!this.menuItems.isActive">
+                  <span class="badge badge-color-inactive">Inactive</span>
+                </div>
+              </div>
+            </div>
+            <div class="mr-3"></div>
+            <div class="toggle-button">
+              <button mat-button [matMenuTriggerFor]="menu">•••</button>
+              <mat-menu #menu="matMenu">
+                <button
+                  mat-menu-item
+                  (click)="handleEditMenuItem(locationId, menuItems)"
+                >
+                  Edit
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="handleRemoveClick(menuItems, category)"
+                >
+                  Remove
+                </button>
+              </mat-menu>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-add-entity-button
+        *ngIf="!this.isItemListEditorVisible"
+        (clickAddButton)="showItemListEditor()"
+        label="Add Item"
+      >
+      </app-add-entity-button>
+      <div>
+        <app-entity-typeahead-search
+          *ngIf="this.isItemListEditorVisible"
+          (selectOption)="onSelectOption($event)"
+          [getSuggestionLabelId]="getSuggestionLabelId"
+          [getSuggestionLabel]="getSuggestionLabel"
+          [typeaheadOptions]="availableItems"
+        >
+        </app-entity-typeahead-search>
+      </div>
+    </div>
+  </div>
+</div>

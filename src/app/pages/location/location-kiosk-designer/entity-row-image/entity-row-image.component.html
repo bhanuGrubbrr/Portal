@@ -1,0 +1,9 @@
+<div>
+  <img *ngIf="imageUrl" [src]="imageUrl" class="img-fluid preview-image" />
+  <div
+    *ngIf="!imageUrl"
+    class="preview-image-empty d-flex flex-column align-items-center justify-content-center"
+  >
+    <i class="far fa-file-image fs-1 mb-2"></i>
+  </div>
+</div>

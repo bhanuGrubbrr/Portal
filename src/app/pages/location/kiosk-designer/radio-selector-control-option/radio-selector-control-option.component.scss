@@ -1,0 +1,12 @@
+@import "../../../../../assets/sass/core/components/_variables.scss";
+@import "../../../../../assets/sass/layout/variables";
+
+.radio-selector-control {
+  border: 1px solid $grubbrr-blue;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &--selected {
+    background-color: rgba($grubbrr-blue, 0.1);
+  }
+}

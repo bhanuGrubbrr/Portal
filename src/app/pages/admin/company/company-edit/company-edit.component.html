@@ -1,0 +1,551 @@
+<form
+  [formGroup]="companyForm"
+  (ngSubmit)="onSubmit()"
+  class="grubbrrform"
+  needs-validation
+  novalidate
+  enctype="multipart/form-data"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <div class="card card-custom">
+    <div class="card-header">
+      <h3 class="card-title">{{ pageTitle }}</h3>
+      <div class="card-toolbar">
+        <button
+          type="button"
+          (click)="onSubmit()"
+          [disabled]="companyForm.invalid"
+          class="btn btn-success me-2"
+        >
+          <ng-container *ngIf="!saving">
+            <span class="indicator-label">Save</span>
+          </ng-container>
+
+          <ng-container *ngIf="saving">
+            <span class="indicator-progress" [style.display]="'block'">
+              Please wait...{{ "" }}
+              <span
+                class="spinner-border spinner-border-sm align-middle ms-2"
+              ></span>
+            </span>
+          </ng-container>
+        </button>
+
+        <a href="#" class="btn btn-danger me-4">Cancel</a>
+
+        <a
+          (click)="this.navigation.back()"
+          class="btn btn-sm btn-light me-2 pt-4"
+          data-bs-toggle="tooltip-dark"
+          data-bs-placement="top"
+          title="Back to Companies"
+        >
+          <i class="fas fa-arrow-left fs-4 me-2"></i>Back
+        </a>
+      </div>
+    </div>
+
+    <div class="card-body container">
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+              <label for="companyName" class="form-label">{{
+                "COMPANY.FORMS.BUSINESS_NAME_LABEL" | translate
+              }}</label>
+            </div>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="companyName"
+                placeholder="Business Name"
+              />
+              <div
+                *ngIf="
+                  (f.companyName.invalid && f.companyName.touched) ||
+                  f.companyName.dirty
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="f.companyName.errors?.required"
+                  >Business Name is required</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+              <label for="ownerCompanyName" class="form-label">Logo</label>
+            </div>
+            <div class="col-md-9">
+              <div class="d-flex flex-row">
+                <div
+                  class="form-group"
+                  formGroupName="businessLogo"
+                  style="max-width: 350px"
+                >
+                  <!-- Image Preview -->
+                  <div
+                    class="image-previews"
+                    *ngIf="businessLogoPreview && businessLogoPreview !== ''"
+                  >
+                    <img
+                      aria-label="Image Preview"
+                      [src]="businessLogoPreview"
+                    />
+                  </div>
+                  <div></div>
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      id="logo"
+                      accept="file_type | image/* | media_type"
+                      (change)="
+                        handleInputFile(
+                          $event,
+                          CompanyImageTypeEnum.BusinessLogo
+                        )
+                      "
+                    />
+
+                    <label #logoImageLabel class="custom-file-label" for="url"
+                      >Choose file</label
+                    >
+                  </div>
+                </div>
+
+                <a
+                  *ngIf="businessLogoPreview"
+                  (click)="removeImage()"
+                  matTooltip="Remove Logo"
+                  class="btn btn-icon btn-active-color-primary btn-sm me-1"
+                >
+                  <span
+                    [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen027.svg'
+                    "
+                    class="svg-icon svg-icon-3"
+                    fill="none"
+                  ></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+              <label for="businessEmail" class="form-label">{{
+                "COMPANY.FORMS.BUSINESS_EMAIL_LABEL" | translate
+              }}</label>
+            </div>
+            <div class="col-md-9">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="businessEmail"
+                placeholder="Business Email"
+              />
+              <div
+                *ngIf="
+                  (f.businessEmail.invalid && f.businessEmail.touched) ||
+                  f.businessEmail.dirty
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="f.businessEmail.errors?.required"
+                  >Business Email is required</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+              <label for="businessPhone" class="form-label"
+                >Business Phone</label
+              >
+            </div>
+            <div class="col-md-9">
+              <fieldset formGroupName="businessPhone">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="number"
+                  placeholder="Business Phone"
+                />
+              </fieldset>
+              <ng-container
+                *ngIf="
+                  (companyForm.get('businessPhone')?.invalid &&
+                    companyForm.get('businessPhone')?.touched) ||
+                  companyForm.get('businessPhone')?.dirty
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="
+                    companyForm.get('businessPhone')?.get('number')?.errors
+                      ?.required
+                  "
+                >
+                  Business Phone is required</small
+                >
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-6">
+          <div class="row g-2 align-items-center">
+            <div class="col-md-3">
+              <label for="alternatePhone" class="form-label"
+                >Alternate Phone</label
+              >
+            </div>
+            <div class="col-md-9">
+              <fieldset formGroupName="alternatePhone">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="number"
+                  placeholder="Alternate Phone"
+                />
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="separator border-1 my-10"></div>
+
+      <ng-container formGroupName="address">
+        <div class="row mb-4">
+          <div class="col-6">
+            <div class="row g-2 align-items-center">
+              <div class="col-md-3">
+                <label for="address" class="form-label">Address</label>
+              </div>
+              <div class="col-md-9">
+                <input
+                  ngx-google-places-autocomplete
+                  #placesRef="ngx-places"
+                  (onAddressChange)="handleAddressChange($event)"
+                  type="text"
+                  class="form-control"
+                  formControlName="tempAddress"
+                  placeholder="Start typing your address"
+                />
+                <div
+                  *ngIf="
+                    (companyForm.get('address')?.get('address1')?.invalid &&
+                      companyForm.get('address')?.get('address1')?.touched) ||
+                    companyForm.get('address')?.get('address1')?.dirty
+                  "
+                >
+                  <small class="text-danger">Address is required</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row g-2 align-items-center">
+              <div class="col-md-3">
+                <label for="dateFormat" class="form-label">Address 2</label>
+              </div>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address2"
+                  formControlName="address2"
+                  placeholder="Suite Number/Unit"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="separator border-1 my-10"></div>
+      <h3 class="mb-4">POS Options</h3>
+      <ng-container formGroupName="posProvidersArrayUI">
+        <div class="row mb-4" *ngIf="posProvidersFormArr.length > 0">
+          <div class="col">
+            <table class="table table-borderless paymentTable">
+              <thead>
+                <th scope="col">POS Providers</th>
+              </thead>
+              <ng-container formArrayName="providers">
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="
+                            let paymentProvider of posProvidersFormArr[
+                              'controls'
+                            ];
+                            let j = index
+                          "
+                        >
+                          <div
+                            class="form-check form-check-custom"
+                            [formGroupName]="j"
+                            [formArrayName]="j"
+                          >
+                            <label
+                              class="form-check-label"
+                              for="{{ 'pos' + j }}"
+                            >
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="{{ 'pos' + j }}"
+                                formControlName="enabled"
+                                value="{{ paymentProvider.value.name }}"
+                                placeholder="enable"
+                                checked="enable ? true : false"
+                              />
+                              {{ paymentProvider.value.displayName }}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+      <div class="separator border-1 my-10"></div>
+      <h3 class="mb-4">Payment Options</h3>
+
+      <ng-container formGroupName="paymentProvidersArrayUI">
+        <div class="row mb-4">
+          <div class="col">
+            <table class="table table-borderless paymentTable">
+              <thead>
+                <th scope="col">Credit Card Payment Options</th>
+              </thead>
+              <ng-container formArrayName="cardOptions">
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="
+                            let paymentProvider of cardPaymentProvidersFormArr[
+                              'controls'
+                            ];
+                            let i = index
+                          "
+                        >
+                          <div
+                            class="form-check form-check-custom"
+                            [formGroupName]="i"
+                            [formArrayName]="i"
+                          >
+                            <label
+                              class="form-check-label"
+                              for="{{ 'card' + i }}"
+                            >
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                (change)="onCardTypeChanged(i)"
+                                id="{{ 'card' + i }}"
+                                formControlName="enabled"
+                                value="{{ paymentProvider.value.name }}"
+                                placeholder="enable"
+                                checked="enable ? true : false"
+                              />
+                              {{ paymentProvider.value.displayName }}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col">
+            <table class="table table-borderless paymentTable">
+              <thead>
+                <th scope="col">Cash Payment Options</th>
+              </thead>
+              <ng-container formArrayName="cashOptions">
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="
+                            let paymentProvider of cashPaymentProvidersFormArr[
+                              'controls'
+                            ];
+                            let k = index
+                          "
+                        >
+                          <div
+                            class="form-check form-check-custom"
+                            [formGroupName]="k"
+                            [formArrayName]="k"
+                          >
+                            <label
+                              class="form-check-label"
+                              for="{{ 'cash' + k }}"
+                            >
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="{{ 'cash' + k }}"
+                                formControlName="enabled"
+                                value="{{ paymentProvider.value.name }}"
+                                placeholder="enabled"
+                                checked="enabled ? true : false"
+                              />
+                              {{ paymentProvider.value.displayName }}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+
+        <div class="row mb-4" *ngIf="otherPaymentProvidersFormArr.length > 0">
+          <div class="col">
+            <table class="table table-borderless paymentTable">
+              <thead>
+                <th scope="col">Other Options</th>
+              </thead>
+              <ng-container formArrayName="otherOptions">
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="
+                            let paymentProvider of otherPaymentProvidersFormArr[
+                              'controls'
+                            ];
+                            let j = index
+                          "
+                        >
+                          <div
+                            class="form-check form-check-custom"
+                            [formGroupName]="j"
+                            [formArrayName]="j"
+                          >
+                            <label
+                              class="form-check-label"
+                              for="{{ 'other' + j }}"
+                            >
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="{{ 'other' + j }}"
+                                formControlName="enabled"
+                                value="{{ paymentProvider.value.name }}"
+                                placeholder="enable"
+                                checked="enable ? true : false"
+                              />
+                              {{ paymentProvider.value.displayName }}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="separator border-1 my-10"></div>
+      <h3 class="mb-4">Loyalty Options</h3>
+      <ng-container formGroupName="loyaltyProvidersArrayUI">
+        <div class="row mb-4" *ngIf="loyaltyProvidersFormArr.length > 0">
+          <div class="col">
+            <table class="table table-borderless paymentTable">
+              <thead>
+                <th scope="col">Loyalty Providers</th>
+              </thead>
+              <ng-container formArrayName="providers">
+                <tbody>
+                  <tr>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="
+                            let loyaltyInt of loyaltyProvidersFormArr[
+                              'controls'
+                            ];
+                            let loyaltyIndex = index
+                          "
+                        >
+                          <div
+                            class="form-check form-check-custom"
+                            [formGroupName]="loyaltyIndex"
+                            [formArrayName]="loyaltyIndex"
+                          >
+                            <label
+                              class="form-check-label"
+                              for="{{ 'loyalty' + loyaltyIndex }}"
+                            >
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="{{ 'loyalty' + loyaltyIndex }}"
+                                formControlName="enabled"
+                                value="{{ loyaltyInt.value.name }}"
+                                placeholder="enable"
+                                checked="enable ? true : false"
+                              />
+                              {{ loyaltyInt.value.displayName }}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </ng-container>
+            </table>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="separator border-1 my-10"></div>
+    </div>
+  </div>
+</form>

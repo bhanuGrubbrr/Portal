@@ -1,0 +1,203 @@
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h1 class="card-title">Visual Assets</h1>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h4 class="card-title">Header Image</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [formDisabled]="false"
+        [saving]="isSaving"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="saveDefaultCategoryHeaderImage()"
+        *ngIf="hasModifiedDefaultCategoryHeaderImage"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body max-h-50">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <div class="row align-items-top">
+            <div class="col-6">
+              <label class="form-label">Default Header Image</label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="logo"
+                  accept="file_type | image/* | media_type"
+                  (change)="handleDefaultCategoryHeaderImageChange($event)"
+                />
+
+                <label class="custom-file-label" for="url">{{
+                  defaultCategoryHeaderImageFile?.name
+                }}</label>
+              </div>
+            </div>
+            <div
+              class="offset-3 col-3 text-end"
+              *ngIf="defaultCategoryHeaderImagePreviewUrl"
+            >
+              <label class="form-label">Preview</label>
+              <div>
+                <img
+                  class="img-fluid"
+                  [src]="defaultCategoryHeaderImagePreviewUrl"
+                />
+              </div>
+              <a
+                (click)="removeDefaultCategoryHeaderImageChange()"
+                matTooltip="Remove Image"
+                class="btn btn-icon btn-active-color-primary btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-3"
+                  fill="none"
+                ></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-10">
+  <div class="card-header">
+    <h4 class="card-title">Screen Savers</h4>
+    <div class="card-toolbar">
+      <a
+        (click)="add()"
+        matTooltip="Add New"
+        title="Add Language"
+        class="btn btn btn-light me-2"
+      >
+        <i class="fas fa-plus fs-4 me-2"></i>Add New
+      </a>
+      <!-- <app-save-cancel-button
+        class="me-2"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="save()"
+      ></app-save-cancel-button> -->
+    </div>
+  </div>
+  <div class="card-body max-h-50">
+    <div class="table-responsive d-flex justify-content-center">
+      <table
+        id="tblLangauges"
+        class="table table-striped table-hover table-row-bordered border g-2 w-100 text-center"
+      >
+        <thead>
+          <tr class="fw-bold fs-6 text-muted pt-2">
+            <th class="w-50 text-start pl-2">Name</th>
+            <th class="w-10">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rowModel of gridData">
+            <td class="text-start pl-2">
+              <label class="col-form-label">{{
+                rowModel.name | titlecase
+              }}</label>
+            </td>
+            <td>
+              <a
+                (click)="view(rowModel)"
+                matTooltip="Preview"
+                class="btn btn-icon btn-active-color-success btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen006.svg'
+                  "
+                  class="svg-icon svg-icon-success svg-icon-3"
+                ></span>
+              </a>
+              <a
+                (click)="remove(rowModel)"
+                matTooltip="Remove"
+                class="btn btn-icon btn-active-color-danger btn-sm me-1"
+              >
+                <span
+                  [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  "
+                  class="svg-icon svg-icon-danger svg-icon-3"
+                ></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm mb-10" *ngIf="this.animations">
+  <div class="card-header">
+    <h4 class="card-title">Animations</h4>
+    <div class="card-toolbar">
+      <app-save-cancel-button
+        class="me-2"
+        [formDisabled]="false"
+        [saving]="false"
+        [showCancelButton]="false"
+        (saveButtonClickedEvent)="saveAnimations()"
+      ></app-save-cancel-button>
+    </div>
+  </div>
+  <div class="card-body max-h-50">
+    <div class="row">
+      <app-appearance-asset
+        label="Loading"
+        [(mediaAsset)]="animations.loading"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Order Timeout"
+        [(mediaAsset)]="this.animations.orderTimeout"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Scan QR Code"
+        [(mediaAsset)]="this.animations.scanQRCode"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Calculating Order"
+        [(mediaAsset)]="this.animations.calculatingOrder"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Pay With Card"
+        [(mediaAsset)]="this.animations.payWithCard"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Payment Success"
+        [(mediaAsset)]="this.animations.paymentSuccess"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Payment Failed"
+        [(mediaAsset)]="this.animations.paymentFail"
+      ></app-appearance-asset>
+      <app-appearance-asset
+        label="Store is closed"
+        [(mediaAsset)]="this.animations.storeIsClosed"
+      ></app-appearance-asset>
+    </div>
+  </div>
+</div>
+
+<app-loyalty-default-images
+  *ngIf="loaded"
+  #loyaltyImages
+  [loyaltyMedia]="this.templateConfigVM?.images?.defaultLoyaltyMedia"
+  [defaultCategoryHeaderImage]="
+    this.templateConfigVM?.images?.defaultCategoryHeaderImage
+  "
+></app-loyalty-default-images>

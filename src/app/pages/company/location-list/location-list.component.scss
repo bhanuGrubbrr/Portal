@@ -1,0 +1,25 @@
+i.bi.bi-eye-slash {
+  margin-right: 10px;
+  margin-top: -30px;
+  float: right;
+  cursor: pointer;
+  display: block;
+}
+
+input.password {
+  display: inline-block;
+}
+
+.passwordmask-full {
+  width: auto;
+}
+
+.passwordmask {
+  width: 50px;
+}
+
+.inactive-badge {
+  color: grey;
+  background-color: #e0e7f0;
+  border-radius: 10px;
+}
